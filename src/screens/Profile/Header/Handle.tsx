@@ -22,6 +22,7 @@ export function ProfileHeaderHandle({
   const t = useTheme()
   const {_} = useLingui()
   const invalidHandle = isInvalidHandle(profile.handle)
+  const pronouns = profile.pronouns
   const isBskySocialHandle = profile.handle.endsWith('.bsky.social')
   const showProfileInHandle = useShowLinkInHandle()
   const sanitized = sanitizeHandle(
@@ -35,41 +36,53 @@ export function ProfileHeaderHandle({
       style={[a.flex_row, a.gap_sm, a.align_center, {maxWidth: '100%'}]}
       pointerEvents={disableTaps ? 'none' : IS_IOS ? 'auto' : 'box-none'}>
       <NewskieDialog profile={profile} disabled={disableTaps} />
-
-      <Text
-        emoji
-        numberOfLines={1}
-        style={[
-          invalidHandle
-            ? [
-                a.border,
-                a.text_xs,
-                a.px_sm,
-                a.py_xs,
-                a.rounded_xs,
-                {borderColor: t.palette.contrast_200},
-              ]
-            : [a.text_md, a.leading_snug, t.atoms.text_contrast_medium],
-          web({
-            wordBreak: 'break-all',
-            direction: 'ltr',
-            unicodeBidi: 'isolate',
-          }),
-        ]}>
-        {invalidHandle ? (
-          _(msg`⚠Invalid Handle`)
-        ) : showProfileInHandle && !isBskySocialHandle ? (
-          <InlineLinkText
-            to={`https://${profile.handle}`}
-            label={profile.handle}>
-            <Text style={[a.text_md, {color: t.palette.primary_500}]}>
-              {sanitized}
-            </Text>
-          </InlineLinkText>
-        ) : (
-          sanitized
+      <View style={[a.flex_row, a.flex_wrap, {gap: 6}]}>
+        <Text
+          emoji
+          numberOfLines={1}
+          style={[
+            invalidHandle
+              ? [
+                  a.border,
+                  a.text_xs,
+                  a.px_sm,
+                  a.py_xs,
+                  a.rounded_xs,
+                  {borderColor: t.palette.contrast_200},
+                ]
+              : [a.text_md, a.leading_snug, t.atoms.text_contrast_medium],
+            web({
+              wordBreak: 'break-all',
+              direction: 'ltr',
+              unicodeBidi: 'isolate',
+            }),
+          ]}>
+          {invalidHandle ? (
+            _(msg`⚠Invalid Handle`)
+          ) : showProfileInHandle && !isBskySocialHandle ? (
+            <InlineLinkText
+              to={`https://${profile.handle}`}
+              label={profile.handle}>
+              <Text style={[a.text_md, {color: t.palette.primary_500}]}>
+                {sanitized}
+              </Text>
+            </InlineLinkText>
+          ) : (
+            sanitized
+          )}
+        </Text>
+        {pronouns && (
+          <Text
+            style={[
+              t.atoms.text_contrast_low,
+              a.text_md,
+              a.leading_snug,
+              a.pb_sm,
+            ]}>
+            {sanitizePronouns(pronouns, IS_NATIVE)}
+          </Text>
         )}
-      </Text>
+      </View>
     </View>
   )
 }

@@ -181,6 +181,12 @@ export function useProfileUpdateMutation() {
           if ('pinnedPost' in updates) {
             next.pinnedPost = updates.pinnedPost
           }
+          if ('pronouns' in updates) {
+            next.pronouns = updates.pronouns
+          }
+          if ('website' in updates) {
+            next.website = updates.website
+          }
         }
         if (newUserAvatarPromise) {
           const res = await newUserAvatarPromise
@@ -225,7 +231,8 @@ export function useProfileUpdateMutation() {
             return (
               res.data.displayName === updates.displayName &&
               res.data.description === updates.description &&
-              res.data.pronouns === updates.pronouns
+              res.data.pronouns === updates.pronouns &&
+              res.data.website === updates.website
             )
           }),
       )

@@ -14,6 +14,11 @@ import {useActorStatus} from '#/lib/actor-status'
 import {useHaptics} from '#/lib/haptics'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
+import {formatJoinDate} from '#/lib/strings/time'
+import {
+  sanitizeWebsiteForDisplay,
+  sanitizeWebsiteForLink,
+} from '#/lib/strings/website'
 import {logger} from '#/logger'
 import {type Shadow, useProfileShadow} from '#/state/cache/profile-shadow'
 import {useDisableFollowedByMetrics} from '#/state/preferences/disable-followed-by-metrics'
@@ -23,17 +28,20 @@ import {
 } from '#/state/queries/profile'
 import {useRequireAuth, useSession} from '#/state/session'
 import {ProfileMenu} from '#/view/com/profile/ProfileMenu'
-import {atoms as a, platform, useBreakpoints, useTheme} from '#/alf'
+import {atoms as a, platform, tokens, useBreakpoints, useTheme} from '#/alf'
 import {SubscribeProfileButton} from '#/components/activity-notifications/SubscribeProfileButton'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import {DebugFieldDisplay} from '#/components/DebugFieldDisplay'
 import {useDialogControl} from '#/components/Dialog'
 import {MessageProfileButton} from '#/components/dms/MessageProfileButton'
+import {CalendarDays_Stroke2_Corner0_Rounded as CalendarDays} from '#/components/icons/CalendarDays'
+import {Globe_Stroke2_Corner0_Rounded as Globe} from '#/components/icons/Globe'
 import {PlusLarge_Stroke2_Corner0_Rounded as Plus} from '#/components/icons/Plus'
 import {
   KnownFollowers,
   shouldShowKnownFollowers,
 } from '#/components/KnownFollowers'
+import {Link} from '#/components/Link'
 import * as Prompt from '#/components/Prompt'
 import {RichText} from '#/components/RichText'
 import * as Toast from '#/components/Toast'
@@ -78,6 +86,14 @@ let ProfileHeaderStandard = ({
     profile.viewer?.blocking ||
     profile.viewer?.blockedBy ||
     profile.viewer?.blockingByList
+
+  const website = profile.website
+  const websiteFormatted = sanitizeWebsiteForDisplay(website ?? '')
+
+  const dateJoined = useMemo(() => {
+    if (!profile.createdAt) return ''
+    return formatJoinDate(profile.createdAt)
+  }, [profile.createdAt])
 
   const unblockAccount = async () => {
     try {
@@ -180,6 +196,32 @@ let ProfileHeaderStandard = ({
                 )}
             </View>
           )}
+
+          <View style={[a.flex_row, a.flex_wrap, {gap: 10}, a.pt_md]}>
+            {websiteFormatted && (
+              <Link
+                to={sanitizeWebsiteForLink(websiteFormatted)}
+                label={_(msg({message: `Visit ${websiteFormatted}`}))}
+                style={[a.flex_row, a.align_center, a.gap_xs]}>
+                <Globe
+                  width={tokens.space.lg}
+                  style={{color: t.palette.primary_500}}
+                />
+                <Text style={[{color: t.palette.primary_500}]}>
+                  {websiteFormatted}
+                </Text>
+              </Link>
+            )}
+            <View style={[a.flex_row, a.align_center, a.gap_xs]}>
+              <CalendarDays
+                width={tokens.space.lg}
+                style={{color: t.atoms.text_contrast_medium.color}}
+              />
+              <Text style={[t.atoms.text_contrast_medium]}>
+                <Trans>Joined {dateJoined}</Trans>
+              </Text>
+            </View>
+          </View>
 
           <DebugFieldDisplay subject={profile} />
         </View>
