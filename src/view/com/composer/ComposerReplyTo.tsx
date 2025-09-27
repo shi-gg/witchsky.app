@@ -12,6 +12,7 @@ import {useLingui} from '@lingui/react'
 
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
+import {sanitizePronouns} from '#/lib/strings/pronouns'
 import {type ComposerOptsPostRef} from '#/state/shell/composer'
 import {PreviewableUserAvatar} from '#/view/com/util/UserAvatar'
 import {atoms as a, useTheme, web} from '#/alf'
@@ -100,22 +101,42 @@ export function ComposerReplyTo({replyTo}: {replyTo: ComposerOptsPostRef}) {
       />
       <View style={[a.flex_1, a.pl_md, a.pr_sm, a.gap_2xs]}>
         <View style={[a.flex_row, a.align_center, a.pr_xs]}>
-          <Text
-            style={[a.font_semi_bold, a.text_md, a.leading_snug, a.flex_shrink]}
-            numberOfLines={1}
-            emoji>
-            {sanitizeDisplayName(
-              replyTo.author.displayName ||
-                sanitizeHandle(replyTo.author.handle),
+          <View style={[a.flex_row, a.align_center]}>
+            <Text
+              style={[
+                a.font_semi_bold,
+                a.text_md,
+                a.leading_snug,
+                a.flex_shrink,
+              ]}
+              numberOfLines={1}
+              emoji>
+              {sanitizeDisplayName(
+                replyTo.author.displayName ||
+                  sanitizeHandle(replyTo.author.handle),
+              )}
+            </Text>
+            {verification.showBadge && (
+              <View style={[a.pl_xs]}>
+                <VerificationCheck
+                  width={14}
+                  verifier={verification.role === 'verifier'}
+                />
+              </View>
             )}
-          </Text>
-          {verification.showBadge && (
-            <View style={[a.pl_xs]}>
-              <VerificationCheck
-                width={14}
-                verifier={verification.role === 'verifier'}
-              />
-            </View>
+          </View>
+          {replyTo.author?.pronouns && (
+            <Text
+              style={[
+                t.atoms.text_contrast_low,
+                a.text_md,
+                a.leading_snug,
+                a.pl_xs,
+              ]}
+              numberOfLines={1}
+              emoji>
+              {sanitizePronouns(replyTo.author.pronouns, true)}
+            </Text>
           )}
         </View>
         <View style={[a.flex_row, a.gap_md]}>
@@ -132,7 +153,7 @@ export function ComposerReplyTo({replyTo}: {replyTo: ComposerOptsPostRef}) {
           )}
         </View>
         {showFull && parsedQuoteEmbed && parsedQuoteEmbed.type === 'post' && (
-          <QuoteEmbed embed={parsedQuoteEmbed} />
+          <QuoteEmbed embed={parsedQuoteEmbed} showPronouns={true} />
         )}
       </View>
     </Pressable>

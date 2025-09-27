@@ -4,6 +4,7 @@ import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {isInvalidHandle, sanitizeHandle} from '#/lib/strings/handles'
+import {sanitizePronouns} from '#/lib/strings/pronouns'
 import {type Shadow} from '#/state/cache/types'
 import {useShowLinkInHandle} from '#/state/preferences/show-link-in-handle.tsx'
 import {atoms as a, useTheme, web} from '#/alf'

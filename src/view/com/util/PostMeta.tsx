@@ -11,6 +11,7 @@ import {forceLTR} from '#/lib/strings/bidi'
 import {NON_BREAKING_SPACE} from '#/lib/strings/constants'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
+import {sanitizePronouns} from '#/lib/strings/pronouns'
 import {niceDate} from '#/lib/strings/time'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {precacheProfile} from '#/state/queries/profile'
@@ -30,6 +31,7 @@ interface PostMetaOpts {
   postHref: string
   timestamp: string
   showAvatar?: boolean
+  showPronouns?: boolean
   avatarSize?: number
   onOpenAuthor?: () => void
   style?: StyleProp<ViewStyle>
@@ -42,6 +44,8 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
   const author = useProfileShadow(opts.author)
   const displayName = author.displayName || author.handle
   const handle = author.handle
+  // remove dumb typing when you update the atproto api package!!
+  const pronouns = (author as {pronouns?: string})?.pronouns
   const profileLink = makeProfileLink(author)
   const queryClient = useQueryClient()
   const onOpenAuthor = opts.onOpenAuthor
@@ -131,11 +135,29 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
               style={[
                 a.text_md,
                 t.atoms.text_contrast_medium,
-                {lineHeight:1.17},
+                {lineHeight: 1.17},
                 {flexShrink: 10},
               ]}>
               {NON_BREAKING_SPACE + sanitizeHandle(handle, '@')}
             </WebOnlyInlineLinkText>
+            {opts.showPronouns && pronouns && (
+              <WebOnlyInlineLinkText
+                emoji
+                numberOfLines={1}
+                to={profileLink}
+                label={_(msg`View Profile`)}
+                disableMismatchWarning
+                disableUnderline
+                onPress={onBeforePressAuthor}
+                style={[
+                  t.atoms.text_contrast_low,
+                  a.text_md,
+                  a.leading_tight,
+                  {flexShrink: 5},
+                ]}>
+                {NON_BREAKING_SPACE + sanitizePronouns(pronouns)}
+              </WebOnlyInlineLinkText>
+            )}
           </View>
         </ProfileHoverCard>
 
@@ -159,18 +181,22 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
                   whiteSpace: 'nowrap',
                 }),
               ]}>
-              {!IS_ANDROID && (
-                <Text
-                  style={[
-                    a.text_md,
-                    a.leading_tight,
-                    t.atoms.text_contrast_medium,
-                  ]}
-                  accessible={false}>
-                  &middot;{' '}
-                </Text>
+              {!opts.showPronouns && (
+                <>
+                  {!IS_ANDROID && (
+                    <Text
+                      style={[
+                        a.text_md,
+                        a.leading_tight,
+                        t.atoms.text_contrast_medium,
+                      ]}
+                      accessible={false}>
+                      &middot;{' '}
+                    </Text>
+                  )}
+                  {timeElapsed}
+                </>
               )}
-              {timeElapsed}
             </WebOnlyInlineLinkText>
           )}
         </TimeElapsed>

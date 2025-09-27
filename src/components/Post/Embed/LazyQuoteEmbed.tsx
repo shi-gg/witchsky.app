@@ -21,6 +21,7 @@ export function LazyQuoteEmbed({uri}: {uri: string}) {
         type: 'post',
         view,
       }}
+      showPronouns={true}
     />
   ) : (
     <View
