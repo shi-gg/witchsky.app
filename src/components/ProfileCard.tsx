@@ -536,12 +536,19 @@ export function FollowButtonInner({
     }
   }
 
-  const unfollowLabel = _(
-    msg({
-      message: 'Following',
-      comment: 'User is following this account, click to unfollow',
-    }),
-  )
+  const unfollowLabel = profile.viewer?.followedBy
+    ? _(
+        msg({
+          message: 'Mutuals',
+          comment: 'User is following this account, click to unfollow',
+        }),
+      )
+    : _(
+        msg({
+          message: 'Following',
+          comment: 'User is following this account, click to unfollow',
+        }),
+      )
   const followLabel = profile.viewer?.followedBy
     ? _(
         msg({
@@ -632,7 +639,6 @@ export function Labels({
 
   return (
     <Pills.Row style={[a.pt_xs]}>
-      {followedBy && <Pills.FollowsYou />}
       {modui.alerts.map(alert => (
         <Pills.Label key={getModerationCauseKey(alert)} cause={alert} />
       ))}

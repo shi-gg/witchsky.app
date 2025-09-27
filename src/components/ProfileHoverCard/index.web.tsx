@@ -495,8 +495,12 @@ function Inner({
               variant="solid"
               label={
                 profileShadow.viewer?.following
-                  ? _(msg`Following`)
-                  : _(msg`Follow`)
+                  ? profileShadow.viewer?.followedBy
+                    ? _(msg`Mutuals`)
+                    : _(msg`Following`)
+                  : profileShadow.viewer?.followedBy
+                    ? _(msg`Follow back`)
+                    : _(msg`Follow`)
               }
               style={enableSquareButtons ? [a.rounded_sm] : [a.rounded_full]}
               onPress={profileShadow.viewer?.following ? unfollow : follow}>
@@ -506,8 +510,12 @@ function Inner({
               />
               <ButtonText>
                 {profileShadow.viewer?.following
-                  ? _(msg`Following`)
-                  : _(msg`Follow`)}
+                  ? profileShadow.viewer?.followedBy
+                    ? _(msg`Mutuals`)
+                    : _(msg`Following`)
+                  : profileShadow.viewer?.followedBy
+                    ? _(msg`Follow back`)
+                    : _(msg`Follow`)}
               </ButtonText>
             </Button>
           ))}

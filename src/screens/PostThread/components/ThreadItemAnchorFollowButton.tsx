@@ -133,6 +133,8 @@ function PostThreadFollowBtnLoaded({
           ) : (
             <Trans>Follow</Trans>
           )
+        ) : isFollowedBy ? (
+          <Trans>Mutuals</Trans>
         ) : (
           <Trans>Following</Trans>
         )}

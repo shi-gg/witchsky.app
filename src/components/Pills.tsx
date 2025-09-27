@@ -1,7 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
 import {BSKY_LABELER_DID, type ModerationCause} from '@atproto/api'
-import {Trans} from '@lingui/macro'
 
 import {useModerationCauseDescription} from '#/lib/moderation/useModerationCauseDescription'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
@@ -151,32 +150,5 @@ export function Label({
         <ModerationDetailsDialog control={control} modcause={cause} />
       )}
     </>
-  )
-}
-
-export function FollowsYou({size = 'sm'}: CommonProps) {
-  const t = useTheme()
-
-  const variantStyles = React.useMemo(() => {
-    switch (size) {
-      case 'sm':
-      case 'lg':
-      default:
-        return [
-          {
-            paddingHorizontal: 6,
-            paddingVertical: 3,
-            borderRadius: 4,
-          },
-        ]
-    }
-  }, [size])
-
-  return (
-    <View style={[variantStyles, a.justify_center, t.atoms.bg_contrast_50]}>
-      <Text style={[a.text_xs, a.leading_tight]}>
-        <Trans>Follows You</Trans>
-      </Text>
-    </View>
   )
 }
