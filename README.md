@@ -1,12 +1,13 @@
-# social.daniela.lol
+# Bitchsky Social App
 
-This is a fork of the soft fork [deer.social](https://github.com/a-viv-a/deer-social).
+Hey, bitches! This is the codebase for the Bitchsky Social app, based on [social.daniela.lol](https://github.com/danielah05/deer-social/) based on [deer.social](https://github.com/a-viv-a/deer-social).
 
 Get the app itself:
 
-- **Web: [social.daniela.lol](https://social.daniela.lol)**
-- **Android: [Github Releases](github.com/danielah05/deer-social/releases/latest)**
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/danielah05/deer-social">
+- **Web: [bitchsky.app](https://bitchsky.app)**
+- **iOS: [Soon™](https://large-type.com/#%F0%9F%99%80)?**
+- **Android: [Github Releases](github.com/devxan/bitch-social/releases/latest)**
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/devxan/bitch-social/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
 alt="Get it on Obtainium" align="center" height="54" /></a>
 
