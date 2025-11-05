@@ -389,7 +389,7 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="DeerSettings"
         getComponent={() => DeerSettingsScreen}
         options={{
-          title: title(msg`Kitty Settings`),
+          title: title(msg`Experiments`),
           requireAuth: true,
         }}
       />

@@ -18,7 +18,7 @@ module.exports = function (_config) {
   const IS_DEV = !IS_TESTFLIGHT || !IS_PRODUCTION
 
   const ASSOCIATED_DOMAINS = [
-    'applinks:social.daniela.lol',
+    'applinks:bitchsky.app',
     // When testing local services, enter an ngrok (et al) domain here. It must use a standard HTTP/HTTPS port.
     ...(IS_DEV || IS_TESTFLIGHT ? [] : []),
   ]
@@ -36,9 +36,9 @@ module.exports = function (_config) {
   return {
     expo: {
       version: VERSION,
-      name: 'Kitty',
-      slug: 'deer',
-      scheme: ['bluesky', 'deer'],
+      name: 'Bitchsky',
+      slug: 'bitchsky',
+      scheme: ['bluesky', 'bitchsky'],
       // owner: 'blueskysocial',
       // owner: 'neema.brown',
       runtimeVersion: {
@@ -46,11 +46,11 @@ module.exports = function (_config) {
       },
       icon: './assets/app-icons/ios_icon_default_next.png',
       userInterfaceStyle: 'automatic',
-      primaryColor: '#8e4b9b',
+      primaryColor: '#8e4b9b', // TODO: Xan: brand
       newArchEnabled: false,
       ios: {
         supportsTablet: false,
-        bundleIdentifier: 'lol.daniela.social',
+        bundleIdentifier: 'app.bitchsky',
         config: {
           usesNonExemptEncryption: false,
         },
@@ -61,14 +61,14 @@ module.exports = function (_config) {
         infoPlist: {
           UIBackgroundModes: ['remote-notification'],
           NSCameraUsageDescription:
-            'Used for profile pictures, posts, and other kinds of content.',
+            'Used for profile pictures, skeets, and other kinds of content.',
           NSMicrophoneUsageDescription:
-            'Used for posts and other kinds of content.',
+            'Used for skeets and other kinds of content.',
           NSPhotoLibraryAddUsageDescription:
             'Used to save images to your library.',
           NSPhotoLibraryUsageDescription:
-            'Used for profile pictures, posts, and other kinds of content',
-          CFBundleSpokenName: 'social.daniela.lol',
+            'Used for profile pictures, skeets, and other kinds of content',
+          CFBundleSpokenName: 'bitchsky.app',
           CFBundleLocalizations: [
             'en',
             'an',
@@ -117,7 +117,7 @@ module.exports = function (_config) {
         entitlements: {
           'com.apple.developer.kernel.increased-memory-limit': true,
           'com.apple.developer.kernel.extended-virtual-addressing': true,
-          'com.apple.security.application-groups': 'group.lol.daniela.social',
+          'com.apple.security.application-groups': 'group.app.bitchsky',
         },
         privacyManifests: {
           NSPrivacyCollectedDataTypes: [
@@ -183,10 +183,10 @@ module.exports = function (_config) {
         adaptiveIcon: {
           foregroundImage: './assets/icon-android-foreground.png',
           monochromeImage: './assets/icon-android-monochrome.png',
-          backgroundColor: '#8e4b9b',
+          backgroundColor: '#8e4b9b', // TODO: Xan: brand
         },
         googleServicesFile: './google-services.json',
-        package: 'lol.daniela.social',
+        package: 'app.bitchsky',
         intentFilters: [
           {
             action: 'VIEW',
@@ -194,7 +194,7 @@ module.exports = function (_config) {
             data: [
               {
                 scheme: 'https',
-                host: 'social.daniela.lol',
+                host: 'bitchsky.app', // TODO: Xan: https://bitchsky.app/.well-known/assetlinks.json
               },
               {
                 scheme: 'https',
@@ -281,7 +281,7 @@ module.exports = function (_config) {
           'expo-notifications',
           {
             icon: './assets/icon-android-notification.png',
-            color: '#8e4b9b',
+            color: '#8e4b9b', // TODO: Xan: brand
             sounds: PLATFORM === 'ios' ? ['assets/dm.aiff'] : ['assets/dm.mp3'],
           },
         ],
@@ -330,17 +330,17 @@ module.exports = function (_config) {
               resizeMode: 'cover',
               dark: {
                 enableFullScreenImage_legacy: true,
-                backgroundColor: '#150318',
+                backgroundColor: '#150318', // TODO: Xan: brand
                 image: './assets/splash-dark.png',
                 resizeMode: 'cover',
               },
             },
             android: {
-              backgroundColor: '#8e4b9b',
+              backgroundColor: '#8e4b9b', // TODO: Xan: brand
               image: './assets/splash-android-icon.png',
               imageWidth: 150,
               dark: {
-                backgroundColor: '#2b0133',
+                backgroundColor: '#2b0133', // TODO: Xan: brand
                 image: './assets/splash-android-icon-dark.png',
                 imageWidth: 150,
               },
@@ -450,7 +450,7 @@ module.exports = function (_config) {
             },
           },
           //projectId: '55bd077a-d905-4184-9c7f-94789ba0f302',
-          projectId: '86ff94e3-dce0-4f7c-99f4-1651a2f1bc2a',
+          projectId: '86ff94e3-dce0-4f7c-99f4-1651a2f1bc2a', // TODO: Xan: Generate new project ID somehow
         },
       },
     },

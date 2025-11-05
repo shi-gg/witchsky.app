@@ -42,7 +42,7 @@ postbuild-web:
     cp -r bskyweb/static/iframe/ web-build/iframe
 
     # copy our static pages over!
-    cp -r deer-static-about web-build/about
+    cp -r bitchsky-static-about web-build/about
 
     # temporarily copy over out bootleg config.txt to simulate geolocation
     cp config.txt web-build/
@@ -62,4 +62,3 @@ dev-web-functions: build-web
 [group('lint')]
 typecheck:
     yarn typecheck
-
