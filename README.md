@@ -1,6 +1,7 @@
 # Bitchsky Social App
 
 Hey, bitches! This is the codebase for the Bitchsky Social app, based on [social.daniela.lol](https://github.com/kittibytess/deer-social) based on [deer.social](https://github.com/a-viv-a/deer-social).
+It's basically Bluesky, but we had an itch for a few more powerful features.
 
 Get the app itself:
 
@@ -15,55 +16,69 @@ alt="Get it on Obtainium" align="center" height="54" /></a>
 
 - Better name (added an itch; lue no longer)
 - Nicer colors (based on ...)
-- Experiments page in settings
-  - Toggle to disable go.bsky.app link proxying for analytics
-  - Toggle to disable default app labeler
-  - Toggle to disable falling back to the discover feed in following feed
-  - Toggle to see skeets in quotes through blocks and detachments
-    - <img src="https://github.com/user-attachments/assets/e5084afd-b17e-43a7-9622-f6d7f19f53ca" width="300px" />
-  - Checkboxes to enable features gates
 - Ignores `!no-unauthenticated` labels
 - Share links to bitchsky.app or bsky.app
 
-## WIP/Planned
+### Experiments
 
-- Opengraph support for sharing skeets and profiles
-- Selecting custom appviews
-- Seeing past blocks in post threads (nuclear block for reply chains)
+These are all available as options in a subpage of the app's settings.
+
+- Toggle go.bsky.app link proxying for analytics
+- Toggle to see skeets in quotes through blocks and detachments
+- <img src="https://github.com/user-attachments/assets/e5084afd-b17e-43a7-9622-f6d7f19f53ca" width="300px" alt="example quote post removed by author, but still shown" />
+- Toggle to trust your own preferred verifiers (and to operate as one yourself)
+- Toggle to disable the default app labeler
+
+#### Tweaks
+
+- Toggle to combine reposts in horizontal carousels
+- Toggle the discover feed fallback in the following feed
+- Toggle to allow visiting sites from clicking non-bsky.social handles
+- Toggle displaying images in higher quality
+- Toggle to only show a single tab if only one feed is pinned
+- Toggle to prevent others from getting notified that you interacted with their repost
+- Toggle similar account recommendations
+
+#### Metrics
+
+You can disable the visiblity of all skeet metrics individually, including the likes, reposts, quotes, saves, and reply counts.
+
+#### Gates
+
+- Toggle for an alternate share icon
+- A couple others
+- More may be available in developer mode
+
+## Upcoming or wishful features
+
+- OpenGraph support for sharing profiles & skeets
+- Selecting a custom AppView
+- Seeing past blocks in threads (the nuclear block for reply chains)
 - Configure the location used to determine regional labelers
-
 
 ### TODO: Xan
 
 - [ ] Update branding (especially colors and app icon) to Bitchsky
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
+- [ ] Remove broken Experiments (constellation instance and TODO note)
 - [ ] Replace instances of `group.app.bsky` with `group.app.bitchsky`
 - [ ] Add a toggle to replace "New Post" with "Skeet" (and other instances of "Post" in English)
 - [ ] [Coffee](https://git.ari.lt/coffee) for colors in actual themes
+- [ ] Bitchsky PDS and .social site
 
-#### Maybe
+### Even more wishful or far off
 
 - [ ] iOS app IPA?
 - [ ] Move from GitHub to Tangled?
-
-## Philosophy
-
-- by default, Bitchsky should very similar to the official client
-  - color and branding are different to distinguish from social-app
-  - `!no-unauthenticated` behavior is different
-  - analytics are not present
-- opinionated features behind toggles
-- focus on high impact, low diff size patches
-  - specifically patches that won't require large conflicts to be resolved
-- focus on power users (but all users are welome!)
-- enable things that are possible but annoying today **without** egging on anti-social behavior
+- [ ] Experimental toggle between handle and DID in share links?
+- [ ] Move TOS and privacy policy to Jollywhoppers?
 
 ## Development Resources
 
 This is a [React Native](https://reactnative.dev/) application, written in the TypeScript programming language. It builds on the `atproto` TypeScript packages (like [`@atproto/api`](https://www.npmjs.com/package/@atproto/api)), which are also open source, but in [a different git repository](https://github.com/bluesky-social/atproto).
 
 There is vestigial Go language source code (in `./bskyweb/`), for a web service that returns the React Native Web application in the social app deployment. However, it is not used in current Bitchsky deployments.
-For Bitchsky, the intended deployment is with a webserver that can serve static files, and reroute to `index.html` as needed. Today [Bitchsky](https://bitchsky.app) is hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
+For Bitchsky, the intended deployment is with a webserver that can serve static files, and reroute to `index.html` as needed. [Bitchsky](https://bitchsky.app) is currently hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
 
 The [Build Instructions](./docs/build.md) are a good place to get started with the app itself. If you use nix (and especially direnv) then `flake.nix` will get you a working environment for the web version of the app.
 
@@ -88,7 +103,7 @@ Without an overriding motivation, opinionated features should exist behind a tog
 - Open an issue and give some time for discussion before submitting a PR.
   - This isn't strictly necessary, but I'd love to give my thoughts and scope out your willingness to maintain the feature before you write it.
 - Stay away from PRs like...
-  - Changing "Post" to "Skeet."
+  - Changing "Post" to "Skeet." 🧌
   - Refactoring the codebase, e.g., to replace React Query with Redux Toolkit or something.
 - Include a new toggle and preference for your feature.
 
@@ -110,9 +125,7 @@ Self hosting is great! It is our intention that Bitchsky is easy to self host an
 ## Security disclosures
 
 If you discover any security issues, please privately disclose them to [xan.lol](https://xan.lol/).
-If the issue pertains to infastructure, code, or systems outside the scope of Bitchsky, please refer to the
-[disclosure guidelines on social-app](https://github.com/bluesky-social/social-app#security-disclosures) if it is hosted by Bluesky PBC. Otherwise, reference the
-security policy of that system as applicable <3
+If the issue pertains to infastructure, code, or systems outside the scope of Bitchsky, please refer to the [disclosure guidelines on social-app](https://github.com/bluesky-social/social-app#security-disclosures) if it is hosted by Bluesky PBC. Otherwise, reference the security policy of that system as applicable <3
 
 ## License (MIT)
 
@@ -122,4 +135,4 @@ Bluesky Social PBC has committed to a software patent non-aggression pledge. For
 
 ## P.S.
 
-We ❤️ you and all of the ways you support us. Thank you for making Bluesky & Bitchsky a great place!
+We ❤️ you and all of the ways you support us. Thank you for making Bluesky & Bitchsky so great!
