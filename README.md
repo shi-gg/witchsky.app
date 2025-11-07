@@ -14,8 +14,9 @@ alt="Get it on Obtainium" align="center" height="54" /></a>
 
 ## Improvements on Bluesky
 
-- Better name (still love you tho bsky!)
-- Nicer colors (based on ...)
+- Funner name (still love you tho bsky!)
+- Nicer colors (based on coffee...)
+- We call them skeets (might break for non-English users)
 - Ignores `!no-unauthenticated` labels
 - Share links to bitchsky.app or bsky.app
 
@@ -62,12 +63,15 @@ You can disable the visiblity of all skeet metrics individually, including the l
   - [ ] ./src/view/icons/Logomark.tsx
   - [ ] ./src/view/icons/Logo.tsx
   - [ ] ./src/view/icons/Logotype.tsx
+  - [ ] ./src/components/WelcomeModal.tsx
   - [ ] ./assets/
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
 - [ ] Remove broken Experiments (constellation instance and TODO note)
 - [ ] Replace instances of `group.app.bsky` with `group.app.bitchsky`
 - [ ] Add a toggle to replace "New Post" with "Skeet" (and other instances of "Post" in English)
 - [ ] [Coffee](https://git.ari.lt/coffee) for colors in actual themes
+- [ ] Automatic PDS detection like other social-app forks
+- [ ] Like of or repost of repost icons from blacksky
 - [ ] Bitchsky PDS and .social site
 
 ### Even more wishful or far off

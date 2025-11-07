@@ -143,7 +143,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                   ]}>
                   <Trans>Real creatures.</Trans>
                   {'\n'}
-                  <Trans>Real talk (Meow! Woof).</Trans>
+                  <Trans>Real talk. (Meow! Woof?)</Trans>
                   {'\n'}
                   <Trans>Social media if it was good.</Trans>
                 </Text>

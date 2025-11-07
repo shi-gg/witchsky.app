@@ -6481,7 +6481,7 @@ msgstr ""
 #: src/view/com/composer/Composer.tsx:1119
 msgctxt "action"
 msgid "Post"
-msgstr ""
+msgstr "Skeet"
 
 #: src/view/com/composer/Composer.tsx:1117
 msgctxt "action"
