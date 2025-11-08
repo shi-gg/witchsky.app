@@ -33,9 +33,9 @@ These are all available as options in a sub-page of the app's settings.
 
 #### Tweaks
 
+- Toggle to allow visiting sites from clicking non-bsky.social handles
 - Toggle to combine reskeets in horizontal carousels
 - Toggle the discover feed fallback in the following feed
-- Toggle to allow visiting sites from clicking non-bsky.social handles
 - Toggle displaying images in higher quality
 - Toggle to only show a single tab if only one feed is pinned
 - Toggle to prevent others from getting notified when you interact with their reskeets
@@ -43,7 +43,13 @@ These are all available as options in a sub-page of the app's settings.
 
 #### Metrics
 
-You can disable the visiblity of all skeet metrics individually, including the likes, reskeets, quotes, saves, and reply counts.
+You can disable the visiblity of all metrics individually, including the number of:
+
+- likes
+- reskeets
+- quotes
+- saves
+- replies
 
 #### Gates
 
@@ -72,6 +78,7 @@ You can disable the visiblity of all skeet metrics individually, including the l
 - [ ] Like of or repost of repost icons from blacksky
 - [ ] Change followed accounts [on onboarding](https://github.com/blacksky-algorithms/blacksky.community/commit/e36ee43efb4999f070860d7f70122e45b28c1e2b)
 - [ ] Change ChatEmptyPill things for English locale
+- [ ] stuff from like [deer.aylac.top](https://github.com/ayla6/deer-social-test) for pronouns+
 - [ ] Bitchsky PDS and .social site
 
 ### Even more wishful or far off
