@@ -6,9 +6,9 @@ Get the app itself:
 
 - **Web: [bitchsky.app](https://bitchsky.app)**
 - **iOS: [Soon™](https://large-type.com/#%F0%9F%99%80)?**
-- **Android: [Github Releases](github.com/devxan/bitch-social/releases/latest)**
+- **Android: [Github Releases](github.com/jollywhoppers/bitchsky-app/releases/latest)**
 
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/devxan/bitch-social/">
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/jollywhoppers/bitchsky-app/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
 alt="Get it on Obtainium" align="center" height="54" /></a>
 
@@ -48,8 +48,10 @@ You can disable the visiblity of all skeet metrics individually, including the l
 #### Gates
 
 - Toggle for an alternate share icon
-- A couple others
+- Toggle to show feed context for debugging
+- Toggle to hide the 'show latest' button
 - More may be available in developer mode
+  - (Accessible by holding the version in the About settings screen)
 
 ## Upcoming or wishful features
 
@@ -65,7 +67,6 @@ You can disable the visiblity of all skeet metrics individually, including the l
   - [ ] ./src/components/WelcomeModal.tsx
   - [ ] ./assets/
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
-- [ ] Remove broken Experiments (constellation instance and TODO note)
 - [ ] [Coffee](https://git.ari.lt/coffee) for colors in actual themes
 - [ ] Automatic PDS detection like other social-app forks
 - [ ] Like of or repost of repost icons from blacksky
@@ -78,7 +79,7 @@ You can disable the visiblity of all skeet metrics individually, including the l
 - [ ] iOS app IPA?
 - [ ] Move from GitHub to Tangled?
 - [ ] Experimental toggle between handle and DID in share links?
-- [ ] Move TOS and privacy policy to Jollywhoppers?
+- [ ] Move TOS and privacy policy to Jollywhoppers website?
 
 ## Development Resources
 

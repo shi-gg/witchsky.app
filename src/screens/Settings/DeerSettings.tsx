@@ -352,22 +352,6 @@ export function DeerSettingsScreen({}: Props) {
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
-            <Toggle.Item
-              name="constellation_fallback"
-              label={_(
-                msg`Fall back to constellation api to find blocked replies`,
-              )}
-              disabled={true}
-              value={constellationEnabled}
-              onChange={value => setConstellationEnabled(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>
-                  TODO: Fall back to constellation api to find blocked replies
-                </Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
           </SettingsList.Group>
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
@@ -396,8 +380,8 @@ export function DeerSettingsScreen({}: Props) {
           <SettingsList.Item>
             <Admonition type="warning" style={[a.flex_1]}>
               <Trans>
-                WIP. May slow down the client or fail to find all labels. Revoke
-                and grant trust in the meatball menu on a profile.{' '}
+                May slow down the client or fail to find all labels. Revoke and
+                grant trust in the meatball menu on a profile.{' '}
                 {deerVerificationEnabled
                   ? 'You currently'
                   : 'If enabled, you would'}{' '}
@@ -417,95 +401,12 @@ export function DeerSettingsScreen({}: Props) {
             />
           </SettingsList.Item>
 
-          <SettingsList.Item>
-            <SettingsList.ItemIcon icon={StarIcon} />
-            <SettingsList.ItemText>
-              <Trans>{`Constellation Instance`}</Trans>
-            </SettingsList.ItemText>
-            <SettingsList.BadgeButton
-              label={_(msg`Change`)}
-              onPress={() => setConstellationInstanceControl.open()}
-            />
-          </SettingsList.Item>
-          <SettingsList.Item>
-            <Admonition type="info" style={[a.flex_1]}>
-              <Trans>
-                Constellation is used to supplement AppView responses for custom
-                verifications and nuclear block bypass, via backlinks. Current
-                instance: {constellationInstance}
-              </Trans>
-            </Admonition>
-          </SettingsList.Item>
-
-          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
-            <SettingsList.ItemIcon icon={RaisingHandIcon} />
-            <SettingsList.ItemText>
-              <Trans>Labelers</Trans>
-            </SettingsList.ItemText>
-            <Toggle.Item
-              name="no_app_labelers"
-              label={_(msg`Do not declare any app labelers`)}
-              value={noAppLabelers}
-              onChange={value => setNoAppLabelers(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Do not declare any default app labelers</Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
-          </SettingsList.Group>
-
-          <SettingsList.Item>
-            <Admonition type="warning" style={[a.flex_1]}>
-              <Trans>Restart app after changing this setting.</Trans>
-            </Admonition>
-          </SettingsList.Item>
-          <SettingsList.Item>
-            <Admonition type="tip" style={[a.flex_1]}>
-              <Trans>
-                Some appviews will default to using an app labeler if you have
-                no labelers, so consider subscribing to at least one labeler if
-                you have issues.
-              </Trans>
-            </Admonition>
-          </SettingsList.Item>
-          <SettingsList.Item>
-            <Admonition type="info" style={[a.flex_1]}>
-              <Trans>
-                App labelers are mandatory top-level labelers that can perform
-                "takedowns". This setting does not influence geolocation based
-                labelers.
-              </Trans>
-            </Admonition>
-          </SettingsList.Item>
-
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={PaintRollerIcon} />
             <SettingsList.ItemText>
               <Trans>Tweaks</Trans>
             </SettingsList.ItemText>
-            <Toggle.Item
-              name="repost_carousel"
-              label={_(msg`Combine reskeets into a horizontal carousel`)}
-              value={repostCarouselEnabled}
-              onChange={value => setRepostCarouselEnabled(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Combine reskeets into a horizontal carousel</Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
-            <Toggle.Item
-              name="no_discover_fallback"
-              label={_(msg`Do not fall back to discover feed`)}
-              value={noDiscoverFallback}
-              onChange={value => setNoDiscoverFallback(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Do not fall back to discover feed</Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
+
             <Toggle.Item
               name="show_link_in_handle"
               label={_(
@@ -518,6 +419,30 @@ export function DeerSettingsScreen({}: Props) {
                 <Trans>
                   On non-bsky.social handles, show a link to that URL
                 </Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="repost_carousel"
+              label={_(msg`Combine reskeets into a horizontal carousel`)}
+              value={repostCarouselEnabled}
+              onChange={value => setRepostCarouselEnabled(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Combine reskeets into a horizontal carousel</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="no_discover_fallback"
+              label={_(msg`Do not fall back to discover feed`)}
+              value={noDiscoverFallback}
+              onChange={value => setNoDiscoverFallback(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Do not fall back to discover feed</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -681,14 +606,55 @@ export function DeerSettingsScreen({}: Props) {
           <SettingsList.Item>
             <Admonition type="warning" style={[a.flex_1]}>
               <Trans>
-                These settings might summon nasel demons! Restart the app after
+                These settings might summon nasal demons! Restart the app after
                 changing if anything breaks.
+              </Trans>
+            </Admonition>
+          </SettingsList.Item>
+
+          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+            <SettingsList.ItemIcon icon={RaisingHandIcon} />
+            <SettingsList.ItemText>
+              <Trans>Labelers</Trans>
+            </SettingsList.ItemText>
+            <Toggle.Item
+              name="no_app_labelers"
+              label={_(msg`Do not declare any app labelers`)}
+              value={noAppLabelers}
+              onChange={value => setNoAppLabelers(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Do not declare any default app labelers</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+          </SettingsList.Group>
+
+          <SettingsList.Item>
+            <Admonition type="warning" style={[a.flex_1]}>
+              <Trans>Restart the app after changing this setting.</Trans>
+            </Admonition>
+          </SettingsList.Item>
+          <SettingsList.Item>
+            <Admonition type="tip" style={[a.flex_1]}>
+              <Trans>
+                Some App Views will default to using an app labeler if you have
+                no labelers, so consider subscribing to at least one labeler if
+                you have issues.
+              </Trans>
+            </Admonition>
+          </SettingsList.Item>
+          <SettingsList.Item>
+            <Admonition type="info" style={[a.flex_1]}>
+              <Trans>
+                App labelers are mandatory top-level labelers that can perform
+                "takedowns". This setting does not influence geolocation-based
+                labelers.
               </Trans>
             </Admonition>
           </SettingsList.Item>
         </SettingsList.Container>
       </Layout.Content>
-      <ConstellationInstanceDialog control={setConstellationInstanceControl} />
       <TrustedVerifiersDialog control={setTrustedVerifiersDialogControl} />
     </Layout.Screen>
   )
