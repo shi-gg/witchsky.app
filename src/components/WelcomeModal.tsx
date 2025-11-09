@@ -141,9 +141,9 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                       letterSpacing: -0.5,
                     }),
                   ]}>
-                  <Trans>Real creatures.</Trans>
+                  <Trans>Real talk.</Trans>
                   {'\n'}
-                  <Trans>Real talk. (Meow! Woof?)</Trans>
+                  <Trans>Real creatures.</Trans>
                   {'\n'}
                   <Trans>Social media if it was good.</Trans>
                 </Text>
@@ -157,7 +157,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     color="primary"
                     style={{
                       width: 200,
-                      backgroundColor: '#006AFF', // TODO: Xan: WHY ARE THE COLORS HARDCODED? Make these all coffee flavored
+                      backgroundColor: '#BB6868',
                     }}>
                     <ButtonText>
                       <Trans>Create account</Trans>
@@ -173,7 +173,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     hoverStyle={[a.bg_transparent]}>
                     {({hovered}) => (
                       <ButtonText
-                        style={[hovered && [a.underline], {color: '#006AFF'}]}>
+                        style={[hovered && [a.underline], {color: '#BB6868'}]}>
                         <Trans>Explore the app</Trans>
                       </ButtonText>
                     )}
@@ -197,7 +197,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                         style={[
                           a.font_medium,
                           {
-                            color: '#006AFF',
+                            color: '#BB6868',
                             fontSize: undefined,
                           },
                           signInLinkHovered && a.underline,

@@ -14,7 +14,7 @@ import {type Theme, type TypographyVariant} from './ThemeContext'
  */
 export const colors = {
   white: '#ffffff',
-  black: '#000000',
+  black: '#383434',
 
   gray1: '#F3F3F8',
   gray2: '#E2E2E4',
@@ -25,14 +25,14 @@ export const colors = {
   gray7: '#26272D',
   gray8: '#141417',
 
-  blue0: '#e5d5e8',
-  blue1: '#d1b8d6',
-  blue2: '#b695bd',
-  blue3: '#97729f',
-  blue4: '#795281',
-  blue5: '#5b3a61',
-  blue6: '#3d2542',
-  blue7: '#261429',
+  blue0: `hsl(2, 43.5%, 86.7%)`,
+  blue1: `hsl(1, 41.1%, 77.4%)`,
+  blue2: `hsl(1, 37.6%, 65.7%)`,
+  blue3: `hsl(0, 33.3%, 52.9%)`,
+  blue4: `hsl(1, 36.6%, 40.8%)`,
+  blue5: `hsl(2, 39.5%, 29.8%)`,
+  blue6: `hsl(1, 42.5%, 19.6%)`,
+  blue7: `hsl(2, 48.7%, 11.4%)`,
 
   red1: '#ffe6eb',
   red2: '#fba2b2',
@@ -61,8 +61,8 @@ export const colors = {
   green5: '#082b03',
 
   unreadNotifBg: '#ebf6ff',
-  brandBlue: '#0066FF',
-  like: '#ec4899',
+  brandBlue: '#af5f5f',
+  like: '#dd39cf',
 }
 
 export const gradients = {

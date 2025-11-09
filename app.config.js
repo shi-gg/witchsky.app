@@ -46,7 +46,7 @@ module.exports = function (_config) {
       },
       icon: './assets/app-icons/ios_icon_default_next.png',
       userInterfaceStyle: 'automatic',
-      primaryColor: '#8e4b9b', // TODO: Xan: brand
+      primaryColor: '#af5f5f',
       newArchEnabled: false,
       ios: {
         supportsTablet: false,
@@ -183,7 +183,7 @@ module.exports = function (_config) {
         adaptiveIcon: {
           foregroundImage: './assets/icon-android-foreground.png',
           monochromeImage: './assets/icon-android-monochrome.png',
-          backgroundColor: '#8e4b9b', // TODO: Xan: brand
+          backgroundColor: '#af5f5f',
         },
         googleServicesFile: './google-services.json',
         package: 'app.bitchsky',
@@ -194,7 +194,7 @@ module.exports = function (_config) {
             data: [
               {
                 scheme: 'https',
-                host: 'bitchsky.app', // TODO: Xan: https://bitchsky.app/.well-known/assetlinks.json
+                host: 'bitchsky.app',
               },
               {
                 scheme: 'https',
@@ -281,7 +281,7 @@ module.exports = function (_config) {
           'expo-notifications',
           {
             icon: './assets/icon-android-notification.png',
-            color: '#8e4b9b', // TODO: Xan: brand
+            color: '#af5f5f',
             sounds: PLATFORM === 'ios' ? ['assets/dm.aiff'] : ['assets/dm.mp3'],
           },
         ],
@@ -330,17 +330,17 @@ module.exports = function (_config) {
               resizeMode: 'cover',
               dark: {
                 enableFullScreenImage_legacy: true,
-                backgroundColor: '#150318', // TODO: Xan: brand
+                backgroundColor: '#262220',
                 image: './assets/splash-dark.png',
                 resizeMode: 'cover',
               },
             },
             android: {
-              backgroundColor: '#8e4b9b', // TODO: Xan: brand
+              backgroundColor: '#bb6868',
               image: './assets/splash-android-icon.png',
               imageWidth: 150,
               dark: {
-                backgroundColor: '#2b0133', // TODO: Xan: brand
+                backgroundColor: '#af5f5f',
                 image: './assets/splash-android-icon-dark.png',
                 imageWidth: 150,
               },
@@ -425,7 +425,7 @@ module.exports = function (_config) {
                 // appExtensions: [
                 //   {
                 //     targetName: 'Share-with-Bluesky',
-                //     bundleIdentifier: 'xyz.blueskyweb.app.Share-with-Bluesky',
+                //     bundleIdentifier: 'app.bitchsky.Share-with-Bluesky',
                 //     entitlements: {
                 //       'com.apple.security.application-groups': [
                 //         'group.app.bitchsky',
@@ -434,7 +434,7 @@ module.exports = function (_config) {
                 //   },
                 //   {
                 //     targetName: 'BlueskyNSE',
-                //     bundleIdentifier: 'xyz.blueskyweb.app.BlueskyNSE',
+                //     bundleIdentifier: 'app.bitchsky.BlueskyNSE',
                 //     entitlements: {
                 //       'com.apple.security.application-groups': [
                 //         'group.app.bitchsky',
@@ -443,7 +443,7 @@ module.exports = function (_config) {
                 //   },
                 //   {
                 //     targetName: 'BlueskyClip',
-                //     bundleIdentifier: 'xyz.blueskyweb.app.AppClip',
+                //     bundleIdentifier: 'app.bitchsky.AppClip',
                 //   },
                 // ],
               },

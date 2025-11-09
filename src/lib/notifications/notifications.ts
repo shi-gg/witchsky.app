@@ -38,7 +38,7 @@ async function _registerPushToken({
         : PUBLIC_APPVIEW_DID,
       platform: Platform.OS,
       token: token.data,
-      appId: 'lol.daniela.social',
+      appId: 'app.bitchsky',
       // ageRestricted: extra.ageRestricted ?? false,
     }
 

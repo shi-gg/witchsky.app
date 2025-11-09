@@ -1,12 +1,12 @@
-# Bitchsky Social App 🐶
+# Bitchsky Social App 🧙
 
-Hey, bitches! This is the codebase for the Bitchsky Social app, based on [social.daniela.lol](https://github.com/kittibytess/deer-social) based on [deer.social](https://github.com/a-viv-a/deer-social).
+Hey, bitches! This is the codebase for the Bitchsky app, based on [social.daniela.lol](https://github.com/kittibytess/deer-social) based on [deer.social](https://github.com/a-viv-a/deer-social).
 
 Get the app itself:
 
 - **Web: [bitchsky.app](https://bitchsky.app)**
 - **iOS: [Soon™](https://large-type.com/#%F0%9F%99%80)?**
-- **Android: [Github Releases](github.com/jollywhoppers/bitchsky-app/releases/latest)**
+- **Android: [Github Releases](https://github.com/jollywhoppers/bitchsky-app/releases/latest)**
 
 <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/jollywhoppers/bitchsky-app/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
@@ -15,11 +15,13 @@ alt="Get it on Obtainium" align="center" height="54" /></a>
 ## Improvements on Bluesky
 
 - Funner name (still love you tho bsky!)
-- Nicer colors (based on coffee...)
+- Nicer colors (kinda like gruvbox? not quite)
 - We call them skeets (at least for English users)
 - Ignores `!no-unauthenticated` labels
 - Share links to bitchsky.app or bsky.app
 - Embed player works with [stream.place](https://stream.place/) links!
+- No push notifications (may be added later)
+- Kept super up-to-date (as a result, rarely unstable)
 
 ### Experiments
 
@@ -33,9 +35,9 @@ These are all available as options in a sub-page of the app's settings.
 
 #### Tweaks
 
-- Toggle to allow visiting sites from clicking non-bsky.social handles
+- Toggle to turn non-bsky.social handles into clickable links
 - Toggle to combine reskeets in horizontal carousels
-- Toggle the discover feed fallback in the following feed
+- Toggle the following feed fallback to the discover feed
 - Toggle displaying images in higher quality
 - Toggle to only show a single tab if only one feed is pinned
 - Toggle to prevent others from getting notified when you interact with their reskeets
@@ -73,12 +75,11 @@ You can disable the visiblity of all metrics individually, including the number 
   - [ ] ./src/components/WelcomeModal.tsx
   - [ ] ./assets/
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
-- [ ] [Coffee](https://git.ari.lt/coffee) for colors in actual themes
 - [ ] Automatic PDS detection like other social-app forks
 - [ ] Like of or repost of repost icons from blacksky
 - [ ] Change followed accounts [on onboarding](https://github.com/blacksky-algorithms/blacksky.community/commit/e36ee43efb4999f070860d7f70122e45b28c1e2b)
 - [ ] Change ChatEmptyPill things for English locale
-- [ ] stuff from like [deer.aylac.top](https://github.com/ayla6/deer-social-test) for pronouns+
+- [ ] stuff from forks like [deer.aylac.top](https://github.com/ayla6/deer-social-test) for pronouns+
 - [ ] Bitchsky PDS and .social site
 
 ### Even more wishful or far off
