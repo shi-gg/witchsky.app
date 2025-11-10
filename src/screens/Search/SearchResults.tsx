@@ -102,10 +102,12 @@ SearchResults = memo(SearchResults)
 export {SearchResults}
 
 function Loader() {
+  const t = useTheme()
+
   return (
     <Layout.Content>
       <View style={[a.py_xl]}>
-        <ActivityIndicator />
+        <ActivityIndicator color={t.palette.primary_500} />
       </View>
     </Layout.Content>
   )

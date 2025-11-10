@@ -151,7 +151,7 @@ export function NotificationFeed({
     () =>
       isFetchingNextPage ? (
         <View style={styles.feedFooter}>
-          <ActivityIndicator />
+          <ActivityIndicator color={t.palette.primary_500} />
         </View>
       ) : (
         <View />

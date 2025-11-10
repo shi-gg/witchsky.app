@@ -8,7 +8,7 @@ import {isNative} from '#/platform/detection'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {SearchLinkCard} from '#/view/shell/desktop/Search'
 import {SearchProfileCard} from '#/screens/Search/components/SearchProfileCard'
-import {atoms as a, native} from '#/alf'
+import {atoms as a, native, useTheme} from '#/alf'
 import * as Layout from '#/components/Layout'
 
 let AutocompleteResults = ({
@@ -26,6 +26,7 @@ let AutocompleteResults = ({
   onResultPress: () => void
   onProfileClick: (profile: AppBskyActorDefs.ProfileViewBasic) => void
 }): React.ReactNode => {
+  const t = useTheme()
   const {_} = useLingui()
   const moderationOpts = useModerationOpts()
   return (
@@ -34,7 +35,7 @@ let AutocompleteResults = ({
       !moderationOpts ? (
         <Layout.Content>
           <View style={[a.py_xl]}>
-            <ActivityIndicator />
+            <ActivityIndicator color={t.palette.primary_500} />
           </View>
         </Layout.Content>
       ) : (

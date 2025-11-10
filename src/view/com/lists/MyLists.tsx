@@ -141,7 +141,7 @@ export function MyLists({
       } else if (item === LOADING) {
         return (
           <View style={{padding: 20}}>
-            <ActivityIndicator />
+            <ActivityIndicator color={t.palette.primary_500} />
           </View>
         )
       }

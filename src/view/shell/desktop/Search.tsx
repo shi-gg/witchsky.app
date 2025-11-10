@@ -17,7 +17,7 @@ import {useActorAutocompleteQuery} from '#/state/queries/actor-autocomplete'
 import {Link} from '#/view/com/util/Link'
 import {Text} from '#/view/com/util/text/Text'
 import {SearchProfileCard} from '#/screens/Search/components/SearchProfileCard'
-import {atoms as a} from '#/alf'
+import {atoms as a, useTheme} from '#/alf'
 import {SearchInput} from '#/components/forms/SearchInput'
 
 let SearchLinkCard = ({
@@ -72,6 +72,7 @@ SearchLinkCard = React.memo(SearchLinkCard)
 export {SearchLinkCard}
 
 export function DesktopSearch() {
+  const t = useTheme()
   const {_} = useLingui()
   const pal = usePalette('default')
   const navigation = useNavigation<NavigationProp>()
@@ -123,7 +124,7 @@ export function DesktopSearch() {
           ]}>
           {isFetching && !autocompleteData?.length ? (
             <View style={{padding: 8}}>
-              <ActivityIndicator />
+              <ActivityIndicator color={t.palette.primary_500} />
             </View>
           ) : (
             <>

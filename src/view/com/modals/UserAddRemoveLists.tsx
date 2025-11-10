@@ -227,7 +227,7 @@ function ListItem({
       </View>
       <View>
         {isProcessing || typeof membership === 'undefined' ? (
-          <ActivityIndicator />
+          <ActivityIndicator color={t.palette.primary_500} />
         ) : (
           <Button
             testID={`user-${handle}-addBtn`}

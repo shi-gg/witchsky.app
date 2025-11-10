@@ -131,7 +131,7 @@ export const ForgotPasswordForm = ({
         </Button>
         <View style={a.flex_1} />
         {!serviceDescription || isProcessing ? (
-          <ActivityIndicator />
+          <ActivityIndicator color={t.palette.primary_500} />
         ) : (
           <Button
             label={_(msg`Next`)}

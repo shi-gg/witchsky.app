@@ -332,7 +332,7 @@ export const LoginForm = ({
           </Button>
         ) : !serviceDescription ? (
           <>
-            <ActivityIndicator />
+            <ActivityIndicator color={t.palette.primary_500} />
             <Text style={[t.atoms.text_contrast_high, a.pl_md]}>
               <Trans>Connecting...</Trans>
             </Text>

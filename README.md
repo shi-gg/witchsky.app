@@ -86,7 +86,7 @@ You can disable the visiblity of all metrics individually, including the number 
 - [ ] Additional translation service providers + setting (Deepl, Kagi)
 - [ ] Collapse labels past the 1st (or 2nd,...; customizable) from the same labeler into a labeler clip of the same style "(+)"
 - [ ] Move Mutuals label to the follow button
-- [ ] New fun language(s)
+- [ ] New fun language/locale(s)
 - [ ] Bitchsky PDS and .social site
 
 #### Bugs

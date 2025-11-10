@@ -68,6 +68,7 @@ function StepCaptchaInner({
   token?: string
   payload?: string
 }) {
+  const t = useTheme()
   const {_} = useLingui()
   const theme = useTheme()
   const {state, dispatch} = useSignupContext()
@@ -160,7 +161,7 @@ function StepCaptchaInner({
               onError={onError}
             />
           ) : (
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color={t.palette.primary_500} />
           )}
         </View>
         <FormError error={state.error} />
