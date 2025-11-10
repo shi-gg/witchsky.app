@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
+import {useTheme} from '#/alf'
 
 import {useInitialNumToRender} from '#/lib/hooks/useInitialNumToRender'
 import {cleanError} from '#/lib/strings/errors'
@@ -44,6 +45,7 @@ export function NotificationFeed({
 }) {
   const initialNumToRender = useInitialNumToRender()
   const [isPTRing, setIsPTRing] = React.useState(false)
+  const t = useTheme()
   const {_} = useLingui()
   const moderationOpts = useModerationOpts()
   const {
