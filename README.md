@@ -76,8 +76,9 @@ You can disable the visiblity of all metrics individually, including the number 
   - [ ] ./src/lib/styles.ts (change likes color, remove gradient from new skeet button)
   - [ ] ./src/style.css (change links color)
   - [ ] ./assets/app-icons/ (change new bksy logos to fit Bitchsky -remove from social embed!)
+  - [ ] social embed stuff (bitchsky logo in image with jollywhoppers logo, use bitchsky logo)
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
-- [ ] Automatic PDS detection like other social-app forks
+- [ ] Automatic PDS detection like other social-app forks (fallback/email addresses to use bitchsky.social)
 - [ ] Like of or repost of repost icons from blacksky
 - [ ] Change followed accounts [on onboarding](https://github.com/blacksky-algorithms/blacksky.community/commit/e36ee43efb4999f070860d7f70122e45b28c1e2b)
 - [ ] Change ChatEmptyPill things for English locale
@@ -86,17 +87,19 @@ You can disable the visiblity of all metrics individually, including the number 
 - [ ] Additional translation service providers + setting (Deepl, Kagi)
 - [ ] Collapse labels past the 1st (or 2nd,...; customizable) from the same labeler into a labeler clip of the same style "(+)"
 - [ ] Move Mutuals label to the follow button
-- [ ] New fun language/locale(s)
-- [ ] Bitchsky PDS and .social site
+- [ ] New fun language/locale(s) like Minecraft
+- [ ] Change defaults (alt text nation, non-bsky handles, autoplay OFF, )
+- [ ] Bitchsky PDS and .social site (list songs with 'bitch' in the title)
 
 #### Bugs
 
 - [ ] Fix app crash on tapping profile header (./src/view/com/util/UserBanner.tsx)
-- [ ] Fix inability to zoom in on image lightboxes
+- [ ] Fix regression causing zooming in to break on image lightboxes
 
 ### Even more wishful or far off
 
 - [ ] iOS app IPA?
+- [ ] Likes tab on profiles for other users
 - [ ] Move from GitHub to Tangled?
 - [ ] Experimental toggle between handle and DID in share links?
 - [ ] Move TOS and privacy policy to Jollywhoppers website?
