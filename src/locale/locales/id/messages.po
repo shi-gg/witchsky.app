@@ -511,7 +511,7 @@ msgstr "<0>{0}</0> dan<1> </1><2>{1} </2>sudah disertakan dalam paket pemula And
 msgid "<0>{0}</0> is included in your starter pack"
 msgstr "<0>{0}</0> sudah disertakan dalam paket pemula Anda"
 
-#: src/components/WhoCanReply.tsx:346
+#: src/components/WhoCanReply.tsx:351
 msgid "<0>{0}</0> members"
 msgstr "Anggota <0>{0}</0>"
 
@@ -963,7 +963,7 @@ msgstr "Berisi semua feed yang telah Anda simpan dalam satu tempat."
 msgid "Allow access to your direct messages"
 msgstr "Izinkan akses ke pesan langsung Anda"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:431
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:445
 msgid "Allow anyone to reply"
 msgstr ""
 
@@ -982,23 +982,23 @@ msgstr "Izinkan pesan baru dari"
 msgid "Allow others to be notified of your posts"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:484
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:498
 msgid "Allow people you follow to reply"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:498
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:512
 msgid "Allow people you mention to reply"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:616
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:630
 msgid "Allow quote posts"
 msgstr "Izinkan kutipan"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:578
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:592
 msgid "Allow users in {0} to reply"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:470
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:484
 msgid "Allow your followers to reply"
 msgstr ""
 
@@ -1087,7 +1087,7 @@ msgstr "Terjadi kesalahan saat memuat video. Silakan coba lagi nanti."
 msgid "An error occurred while loading the video. Please try again."
 msgstr "Terjadi kesalahan saat memuat video. Silakan coba lagi."
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:561
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:575
 msgid "An error occurred while loading your lists :/"
 msgstr ""
 
@@ -1149,7 +1149,7 @@ msgstr "Maket iPhone yang menampilkan aplikasi Bluesky terbuka profil pengguna t
 msgid "an unknown labeler"
 msgstr "pelabel tak dikenal"
 
-#: src/components/WhoCanReply.tsx:367
+#: src/components/WhoCanReply.tsx:372
 msgid "and"
 msgstr "dan"
 
@@ -1180,16 +1180,20 @@ msgid "Announcing verification on Bluesky"
 msgstr "Mengumumkan verifikasi Bluesky"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: src/lib/moderation/useReportOptions.ts:33
 msgid "Anti-Social Behavior"
 msgstr "Perilaku Anti-Sosial"
 =======
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:437
+=======
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:451
+>>>>>>> upstream/main
 msgid "Anyone"
 msgstr ""
 >>>>>>> upstream/main
 
-#: src/view/com/composer/threadgate/ThreadgateBtn.tsx:129
+#: src/view/com/composer/threadgate/ThreadgateBtn.tsx:134
 msgid "Anyone can interact"
 msgstr ""
 
@@ -2154,8 +2158,8 @@ msgstr "Keletak 🐴 keletuk 🐴"
 #: src/screens/Settings/components/ChangePasswordDialog.tsx:291
 =======
 #: src/components/verification/VerifierDialog.tsx:150
-#: src/components/WhoCanReply.tsx:229
-#: src/components/WhoCanReply.tsx:236
+#: src/components/WhoCanReply.tsx:234
+#: src/components/WhoCanReply.tsx:241
 #: src/screens/Settings/components/ChangePasswordDialog.tsx:287
 #: src/screens/Settings/components/ChangePasswordDialog.tsx:292
 >>>>>>> upstream/main
@@ -2999,7 +3003,7 @@ msgstr "Mode pengembang dinyalakan"
 msgid "Developer options"
 msgstr "Opsi pengembang"
 
-#: src/components/WhoCanReply.tsx:215
+#: src/components/WhoCanReply.tsx:220
 msgid "Dialog: adjust who can interact with this post"
 msgstr "Dialog: sesuaikan siapa saja yang dapat berinteraksi dengan postingan ini"
 
@@ -3026,6 +3030,7 @@ msgid "Disable haptic feedback"
 msgstr "Matikan respons haptik"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: src/screens/Settings/DeerSettings.tsx:521
 #: src/screens/Settings/DeerSettings.tsx:526
 msgid "Disable Likes Metrics"
@@ -3051,10 +3056,13 @@ msgstr ""
 msgid "Disable Saves Metrics"
 =======
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:608
+=======
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:622
+>>>>>>> upstream/main
 msgid "Disable quote posts of this post"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:445
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:459
 msgid "Disable replies entirely"
 >>>>>>> upstream/main
 msgstr ""
@@ -3395,8 +3403,8 @@ msgstr ""
 msgid "Edit People"
 msgstr "Ubah Daftar Pengguna"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:100
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:246
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:114
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:260
 msgid "Edit post interaction settings"
 msgstr "Ubah pengaturan interaksi postingan"
 
@@ -3420,7 +3428,7 @@ msgstr "Ubah paket pemula"
 msgid "Edit user list"
 msgstr ""
 
-#: src/components/WhoCanReply.tsx:109
+#: src/components/WhoCanReply.tsx:114
 msgid "Edit who can reply"
 msgstr "Ubah siapa yang dapat membalas"
 
@@ -3527,7 +3535,7 @@ msgstr ""
 msgid "Enable push notifications"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:609
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:623
 msgid "Enable quote posts of this post"
 msgstr ""
 
@@ -3648,11 +3656,11 @@ msgstr "Kesalahan saat menerima respons captcha."
 msgid "Error: {error}"
 msgstr "Kesalahan: {error}"
 
-#: src/components/WhoCanReply.tsx:82
+#: src/components/WhoCanReply.tsx:83
 msgid "Everybody can reply"
 msgstr "Semua dapat membalas"
 
-#: src/components/WhoCanReply.tsx:272
+#: src/components/WhoCanReply.tsx:277
 msgid "Everybody can reply to this post."
 msgstr "Semua orang dapat membalas postingan ini."
 
@@ -4780,10 +4788,14 @@ msgid "Hide customization options"
 msgstr "Sembunyikan opsi penyesuaian"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: src/components/PostControls/PostMenu/PostMenuItems.tsx:676
 #: src/components/PostControls/PostMenu/PostMenuItems.tsx:682
 =======
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:513
+=======
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:527
+>>>>>>> upstream/main
 msgid "Hide lists"
 msgstr ""
 
@@ -5092,6 +5104,7 @@ msgid "Input the code which has been emailed to you"
 msgstr "Masukkan kode yang telah dikirim ke email Anda"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: src/screens/Settings/DeerSettings.tsx:158
 msgid "Input the url of the constellations instance to use"
 msgstr ""
@@ -5099,6 +5112,9 @@ msgstr ""
 #: src/view/com/composer/threadgate/ThreadgateBtn.tsx:49
 =======
 #: src/view/com/composer/threadgate/ThreadgateBtn.tsx:130
+>>>>>>> upstream/main
+=======
+#: src/view/com/composer/threadgate/ThreadgateBtn.tsx:135
 >>>>>>> upstream/main
 msgid "Interaction limited"
 msgstr "Interaksi dibatasi"
@@ -5619,11 +5635,11 @@ msgstr "Muat notifikasi baru"
 msgid "Load new posts"
 msgstr "Muat postingan baru"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:555
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:569
 msgid "Loading lists..."
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:259
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:273
 msgid "Loading post interaction settings..."
 msgstr ""
 
@@ -5734,7 +5750,7 @@ msgstr "Media yang mungkin mengganggu atau tidak pantas untuk sebagian orang."
 msgid "Mention notifications"
 msgstr "Notifikasi sebutan"
 
-#: src/components/WhoCanReply.tsx:313
+#: src/components/WhoCanReply.tsx:318
 msgid "mentioned users"
 msgstr "pengguna yang Anda sebut"
 
@@ -6281,7 +6297,7 @@ msgstr "Belum ada notifikasi!"
 msgid "No one"
 msgstr "Tidak seorang pun"
 
-#: src/components/WhoCanReply.tsx:296
+#: src/components/WhoCanReply.tsx:301
 msgid "No one but the author can quote this post."
 msgstr "Tak seorang pun dapat mengutip postingan ini selain pemosting."
 
@@ -6342,7 +6358,7 @@ msgstr "Tidak ditemukan hasil pencarian untuk \"{search}\"."
 msgid "No thanks"
 msgstr "Tidak terima kasih"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:451
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:465
 msgid "Nobody"
 msgstr "Tak seorang pun"
 
@@ -6541,7 +6557,7 @@ msgstr "Satu atau beberapa video belum memiliki teks alt."
 msgid "Only .jpg and .png files are supported"
 msgstr "Hanya mendukung berkas .jpg dan .png"
 
-#: src/components/WhoCanReply.tsx:276
+#: src/components/WhoCanReply.tsx:281
 msgid "Only {0} can reply."
 msgstr "Hanya {0} yang dapat membalas."
 
@@ -6661,7 +6677,7 @@ msgstr "Buka log sistem"
 msgid "Opens a dialog to add a content warning to your post"
 msgstr "Membuka dialog untuk menambahkan peringatan konten pada postingan Anda"
 
-#: src/view/com/composer/threadgate/ThreadgateBtn.tsx:146
+#: src/view/com/composer/threadgate/ThreadgateBtn.tsx:151
 msgid "Opens a dialog to choose who can interact with this post"
 msgstr ""
 
@@ -6894,12 +6910,16 @@ msgid "People I follow"
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:490
+=======
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:504
+>>>>>>> upstream/main
 msgid "People you follow"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:504
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:518
 msgid "People you mention"
 msgstr ""
 
@@ -7214,7 +7234,7 @@ msgstr "Disembunyikan oleh Kata yang Dibisukan"
 msgid "Post Hidden by You"
 msgstr "Postingan yang Anda sembunyikan"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:665
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:679
 msgid "Post interaction settings"
 msgstr "Pengaturan interaksi postingan"
 
@@ -7367,8 +7387,12 @@ msgid "Promoting or selling prohibited items or services"
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #: src/view/com/composer/threadgate/ThreadgateBtn.tsx:155
+=======
+#: src/view/com/composer/threadgate/ThreadgateBtn.tsx:160
+>>>>>>> upstream/main
 msgid "Psst! You can edit who can interact with this post."
 msgstr ""
 
@@ -7794,11 +7818,11 @@ msgstr ""
 msgid "Replies"
 msgstr "Balasan"
 
-#: src/components/WhoCanReply.tsx:84
+#: src/components/WhoCanReply.tsx:85
 msgid "Replies disabled"
 msgstr "Balasan dinonaktifkan"
 
-#: src/components/WhoCanReply.tsx:274
+#: src/components/WhoCanReply.tsx:279
 msgid "Replies to this post are disabled."
 msgstr "Balasan ke postingan ini dinonaktifkan."
 
@@ -7830,7 +7854,7 @@ msgstr "Balasan yang Anda Sembunyikan"
 msgid "Reply notifications"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:398
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:412
 msgid "Reply settings are chosen by the author of the thread"
 msgstr "Pengaturan balasan dipilih oleh pembuat utas"
 
@@ -8126,8 +8150,8 @@ msgstr "Kembali ke langkah sebelumnya"
 #: src/components/dialogs/BirthDateSettings.tsx:156
 #: src/components/dialogs/lists/CreateOrEditListDialog.tsx:292
 #: src/components/dialogs/lists/CreateOrEditListDialog.tsx:307
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:648
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:653
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:662
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:667
 #: src/components/live/EditLiveDialog.tsx:216
 #: src/components/live/EditLiveDialog.tsx:223
 #: src/components/StarterPack/QrCodeDialog.tsx:204
@@ -8175,8 +8199,8 @@ msgstr "Simpan panggilan baru"
 msgid "Save QR code"
 msgstr "Simpan kode QR"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:629
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:635
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:643
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:649
 msgid "Save these options for next time"
 msgstr ""
 
@@ -8437,11 +8461,11 @@ msgstr "Pilih durasi"
 msgid "Select from an existing account"
 msgstr "Pilih dari akun yang sudah ada"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:533
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:547
 msgid "Select from your lists"
 msgstr ""
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:535
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:549
 msgid "Select from your lists <0>{numberOfListsSelected, plural, other {(# selected)}}</0>"
 msgstr ""
 
@@ -8609,8 +8633,12 @@ msgid "Set new password"
 msgstr "Buat kata sandi baru"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:461
+=======
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:475
+>>>>>>> upstream/main
 msgid "Set precisely which groups of people can reply to your post"
 msgstr ""
 
@@ -8619,7 +8647,7 @@ msgstr ""
 msgid "Set up your account"
 msgstr "Siapkan akun Anda"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:411
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:425
 msgid "Set who can reply to your post"
 msgstr ""
 
@@ -8823,7 +8851,7 @@ msgstr "Kurangi postingan serupa"
 msgid "Show list anyway"
 msgstr "Tetap tampilkan daftar"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:514
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:528
 msgid "Show lists of users to select from"
 msgstr ""
 
@@ -9042,7 +9070,7 @@ msgstr "Beberapa dari verifikasi Anda tidak valid."
 msgid "Some other feeds you might like"
 msgstr "Beberapa feed lain yang mungkin Anda suka"
 
-#: src/components/WhoCanReply.tsx:85
+#: src/components/WhoCanReply.tsx:86
 msgid "Some people can reply"
 msgstr "Beberapa orang dapat membalas"
 
@@ -9685,7 +9713,7 @@ msgstr "Ada masalah saat memperbarui feed Anda, silakan periksa koneksi internet
 msgid "There was an issue! {0}"
 msgstr "Ada masalah! {0}"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:224
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:238
 #: src/screens/List/ListHiddenScreen.tsx:63
 #: src/screens/List/ListHiddenScreen.tsx:77
 #: src/screens/List/ListHiddenScreen.tsx:99
@@ -9709,10 +9737,14 @@ msgid "There's been a rush of new users to Bluesky! We'll activate your account 
 msgstr "Terjadi lonjakan pengguna baru di Bluesky! Kami akan mengaktifkan akun Anda secepat mungkin."
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: src/screens/Settings/DeerSettings.tsx:608
 msgid "These settings might summon nasal demons! Restart the app after changing if anything breaks."
 =======
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:640
+=======
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:654
+>>>>>>> upstream/main
 msgid "These are your default settings"
 >>>>>>> upstream/main
 msgstr ""
@@ -9877,7 +9909,7 @@ msgstr "Layanan moderasi ini tidak tersedia. Lihat detail lebih lanjut di bawah.
 msgid "This post claims to have been created on <0>{0}</0>, but was first seen by Bluesky on <1>{1}</1>."
 msgstr "Postingan ini mengklaim dibuat pada <0>{0}</0>, tetapi baru terlihat di Bluesky pada <1>{1}</1>."
 
-#: src/components/WhoCanReply.tsx:267
+#: src/components/WhoCanReply.tsx:272
 msgid "This post has an unknown type of threadgate on it. Your app may be out of date."
 msgstr "Postingan ini menggunakan pembatasan interaksi yang tidak dikenali. Anda mungkin perlu memperbarui aplikasi."
 
@@ -10565,11 +10597,11 @@ msgstr ""
 msgid "Username or email address"
 msgstr "Nama pengguna atau alamat email"
 
-#: src/components/WhoCanReply.tsx:330
+#: src/components/WhoCanReply.tsx:335
 msgid "users followed by <0>@{0}</0>"
 msgstr "pengguna yang diikuti <0>@{0}</0>"
 
-#: src/components/WhoCanReply.tsx:317
+#: src/components/WhoCanReply.tsx:322
 msgid "users following <0>@{0}</0>"
 msgstr "pengguna yang mengikuti <0>@{0}</0>"
 
@@ -11109,12 +11141,12 @@ msgstr "Saat Anda ketuk pada tanda centang, Anda akan melihat organisasi mana ya
 msgid "Which languages would you like to see in your algorithmic feeds?"
 msgstr "Bahasa apa yang ingin Anda lihat di feed algoritmik Anda?"
 
-#: src/components/WhoCanReply.tsx:219
+#: src/components/WhoCanReply.tsx:224
 msgid "Who can interact with this post?"
 msgstr "Siapa yang dapat berinteraksi dengan postingan ini?"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:407
-#: src/components/WhoCanReply.tsx:109
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:421
+#: src/components/WhoCanReply.tsx:114
 msgid "Who can reply"
 msgstr "Siapa yang dapat membalas"
 
@@ -11353,7 +11385,7 @@ msgstr "Anda tidak mengikuti satu pun pengguna yang mengikuti @{name}."
 msgid "You don't have any chat requests at the moment."
 msgstr "Anda belum memiliki permintaan obrolan saat ini."
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:569
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:583
 msgid "You don't have any lists yet."
 msgstr ""
 
@@ -11713,7 +11745,7 @@ msgstr "Email Anda masih belum terverifikasi. Silakan verifikasi email Anda untu
 msgid "Your first like!"
 msgstr "Suka pertama Anda!"
 
-#: src/components/dialogs/PostInteractionSettingsDialog.tsx:476
+#: src/components/dialogs/PostInteractionSettingsDialog.tsx:490
 msgid "Your followers"
 msgstr "Pengikut Anda"
 

@@ -1,17 +1,5 @@
 import {useCallback, useState} from 'react'
-import {
-  Pressable,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
-import {
-  measure,
-  type MeasuredDimensions,
-  runOnJS,
-  runOnUI,
-  useAnimatedRef,
-} from 'react-native-reanimated'
+import {Pressable, StyleSheet, View} from 'react-native'
 import {Image} from 'expo-image'
 import {type ModerationUI} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
@@ -31,7 +19,6 @@ import {
   compressImage,
   createComposerImage,
 } from '#/state/gallery'
-import {useLightboxControls} from '#/state/lightbox'
 import {
   maybeModifyHighQualityImage,
   useHighQualityImages,
@@ -67,10 +54,7 @@ export function UserBanner({
   const sheetWrapper = useSheetWrapper()
   const [rawImage, setRawImage] = useState<ComposerImage | undefined>()
   const editImageDialogControl = useDialogControl()
-  const {openLightbox} = useLightboxControls()
   const highQualityImages = useHighQualityImages()
-
-  const bannerRef = useAnimatedRef()
 
   const onOpenCamera = useCallback(async () => {
     if (!(await requestCameraAccessIfNeeded())) {
@@ -123,35 +107,6 @@ export function UserBanner({
   const onRemoveBanner = useCallback(() => {
     onSelectNewBanner?.(null)
   }, [onSelectNewBanner])
-
-  const _openLightbox = useCallback(
-    (uri: string, thumbRect: MeasuredDimensions | null) => {
-      openLightbox({
-        images: [
-          {
-            uri: maybeModifyHighQualityImage(uri, highQualityImages),
-            thumbUri: maybeModifyHighQualityImage(uri, highQualityImages),
-            thumbRect,
-            dimensions: thumbRect,
-            thumbDimensions: null,
-            type: 'image',
-          },
-        ],
-        index: 0,
-      })
-    },
-    [openLightbox, highQualityImages],
-  )
-
-  const onPressBanner = useCallback(() => {
-    if (banner && !(moderation?.blur && moderation?.noOverride)) {
-      runOnUI(() => {
-        'worklet'
-        const rect = measure(bannerRef)
-        runOnJS(_openLightbox)(banner, rect)
-      })()
-    }
-  }, [banner, moderation, _openLightbox, bannerRef])
 
   const onChangeEditImage = useCallback(
     async (image: ComposerImage) => {
@@ -261,22 +216,15 @@ export function UserBanner({
     </>
   ) : banner &&
     !((moderation?.blur && isAndroid) /* android crashes with blur */) ? (
-    <TouchableWithoutFeedback
-      testID="profileHeaderAviButton"
-      onPress={onPressBanner}
-      accessibilityRole="image"
-      accessibilityLabel={_(msg`View profile banner`)}
-      accessibilityHint="">
-      <Image
-        testID="userBannerImage"
-        style={[styles.bannerImage, t.atoms.bg_contrast_25]}
-        contentFit="cover"
-        source={{uri: maybeModifyHighQualityImage(banner, highQualityImages)}}
-        blurRadius={moderation?.blur ? 100 : 0}
-        accessible={true}
-        accessibilityIgnoresInvertColors
-      />
-    </TouchableWithoutFeedback>
+    <Image
+      testID="userBannerImage"
+      style={[styles.bannerImage, t.atoms.bg_contrast_25]}
+      contentFit="cover"
+      source={{uri: maybeModifyHighQualityImage(banner, highQualityImages)}}
+      blurRadius={moderation?.blur ? 100 : 0}
+      accessible={true}
+      accessibilityIgnoresInvertColors
+    />
   ) : (
     <View
       testID="userBannerFallback"
