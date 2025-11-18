@@ -22,6 +22,10 @@ import {logger} from '#/logger'
 import {isIOS} from '#/platform/detection'
 import {type Shadow} from '#/state/cache/types'
 import {useLightboxControls} from '#/state/lightbox'
+import {
+  maybeModifyHighQualityImage,
+  useHighQualityImages,
+} from '#/state/preferences/high-quality-images'
 import {useSession} from '#/state/session'
 import {LoadingPlaceholder} from '#/view/com/util/LoadingPlaceholder'
 import {UserAvatar} from '#/view/com/util/UserAvatar'
@@ -61,8 +65,10 @@ let ProfileHeaderShell = ({
   const {top: topInset} = useSafeAreaInsets()
   const playHaptic = useHaptics()
   const liveStatusControl = useDialogControl()
+  const highQualityImages = useHighQualityImages()
 
   const aviRef = useAnimatedRef()
+  const bannerRef = useAnimatedRef()
 
   const onPressBack = useCallback(() => {
     if (navigation.canGoBack()) {
@@ -72,13 +78,13 @@ let ProfileHeaderShell = ({
     }
   }, [navigation])
 
-  const _openLightbox = useCallback(
+  const _openLightboxAvi = useCallback(
     (uri: string, thumbRect: MeasuredDimensions | null) => {
       openLightbox({
         images: [
           {
-            uri,
-            thumbUri: uri,
+            uri: maybeModifyHighQualityImage(uri, highQualityImages),
+            thumbUri: maybeModifyHighQualityImage(uri, highQualityImages),
             thumbRect,
             dimensions: {
               // It's fine if it's actually smaller but we know it's 1:1.
@@ -92,7 +98,27 @@ let ProfileHeaderShell = ({
         index: 0,
       })
     },
-    [openLightbox],
+    [openLightbox, highQualityImages],
+  )
+
+  // theres probs a better way instead of just making a separate one but this works:tm: so its whatever
+  const _openLightboxBanner = useCallback(
+    (uri: string, thumbRect: MeasuredDimensions | null) => {
+      openLightbox({
+        images: [
+          {
+            uri: maybeModifyHighQualityImage(uri, highQualityImages),
+            thumbUri: maybeModifyHighQualityImage(uri, highQualityImages),
+            thumbRect,
+            dimensions: thumbRect,
+            thumbDimensions: null,
+            type: 'image',
+          },
+        ],
+        index: 0,
+      })
+    },
+    [openLightbox, highQualityImages],
   )
 
   const isMe = useMemo(
@@ -128,15 +154,45 @@ let ProfileHeaderShell = ({
         runOnUI(() => {
           'worklet'
           const rect = measure(aviRef)
-          runOnJS(_openLightbox)(avatar, rect)
+          runOnJS(_openLightboxAvi)(avatar, rect)
         })()
       }
     }
   }, [
     profile,
     moderation,
-    _openLightbox,
+    _openLightboxAvi,
     aviRef,
+    liveStatusControl,
+    live,
+    playHaptic,
+  ])
+
+  const onPressBanner = useCallback(() => {
+    if (live.isActive) {
+      playHaptic('Light')
+      logger.metric(
+        'live:card:open',
+        {subject: profile.did, from: 'profile'},
+        {statsig: true},
+      )
+      liveStatusControl.open()
+    } else {
+      const modui = moderation.ui('banner')
+      const banner = profile.banner
+      if (banner && !(modui.blur && modui.noOverride)) {
+        runOnUI(() => {
+          'worklet'
+          const rect = measure(bannerRef)
+          runOnJS(_openLightboxBanner)(banner, rect)
+        })()
+      }
+    }
+  }, [
+    profile,
+    moderation,
+    _openLightboxBanner,
+    bannerRef,
     liveStatusControl,
     live,
     playHaptic,
@@ -198,11 +254,23 @@ let ProfileHeaderShell = ({
               style={{borderRadius: 0}}
             />
           ) : (
-            <UserBanner
-              type={profile.associated?.labeler ? 'labeler' : 'default'}
-              banner={profile.banner}
-              moderation={moderation.ui('banner')}
-            />
+            <TouchableWithoutFeedback
+              testID="profileHeaderBannerButton"
+              onPress={onPressBanner}
+              accessibilityRole="image"
+              accessibilityLabel={_(msg`View ${profile.handle}'s banner`)}
+              accessibilityHint="">
+              <View>
+                <Animated.View ref={bannerRef} collapsable={false}>
+                  <UserBanner
+                    type={profile.associated?.labeler ? 'labeler' : 'default'}
+                    banner={profile.banner}
+                    moderation={moderation.ui('banner')}
+                  />
+                  {live.isActive && <LiveIndicator size="large" />}
+                </Animated.View>
+              </View>
+            </TouchableWithoutFeedback>
           )}
         </GrowableBanner>
       </View>
