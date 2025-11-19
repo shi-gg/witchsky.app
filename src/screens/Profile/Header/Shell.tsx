@@ -22,6 +22,7 @@ import {logger} from '#/logger'
 import {isIOS} from '#/platform/detection'
 import {type Shadow} from '#/state/cache/types'
 import {useLightboxControls} from '#/state/lightbox'
+import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
 import {
   maybeModifyHighQualityImage,
   useHighQualityImages,
@@ -66,6 +67,7 @@ let ProfileHeaderShell = ({
   const playHaptic = useHaptics()
   const liveStatusControl = useDialogControl()
   const highQualityImages = useHighQualityImages()
+  const enableSquareAvatars = useEnableSquareAvatars()
 
   const aviRef = useAnimatedRef()
   const bannerRef = useAnimatedRef()
@@ -92,13 +94,13 @@ let ProfileHeaderShell = ({
               width: 1000,
             },
             thumbDimensions: null,
-            type: 'circle-avi',
+            type: enableSquareAvatars ? 'rect-avi' : 'circle-avi',
           },
         ],
         index: 0,
       })
     },
-    [openLightbox, highQualityImages],
+    [openLightbox, highQualityImages, enableSquareAvatars],
   )
 
   // theres probs a better way instead of just making a separate one but this works:tm: so its whatever
@@ -311,7 +313,7 @@ let ProfileHeaderShell = ({
           <View
             style={[
               t.atoms.bg,
-              a.rounded_full,
+              enableSquareAvatars ? a.rounded_md : a.rounded_full,
               {
                 width: 94,
                 height: 94,
