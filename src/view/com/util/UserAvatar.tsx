@@ -365,7 +365,9 @@ let EditableUserAvatar = ({
   const sheetWrapper = useSheetWrapper()
   const highQualityImages = useHighQualityImages()
 
-  const circular = type !== 'algo' && type !== 'list'
+  const enableSquareAvatars = useEnableSquareAvatars()
+
+  const circular = type !== 'algo' && type !== 'list' && !enableSquareAvatars
 
   const aviStyle = useMemo(() => {
     if (!circular) {

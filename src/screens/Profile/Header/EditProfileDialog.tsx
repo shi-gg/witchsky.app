@@ -9,6 +9,7 @@ import {cleanError} from '#/lib/strings/errors'
 import {useWarnMaxGraphemeCount} from '#/lib/strings/helpers'
 import {logger} from '#/logger'
 import {type ImageMeta} from '#/state/gallery'
+import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
 import {useProfileUpdateMutation} from '#/state/queries/profile'
 import {ErrorMessage} from '#/view/com/util/error/ErrorMessage'
 import * as Toast from '#/view/com/util/Toast'
@@ -132,6 +133,8 @@ function DialogInner({
     description !== initialDescription ||
     userAvatar !== profile.avatar ||
     userBanner !== profile.banner
+
+  const enableSquareAvatars = useEnableSquareAvatars()
 
   useEffect(() => {
     setDirty(dirty)
@@ -286,7 +289,7 @@ function DialogInner({
               width: 84,
               height: 84,
               borderWidth: 2,
-              borderRadius: 42,
+              borderRadius: enableSquareAvatars ? 11 : 42,
               borderColor: t.atoms.bg.backgroundColor,
             },
           ]}>
