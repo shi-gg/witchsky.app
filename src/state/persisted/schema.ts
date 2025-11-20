@@ -106,6 +106,7 @@ const schema = z.object({
       appleMusic: z.enum(externalEmbedOptions).optional(),
       soundcloud: z.enum(externalEmbedOptions).optional(),
       flickr: z.enum(externalEmbedOptions).optional(),
+      streamplace: z.enum(externalEmbedOptions).optional(),
     })
     .optional(),
   invites: z.object({
@@ -182,8 +183,8 @@ export const defaults: Schema = {
       deviceLanguageCodes[0],
     ]),
   },
-  requireAltTextEnabled: false,
-  largeAltBadgeEnabled: false,
+  requireAltTextEnabled: true,
+  largeAltBadgeEnabled: true,
   externalEmbeds: {},
   mutedThreads: [],
   invites: {
@@ -207,12 +208,12 @@ export const defaults: Schema = {
   // deer
   goLinksEnabled: true,
   constellationEnabled: false,
-  directFetchRecords: false,
+  directFetchRecords: true,
   noAppLabelers: false,
   noDiscoverFallback: false,
   repostCarouselEnabled: false,
   constellationInstance: 'https://constellation.microcosm.blue/',
-  showLinkInHandle: false,
+  showLinkInHandle: true,
   hideFeedsPromoTab: false,
   disableViaRepostNotification: false,
   disableLikesMetrics: false,
