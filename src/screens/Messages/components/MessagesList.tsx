@@ -299,9 +299,20 @@ export function MessagesList({
     marginBottom: Math.max(keyboardHeight.get(), footerHeight.get()),
   }))
 
-  const animatedStickyViewStyle = useAnimatedStyle(() => ({
-    // Removed negative translateY to prevent input from hovering over messages
-  }))
+  const animatedStickyViewStyle = useAnimatedStyle(() => {
+    // Only apply the negative translateY on mobile platforms.
+    // On web we leave the sticky view untranslated so the input doesn't hover over messages.
+    if (!isNative) {
+      return {
+        transform: [{translateY: 0}],
+      }
+    }
+    return {
+      transform: [
+        {translateY: -Math.max(keyboardHeight.get(), footerHeight.get())},
+      ],
+    }
+  })
 
   // -- Message sending
   const onSendMessage = useCallback(
