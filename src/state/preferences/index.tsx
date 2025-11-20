@@ -13,6 +13,7 @@ import {Provider as DisableReplyMetricsProvider} from './disable-reply-metrics'
 import {Provider as DisableRepostsMetricsProvider} from './disable-reposts-metrics'
 import {Provider as DisableSavesMetricsProvider} from './disable-saves-metrics'
 import {Provider as DisableViaRepostNotificationProvider} from './disable-via-repost-notification'
+import {Provider as EnableSquareAvatarsProvider} from './enable-square-avatars'
 import {Provider as ExternalEmbedsProvider} from './external-embeds-prefs'
 import {Provider as ExternalShareButtonsProvider} from './external-share-buttons'
 import {Provider as GoLinksProvider} from './go-links-enabled'
@@ -85,7 +86,9 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                           <DisableSavesMetricsProvider>
                                                             <DisableReplyMetricsProvider>
                                                               <HideSimilarAccountsRecommProvider>
-                                                                {children}
+                                                                <EnableSquareAvatarsProvider>
+                                                                  {children}
+                                                                </EnableSquareAvatarsProvider>
                                                               </HideSimilarAccountsRecommProvider>
                                                             </DisableReplyMetricsProvider>
                                                           </DisableSavesMetricsProvider>

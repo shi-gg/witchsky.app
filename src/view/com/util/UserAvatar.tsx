@@ -34,6 +34,7 @@ import {
   compressImage,
   createComposerImage,
 } from '#/state/gallery'
+import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
 import {
   maybeModifyHighQualityImage,
   useHighQualityImages,
@@ -227,11 +228,17 @@ let UserAvatar = ({
   noBorder,
 }: UserAvatarProps): React.ReactNode => {
   const t = useTheme()
-  const finalShape = overrideShape ?? (type === 'user' ? 'circle' : 'square')
+
+  const enableSquareAvatars = useEnableSquareAvatars()
+  const avishapeforce = enableSquareAvatars ? 'square' : 'circle'
+
+  const finalShape =
+    overrideShape ?? (type === 'user' ? avishapeforce : 'square')
   const highQualityImages = useHighQualityImages()
 
   const aviStyle = useMemo(() => {
     let borderRadius
+
     if (finalShape === 'square') {
       borderRadius = size > 32 ? 8 : 3
     } else {

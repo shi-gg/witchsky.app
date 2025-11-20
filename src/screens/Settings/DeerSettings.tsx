@@ -58,6 +58,10 @@ import {
   useSetDisableViaRepostNotification,
 } from '#/state/preferences/disable-via-repost-notification'
 import {
+  useEnableSquareAvatars,
+  useSetEnableSquareAvatars,
+} from '#/state/preferences/enable-square-avatars'
+import {
   useHideFeedsPromoTab,
   useSetHideFeedsPromoTab,
 } from '#/state/preferences/hide-feeds-promo-tab'
@@ -283,6 +287,9 @@ export function DeerSettingsScreen({}: Props) {
 
   const hideSimilarAccountsRecomm = useHideSimilarAccountsRecomm()
   const setHideSimilarAccountsRecomm = useSetHideSimilarAccountsRecomm()
+
+  const enableSquareAvatars = useEnableSquareAvatars()
+  const setEnableSquareAvatars = useSetEnableSquareAvatars()
 
   const constellationInstance = useConstellationInstance()
   const setConstellationInstanceControl = Dialog.useDialogControl()
@@ -535,6 +542,18 @@ export function DeerSettingsScreen({}: Props) {
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
                 <Trans>Hide similar accounts recommendations</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="enable_square_avatars"
+              label={_(msg`Enable square avatars`)}
+              value={enableSquareAvatars}
+              onChange={value => setEnableSquareAvatars(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Enable square avatars</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
