@@ -18,7 +18,7 @@ module.exports = function (_config) {
   const IS_DEV = !IS_TESTFLIGHT || !IS_PRODUCTION
 
   const ASSOCIATED_DOMAINS = [
-    'applinks:bitchsky.app',
+    'applinks:witchsky.app',
     // When testing local services, enter an ngrok (et al) domain here. It must use a standard HTTP/HTTPS port.
     ...(IS_DEV || IS_TESTFLIGHT ? [] : []),
   ]
@@ -36,9 +36,9 @@ module.exports = function (_config) {
   return {
     expo: {
       version: VERSION,
-      name: 'Bitchsky',
-      slug: 'bitchsky',
-      scheme: ['bluesky', 'bitchsky'],
+      name: 'Witchsky',
+      slug: 'witchsky',
+      scheme: ['bluesky', 'witchsky'],
       // owner: 'blueskysocial',
       // owner: 'neema.brown',
       runtimeVersion: {
@@ -50,7 +50,7 @@ module.exports = function (_config) {
       newArchEnabled: false,
       ios: {
         supportsTablet: false,
-        bundleIdentifier: 'app.bitchsky',
+        bundleIdentifier: 'app.witchsky',
         config: {
           usesNonExemptEncryption: false,
         },
@@ -68,7 +68,7 @@ module.exports = function (_config) {
             'Used to save images to your library.',
           NSPhotoLibraryUsageDescription:
             'Used for profile pictures, skeets, and other kinds of content',
-          CFBundleSpokenName: 'bitchsky.app',
+          CFBundleSpokenName: 'witchsky.app',
           CFBundleLocalizations: [
             'en',
             'an',
@@ -117,7 +117,7 @@ module.exports = function (_config) {
         entitlements: {
           'com.apple.developer.kernel.increased-memory-limit': true,
           'com.apple.developer.kernel.extended-virtual-addressing': true,
-          'com.apple.security.application-groups': 'group.app.bitchsky',
+          'com.apple.security.application-groups': 'group.app.witchsky',
         },
         privacyManifests: {
           NSPrivacyCollectedDataTypes: [
@@ -186,7 +186,7 @@ module.exports = function (_config) {
           backgroundColor: '#af5f5f',
         },
         googleServicesFile: './google-services.json',
-        package: 'app.bitchsky',
+        package: 'app.witchsky',
         intentFilters: [
           {
             action: 'VIEW',
@@ -194,7 +194,7 @@ module.exports = function (_config) {
             data: [
               {
                 scheme: 'https',
-                host: 'bitchsky.app',
+                host: 'witchsky.app',
               },
               {
                 scheme: 'https',
@@ -425,25 +425,25 @@ module.exports = function (_config) {
                 // appExtensions: [
                 //   {
                 //     targetName: 'Share-with-Bluesky',
-                //     bundleIdentifier: 'app.bitchsky.Share-with-Bluesky',
+                //     bundleIdentifier: 'app.witchsky.Share-with-Bluesky',
                 //     entitlements: {
                 //       'com.apple.security.application-groups': [
-                //         'group.app.bitchsky',
+                //         'group.app.witchsky',
                 //       ],
                 //     },
                 //   },
                 //   {
                 //     targetName: 'BlueskyNSE',
-                //     bundleIdentifier: 'app.bitchsky.BlueskyNSE',
+                //     bundleIdentifier: 'app.witchsky.BlueskyNSE',
                 //     entitlements: {
                 //       'com.apple.security.application-groups': [
-                //         'group.app.bitchsky',
+                //         'group.app.witchsky',
                 //       ],
                 //     },
                 //   },
                 //   {
                 //     targetName: 'BlueskyClip',
-                //     bundleIdentifier: 'app.bitchsky.AppClip',
+                //     bundleIdentifier: 'app.witchsky.AppClip',
                 //   },
                 // ],
               },

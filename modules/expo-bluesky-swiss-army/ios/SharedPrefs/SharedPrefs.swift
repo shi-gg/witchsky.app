@@ -3,7 +3,7 @@ import Foundation
 public class SharedPrefs {
   public static let shared = SharedPrefs()
 
-  private let defaults = UserDefaults(suiteName: "group.app.bitchsky")
+  private let defaults = UserDefaults(suiteName: "group.app.witchsky")
 
   init() {
     if defaults == nil {

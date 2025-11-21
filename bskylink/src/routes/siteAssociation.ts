@@ -9,13 +9,13 @@ export default function (ctx: AppContext, app: Express) {
         apps: [],
         details: [
           {
-            appID: 'B3LX46C5HS.app.bitchsky',
+            appID: 'B3LX46C5HS.app.witchsky',
             paths: ['*'],
           },
         ],
       },
       appclips: {
-        apps: ['B3LX46C5HS.app.bitchsky.AppClip'],
+        apps: ['B3LX46C5HS.app.witchsky.AppClip'],
       },
     })
   })

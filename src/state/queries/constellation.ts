@@ -22,7 +22,7 @@ type Collection =
 
 const headers = new Headers({
   Accept: 'application/json',
-  'User-Agent': 'Bitchsky (bitchsky.app)',
+  'User-Agent': 'Witchsky (witchsky.app)',
 })
 
 const makeReqUrl = (

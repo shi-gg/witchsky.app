@@ -1,6 +1,6 @@
 import ExpoModulesCore
 
-let APP_GROUP = "group.app.bitchsky"
+let APP_GROUP = "group.app.witchsky"
 
 let DEFAULTS: [String: Any] = [
   "playSoundChat": true,

@@ -697,12 +697,12 @@ function ExtraLinks() {
       <InlineLinkText
         style={[a.text_md]}
         label={_(msg`Terms of Service`)}
-        to="https://bitchsky.app/about/tos">
+        to="https://witchsky.app/about/tos">
         <Trans>Terms of Service</Trans>
       </InlineLinkText>
       <InlineLinkText
         style={[a.text_md]}
-        to="https://bitchsky.app/about/privacy"
+        to="https://witchsky.app/about/privacy"
         label={_(msg`Privacy Policy`)}>
         <Trans>Privacy Policy</Trans>
       </InlineLinkText>

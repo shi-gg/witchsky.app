@@ -1,25 +1,25 @@
-# Bitchsky Social App 🧙
+# Witchsky Social App 🧙 (WIP)
 
-Hey, bitches! This is the codebase for the Bitchsky app, based on [social.daniela.lol](https://github.com/kittibytess/deer-social) and prior [Bluesky](https://github.com/bluesky-social/social-app) forks.
+Hey, witches! This is the codebase for the Witchsky app, based on [social.daniela.lol](https://github.com/kittibytess/deer-social) and prior [Bluesky](https://github.com/bluesky-social/social-app) forks.
 
 Get the app itself:
 
-- **Web: [bitchsky.app](https://bitchsky.app)**
-- **iOS: [Soon™](https://large-type.com/#%F0%9F%99%80)?**
-- **Android: [Github Releases](https://github.com/jollywhoppers/bitchsky-app/releases/latest)**
+- **Web: [witchsky.app](https://witchsky.app)**
+- **iOS: [Soon™](https://cat-bounce.com/)?**
+- **Android: [F-Droid repo](https://app.jolly.you/fdroid/repo)**
 
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/jollywhoppers/bitchsky-app/">
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/jollywhoppers/witchsky-app/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
 alt="Get it on Obtainium" align="center" height="54" /></a>
 
 ## Improvements on Bluesky
 
-- Funner name (still love you tho bsky!)
+- Cooler name (still love you tho bsky!)
 - Nicer colors (kinda like gruvbox? not really)
 - Posts are called Skeets
-- Share links to bitchsky.app or bsky.app
+- Choose between sharing witchsky.app or bsky.app links
 - Embed player works with [stream.place](https://stream.place/) links!
-- Open skeets in PDSls and original pages from bridged posts
+- Open skeets in PDSls and original pages of bridged posts
 - Better defaults (alt text required 😉)
 - More unique repost icons
 - No push notifications (may be added later)
@@ -73,28 +73,28 @@ You can completely disable the visiblity of all metrics individually, including 
 
 ### TODO: Xan
 
-- [ ] Update branding (especially colors and app icon) to Bitchsky
+- [ ] Update branding (especially colors and app icon) to Witchsky
   - [ ] ./src/components/WelcomeModal.tsx (tab/hover selector)
   - [ ] ./src/alf/themes.ts (improve contrast, esp. of links)
   - [ ] ./src/lib/styles.ts (change likes color, remove gradient from new skeet button)
   - [ ] ./src/style.css (change links color)
   - [ ] ./src/view/com/util/UserAvatar.tsx (change #0070FF)
-  - [ ] ./assets/app-icons/ (change new bksy logos to fit Bitchsky -remove from social embed!)
-  - [ ] social embed stuff (bitchsky logo in image with jollywhoppers logo, use bitchsky icon)
+  - [ ] ./assets/app-icons/ (change new bksy logos to fit Witchsky -remove from social embed!)
+  - [ ] social embed stuff (witchsky logo in image with jollywhoppers logo, use witchsky icon)
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
-- [ ] Automatic PDS detection like other social-app forks (fallback/email addresses to use bitchsky.social)
+- [ ] Automatic PDS detection like other social-app forks (fallback/email addresses to use witchsky.social)
 - [ ] Like of or repost of repost icons in notifications
 - [ ] Change followed accounts [on onboarding](https://github.com/blacksky-algorithms/blacksky.community/commit/e36ee43efb4999f070860d7f70122e45b28c1e2b)
 - [ ] Join date & switch accounts from composer from a fork like [deer.aylac.top](https://github.com/ayla6/deer-social-test)
-- [ ] Visual replies indicator like the [Firmament userstyle](https://bitchsky.app/profile/did:plc:jwhxcrf5uvl3vyw7nurecgt5/post/3m4rr3vzmak2a) (and likes?)
+- [ ] Visual replies indicator like the [Firmament userstyle](https://witchsky.app/profile/did:plc:jwhxcrf5uvl3vyw7nurecgt5/post/3m4rr3vzmak2a) (and likes?)
 - [ ] Additional translation service providers + setting (Deepl, Kagi)
 - [ ] Move Mutuals label to the follow button
 - [ ] Put DeerSettings into separate subpages
-- [ ] After subpages for options, add [Outlinks page](https://bitchsky.app/profile/did:plc:q7suwaz53ztc4mbiqyygbn43/post/3m5zjhhshic2g) &
+- [ ] After subpages for options, add [Outlinks page](https://witchsky.app/profile/did:plc:q7suwaz53ztc4mbiqyygbn43/post/3m5zjhhshic2g) &
   - [ ] ShareMenuItems.tsx, ShareMenuItems.web.tsx
 - [ ] For profile meatball button, Open profile in PDSls & Open bridged OG fedi account page
   - [ ] ProfileMenu.tsx
-- [ ] Bitchsky PDS and .social site (list good songs containing 'bitch' in their titles)
+- [ ] Witchsky PDS and .social site (list good songs containing 'bitch' in their titles)
 
 ### Even more wishful or far off
 
@@ -110,25 +110,25 @@ You can completely disable the visiblity of all metrics individually, including 
 
 This is a [React Native](https://reactnative.dev/) application, written in the TypeScript programming language. It builds on the `atproto` TypeScript packages (like [`@atproto/api`](https://www.npmjs.com/package/@atproto/api)), which are also open source, but in [a different git repository](https://github.com/bluesky-social/atproto).
 
-There is vestigial Go language source code (in `./bskyweb/`), for a web service that returns the React Native Web application in the social app deployment. However, it is not used in current Bitchsky deployments.
-For Bitchsky, the intended deployment is with a webserver that can serve static files, and reroute to `index.html` as needed. [Bitchsky](https://bitchsky.app) is currently hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
+There is vestigial Go language source code (in `./bskyweb/`), for a web service that returns the React Native Web application in the social app deployment. However, it is not used in current Witchsky deployments.
+For Witchsky, the intended deployment is with a webserver that can serve static files, and reroute to `index.html` as needed. [Witchsky](https://witchsky.app) is currently hosted on [Cloudflare Pages](https://pages.cloudflare.com/).
 
 The [Build Instructions](./docs/build.md) are a good place to get started with the app itself. If you use nix (and especially direnv) then `flake.nix` will get you a working environment for the web version of the app.
 
 The Authenticated Transfer Protocol ("AT Protocol" or "atproto") is a decentralized social media protocol. You don't *need* to understand AT Protocol to work with this application, but it can help.
-You may wish to reference [resources linked in social-app](https://github.com/bluesky-social/social-app#development-resources). However, please don't harass the Bluesky team with issues or questions pertaining to Bitchsky.
+You may wish to reference [resources linked in social-app](https://github.com/bluesky-social/social-app#development-resources). However, please don't harass the Bluesky team with issues or questions pertaining to Witchsky.
 
-Bitchsky is a fork of the official Bluesky client, social-app. It encompasses a set of schemas and APIs built in the overall AT Protocol framework. The namespace for these "Lexicons" is `app.bsky.*`.
+Witchsky is a fork of the official Bluesky client, social-app. It encompasses a set of schemas and APIs built in the overall AT Protocol framework. The namespace for these "Lexicons" is `app.bsky.*`.
 
 ## Contributions
 
-> Bitchsky is a community fork, and we'd love to merge your PR!
+> Witchsky is a community fork, and we'd love to merge your PR!
 
-As a rule of thumb, the best features for Bitchsky are those that have a disproportionately positive impact on the user experience compared to the maintenance overhead. Unlike some open source projects, since Bitchsky is a soft fork, any features (patches) we add on top of upstream social-app need to be maintained. For example, a change to the way skeets are composed may be very invasive, touching lots of code across the codebase. If upstream refactors this component, we will need to rewrite this feature to be compatible or drop it from the client.
+As a rule of thumb, the best features for Witchsky are those that have a disproportionately positive impact on the user experience compared to the maintenance overhead. Unlike some open source projects, since Witchsky is a soft fork, any features (patches) we add on top of upstream social-app need to be maintained. For example, a change to the way skeets are composed may be very invasive, touching lots of code across the codebase. If upstream refactors this component, we will need to rewrite this feature to be compatible or drop it from the client.
 
 For this reason, only features that require changing only a small amount of code from upstream should be considered.
 
-Without an overriding motivation, opinionated features should exist behind a toggle that is not enabled by default. This allows Bitchsky to cater to as many users as possible.
+Without an overriding motivation, opinionated features should exist behind a toggle that is not enabled by default. This allows Witchsky to cater to as many users as possible.
 
 ### Guidelines
 
@@ -148,17 +148,17 @@ Just like social-app, you have our blessing 🪄✨ to fork this application! Ho
 
 Please be sure to:
 
-- Change all branding in the repository and UI to clearly differentiate from Bitchsky.
+- Change all branding in the repository and UI to clearly differentiate from Witchsky.
 - Change any support links (feedback, email, terms of service, issue tracker, etc) to your own systems.
 
 ## Self hosting & personal builds
 
-Self hosting is great! It is our intention that Bitchsky is easy to self host and build on your own. If you host your own instance of Bitchsky, or make your own builds, please make some level of effort to clarify that it is not an "official" build or instance. This can be in the form of a different domain or branding, but can also be as simple as not advertising your hosted instance or builds as "official" releases.
+Self hosting is great! It is our intention that Witchsky is easy to self host and build on your own. If you host your own instance of Witchsky, or make your own builds, please make some level of effort to clarify that it is not an "official" build or instance. This can be in the form of a different domain or branding, but can also be as simple as not advertising your hosted instance or builds as "official" releases.
 
 ## Security disclosures
 
 If you discover any security issues, please privately disclose them to [xan.lol](https://xan.lol/).
-If the issue pertains to infastructure, code, or systems outside the scope of Bitchsky, please refer to the [disclosure guidelines on social-app](https://github.com/bluesky-social/social-app#security-disclosures) if it is hosted by Bluesky PBC. Otherwise, reference the security policy of that system as applicable <3
+If the issue pertains to infastructure, code, or systems outside the scope of Witchsky, please refer to the [disclosure guidelines on social-app](https://github.com/bluesky-social/social-app#security-disclosures) if it is hosted by Bluesky PBC. Otherwise, reference the security policy of that system as applicable <3
 
 ## License (MIT)
 
@@ -168,4 +168,4 @@ Bluesky Social PBC has committed to a software patent non-aggression pledge. For
 
 ## P.S.
 
-We ❤️ you and all of the ways you support us. Thank you for making Bluesky & Bitchsky so great! ^.^
+We ❤️ you and all of the ways you support us. Thank you for making Bluesky & Witchsky so great! ^.^

@@ -1,5 +1,5 @@
 name: "Feature Request"
-description: "Suggest an idea for the Bitchsky app."
+description: "Suggest an idea for the Witchsky app."
 labels: ["feature-request"]
 body:
   - type: markdown

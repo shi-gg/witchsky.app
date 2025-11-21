@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-group = 'app.bitchsky.exporeceiveandroidintents'
+group = 'app.witchsky.exporeceiveandroidintents'
 version = '0.4.1'
 
 buildscript {
@@ -65,7 +65,7 @@ android {
     }
   }
 
-  namespace "app.bitchsky.exporeceiveandroidintents"
+  namespace "app.witchsky.exporeceiveandroidintents"
   defaultConfig {
     minSdkVersion safeExtGet("minSdkVersion", 21)
     targetSdkVersion safeExtGet("targetSdkVersion", 34)

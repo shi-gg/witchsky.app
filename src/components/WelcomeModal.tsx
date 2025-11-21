@@ -112,7 +112,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                       a.user_select_none,
                       {color: '#ff9696ff', letterSpacing: -0.5},
                     ]}>
-                    Bitchsky
+                    Witchsky
                   </Text>
                 </View>
               </View>

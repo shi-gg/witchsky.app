@@ -170,7 +170,7 @@ function Footer() {
       ]}>
       <InlineLinkText
         label={_(msg`Read the patches and contribute`)}
-        to="https://github.com/jollywhoppers/bitchsky-app">
+        to="https://tangled.org/jollywhoppers.com/witchsky.app/">
         <Trans>Github</Trans>
       </InlineLinkText>
 

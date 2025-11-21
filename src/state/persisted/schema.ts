@@ -227,7 +227,7 @@ export const defaults: Schema = {
   enableSquareButtons: false,
   deerVerification: {
     enabled: false,
-    // https://bitchsky.app/profile/did:plc:p2cp5gopk7mgjegy6wadk3ep/post/3lndyqyyr4k2k
+    // https://witchsky.app/profile/did:plc:p2cp5gopk7mgjegy6wadk3ep/post/3lndyqyyr4k2k
     // using https://bverified.vercel.app/ as a source
     trusted: [
       'did:plc:z72i7hdynmk6r22z27h6tvur',

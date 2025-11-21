@@ -1,9 +1,9 @@
-name: Build Bitchsky
+name: Build Witchsky
 on: workflow_dispatch
 
 jobs:
-  bitchsky-build-android:
-    name: Build Bitchsky for Android
+  witchsky-build-android:
+    name: Build Witchsky for Android
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -40,18 +40,18 @@ jobs:
 
       - name: Rename APK
         run: |
-          mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/bitchsky-v${{ github.run_number }}.apk
+          mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/witchsky-v${{ github.run_number }}.apk
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: android
-          path: android/app/build/outputs/apk/release/bitchsky-v${{ github.run_number }}.apk
-
+          path: android/app/build/outputs/apk/release/witchsky-v${{ github.run_number }}.apk
+  
       - name: Publish release
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
-          name: Bitchsky v${{ github.run_number }}
-          tag_name: bitchsky-v${{ github.run_number }}
-          files: android/app/build/outputs/apk/release/bitchsky-v${{ github.run_number }}.apk
+          name: Witchsky v${{ github.run_number }}
+          tag_name: witchsky-v${{ github.run_number }}
+          files: android/app/build/outputs/apk/release/witchsky-v${{ github.run_number }}.apk

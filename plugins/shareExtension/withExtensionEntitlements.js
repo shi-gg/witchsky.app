@@ -13,7 +13,7 @@ const withExtensionEntitlements = (config, {extensionName}) => {
     )
 
     const shareExtensionEntitlements = {
-      'com.apple.security.application-groups': [`group.app.bitchsky`],
+      'com.apple.security.application-groups': [`group.app.witchsky`],
     }
 
     fs.mkdirSync(path.dirname(extensionEntitlementsPath), {

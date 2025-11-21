@@ -170,7 +170,7 @@ export function StepInfo({
           <View style={[a.gap_xl]}>
             <Text style={[a.gap_md, a.leading_normal]}>
               <Trans>
-                Bitchsky is part of the{' '}
+                Witchsky is part of the{' '}
                 {
                   <InlineLinkText
                     label={_(msg`ATmosphere`)}
@@ -216,13 +216,13 @@ export function StepInfo({
             <Trans>
               Don't have an account provider or an existing Bluesky account? To
               create a new account on a Bluesky-hosted PDS, sign up through{' '}
-              {/* TODO: Xan: change to say sign up for a Bitchsky account */}
+              {/* TODO: Xan: change to say sign up for a Witchsky account */}
               {
                 <InlineLinkText label={_(msg`bsky.app`)} to="https://bsky.app">
                   <Trans>bsky.app</Trans>
                 </InlineLinkText>
               }{' '}
-              first, then return to Bitchsky and log in with the account you
+              first, then return to Witchsky and log in with the account you
               created.
             </Trans>
           </Text>

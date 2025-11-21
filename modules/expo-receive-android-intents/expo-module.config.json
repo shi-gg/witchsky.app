@@ -1,6 +1,6 @@
 {
   "platforms": ["android"],
   "android": {
-    "modules": ["app.bitchsky.exporeceiveandroidintents.ExpoReceiveAndroidIntentsModule"]
+    "modules": ["app.witchsky.exporeceiveandroidintents.ExpoReceiveAndroidIntentsModule"]
   }
 }
