@@ -449,8 +449,7 @@ module.exports = function (_config) {
               },
             },
           },
-          //projectId: '55bd077a-d905-4184-9c7f-94789ba0f302',
-          projectId: '86ff94e3-dce0-4f7c-99f4-1651a2f1bc2a', // TODO: Xan: Generate new project ID somehow
+          projectId: 'da056e41-38f9-4fee-a534-b9c5891f9c8d',
         },
       },
     },
