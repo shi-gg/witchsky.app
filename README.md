@@ -100,7 +100,7 @@ You can completely disable the visiblity of all metrics individually, including 
 
 - [ ] Collapse labels past a customizable number (from the same labeler?) into a labeler clip "(+)"
 - [ ] Submit releases to the Google Play Store and iOS App Store
-- [ ] Move from GitHub to Tangled (and Cloudflare Pages to wisp.place)?
+- [ ] Move from [Cloudflare Pages](https://pages.cloudflare.com/) to [wisp.place](https://wisp.place/) (needs serverless for embeds)
 - [ ] Toggle between handle and DID in share links
 - [ ] Move TOS and privacy policy to Jollywhoppers website?
 - [ ] Ignore `!no-unauthenticated` labels
