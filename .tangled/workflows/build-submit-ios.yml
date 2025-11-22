@@ -1,0 +1,11 @@
+when:
+  - event: ["manual"]
+    branch: ["main"]
+
+engine: "nixery"
+
+dependencies:
+  nixpkgs:
+    - nodejs-slim_20
+    - yarn
+    - xcode

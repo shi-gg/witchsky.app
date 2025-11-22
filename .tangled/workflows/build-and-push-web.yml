@@ -1,0 +1,23 @@
+when:
+  - event: ["push"]
+    branch: ["main"]
+
+engine: "nixery"
+
+dependencies:
+  nixpkgs:
+    - nodejs-slim_20
+    - yarn
+    - justbuild
+    - wrangler
+
+steps: 
+  - name: Install dependencies
+    command: "yarn install --frozen-lockfile"
+
+  - name: Build
+    command: "just dist-build-web"
+
+  - name: Publish to Cloudflare Pages
+    command: |
+      yarn wrangler pages deploy ./web-build --project-name=witchsky
