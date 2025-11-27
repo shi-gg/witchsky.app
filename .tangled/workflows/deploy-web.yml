@@ -20,4 +20,4 @@ steps:
 
   - name: Publish to Cloudflare Pages
     command: |
-      yarn wrangler pages deploy ./web-build --project-name=witchsky
+      wrangler pages deploy ./web-build --project-name=witchsky
