@@ -445,6 +445,26 @@ export function DeerSettingsScreen({}: Props) {
             />
           </SettingsList.Item>
 
+          <SettingsList.Item>
+            <SettingsList.ItemIcon icon={StarIcon} />
+            <SettingsList.ItemText>
+              <Trans>{`Constellation Instance`}</Trans>
+            </SettingsList.ItemText>
+            <SettingsList.BadgeButton
+              label={_(msg`Change`)}
+              onPress={() => setConstellationInstanceControl.open()}
+            />
+          </SettingsList.Item>
+          <SettingsList.Item>
+            <Admonition type="info" style={[a.flex_1]}>
+              <Trans>
+                Constellation is used to supplement AppView responses for custom
+                verifications and nuclear block bypass, via backlinks. Current
+                instance: {constellationInstance}
+              </Trans>
+            </Admonition>
+          </SettingsList.Item>
+
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={PaintRollerIcon} />
             <SettingsList.ItemText>
@@ -723,6 +743,7 @@ export function DeerSettingsScreen({}: Props) {
           </SettingsList.Item>
         </SettingsList.Container>
       </Layout.Content>
+      <ConstellationInstanceDialog control={setConstellationInstanceControl} />
       <TrustedVerifiersDialog control={setTrustedVerifiersDialogControl} />
     </Layout.Screen>
   )
