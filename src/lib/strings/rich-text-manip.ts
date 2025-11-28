@@ -1,6 +1,6 @@
-import { AppBskyRichtextFacet, type RichText, UnicodeString } from '@atproto/api'
+import {AppBskyRichtextFacet,type RichText,UnicodeString} from '@atproto/api'
 
-import { toShortUrl } from './url-helpers'
+import {toShortUrl} from './url-helpers'
 
 export function shortenLinks(rt: RichText): RichText {
   if (!rt.facets?.length) {
@@ -16,7 +16,7 @@ export function shortenLinks(rt: RichText): RichText {
       }
 
       // extract and shorten the URL
-      const { byteStart, byteEnd } = facet.index
+      const {byteStart, byteEnd} = facet.index
       const url = rt.unicodeText.slice(byteStart, byteEnd)
       const shortened = new UnicodeString(toShortUrl(url))
 
@@ -90,5 +90,5 @@ export function parseMarkdownLinks(text: string): {
 
   newText += text.slice(lastIndex)
 
-  return { text: newText, facets }
+  return {text: newText, facets}
 }
