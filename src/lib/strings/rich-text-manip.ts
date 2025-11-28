@@ -1,6 +1,6 @@
-import {AppBskyRichtextFacet, type RichText, UnicodeString} from '@atproto/api'
+import { AppBskyRichtextFacet, type RichText, UnicodeString } from '@atproto/api'
 
-import {toShortUrl} from './url-helpers'
+import { toShortUrl } from './url-helpers'
 
 export function shortenLinks(rt: RichText): RichText {
   if (!rt.facets?.length) {
@@ -16,7 +16,7 @@ export function shortenLinks(rt: RichText): RichText {
       }
 
       // extract and shorten the URL
-      const {byteStart, byteEnd} = facet.index
+      const { byteStart, byteEnd } = facet.index
       const url = rt.unicodeText.slice(byteStart, byteEnd)
       const shortened = new UnicodeString(toShortUrl(url))
 
@@ -48,4 +48,47 @@ export function stripInvalidMentions(rt: RichText): RichText {
     })
   }
   return rt
+}
+
+export function parseMarkdownLinks(text: string): {
+  text: string
+  facets: AppBskyRichtextFacet.Main[]
+} {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g
+  let match
+  let newText = ''
+  let lastIndex = 0
+  const facets: AppBskyRichtextFacet.Main[] = []
+
+  while ((match = regex.exec(text)) !== null) {
+    const [fullMatch, linkText, linkUrl] = match
+    const matchStart = match.index
+    newText += text.slice(lastIndex, matchStart)
+    const startByte = new UnicodeString(newText).length
+    newText += linkText
+    const endByte = new UnicodeString(newText).length
+    let validUrl = linkUrl
+    if (!validUrl.startsWith('http://') && !validUrl.startsWith('https://') && !validUrl.startsWith('mailto:')) {
+      validUrl = `https://${validUrl}`
+    }
+
+    facets.push({
+      index: {
+        byteStart: startByte,
+        byteEnd: endByte,
+      },
+      features: [
+        {
+          $type: 'app.bsky.richtext.facet#link',
+          uri: validUrl,
+        },
+      ],
+    })
+
+    lastIndex = matchStart + fullMatch.length
+  }
+
+  newText += text.slice(lastIndex)
+
+  return { text: newText, facets }
 }
