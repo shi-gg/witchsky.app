@@ -9,7 +9,10 @@ import {nanoid} from 'nanoid/non-secure'
 
 import {type SelfLabel} from '#/lib/moderation'
 import {insertMentionAt} from '#/lib/strings/mention-manip'
-import {shortenLinks} from '#/lib/strings/rich-text-manip'
+import {
+  parseMarkdownLinks,
+  shortenLinks,
+} from '#/lib/strings/rich-text-manip'
 import {
   isBskyPostUrl,
   postUriToRelativePath,
@@ -78,10 +81,10 @@ export type PostAction =
   | {type: 'embed_update_image'; image: ComposerImage}
   | {type: 'embed_remove_image'; image: ComposerImage}
   | {
-      type: 'embed_add_video'
-      asset: ImagePickerAsset
-      abortController: AbortController
-    }
+    type: 'embed_add_video'
+    asset: ImagePickerAsset
+    abortController: AbortController
+  }
   | {type: 'embed_remove_video'}
   | {type: 'embed_update_video'; videoAction: VideoAction}
   | {type: 'embed_add_uri'; uri: string}
@@ -107,21 +110,21 @@ export type ComposerAction =
   | {type: 'update_postgate'; postgate: AppBskyFeedPostgate.Record}
   | {type: 'update_threadgate'; threadgate: ThreadgateAllowUISetting[]}
   | {
-      type: 'update_post'
-      postId: string
-      postAction: PostAction
-    }
+    type: 'update_post'
+    postId: string
+    postAction: PostAction
+  }
   | {
-      type: 'add_post'
-    }
+    type: 'add_post'
+  }
   | {
-      type: 'remove_post'
-      postId: string
-    }
+    type: 'remove_post'
+    postId: string
+  }
   | {
-      type: 'focus_post'
-      postId: string
-    }
+    type: 'focus_post'
+    postId: string
+  }
 
 export const MAX_IMAGES = 4
 
@@ -494,8 +497,8 @@ export function createComposerState({
   initImageUris: ComposerOpts['imageUris']
   initQuoteUri: string | undefined
   initInteractionSettings:
-    | BskyPreferences['postInteractionSettings']
-    | undefined
+  | BskyPreferences['postInteractionSettings']
+  | undefined
 }): ComposerState {
   let media: ImagesMedia | undefined
   if (initImageUris?.length) {
@@ -520,10 +523,10 @@ export function createComposerState({
       ? initText
       : initMention
         ? insertMentionAt(
-            `@${initMention}`,
-            initMention.length + 1,
-            `${initMention}`,
-          )
+          `@${initMention}`,
+          initMention.length + 1,
+          `${initMention}`,
+        )
         : '',
   })
 
@@ -620,5 +623,8 @@ export function createComposerState({
 }
 
 function getShortenedLength(rt: RichText) {
-  return shortenLinks(rt).graphemeLength
+  const {text} = parseMarkdownLinks(rt.text)
+  const newRt = new RichText({text})
+  newRt.detectFacetsWithoutResolution()
+  return shortenLinks(newRt).graphemeLength
 }

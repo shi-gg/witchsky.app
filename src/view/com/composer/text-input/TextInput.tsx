@@ -11,7 +11,7 @@ import {
   type TextInputSelectionChangeEventData,
   View,
 } from 'react-native'
-import {AppBskyRichtextFacet, RichText} from '@atproto/api'
+import {AppBskyRichtextFacet, RichText, UnicodeString} from '@atproto/api'
 import PasteInput, {
   type PastedFile,
   type PasteInputRef, // @ts-expect-error no types when installing from github
@@ -73,6 +73,55 @@ export function TextInput({
 
       const newRt = new RichText({text: newText})
       newRt.detectFacetsWithoutResolution()
+
+      const markdownFacets: AppBskyRichtextFacet.Main[] = []
+      const regex = /\[([^\]]+)\]\s*\(([^)]+)\)/g
+      let match
+      while ((match = regex.exec(newText)) !== null) {
+        const [fullMatch, _linkText, linkUrl] = match
+        const matchStart = match.index
+        const matchEnd = matchStart + fullMatch.length
+        const prefix = newText.slice(0, matchStart)
+        const matchStr = newText.slice(matchStart, matchEnd)
+        const byteStart = new UnicodeString(prefix).length
+        const byteEnd = byteStart + new UnicodeString(matchStr).length
+
+        let validUrl = linkUrl
+        if (
+          !validUrl.startsWith('http://') &&
+          !validUrl.startsWith('https://') &&
+          !validUrl.startsWith('mailto:')
+        ) {
+          validUrl = `https://${validUrl}`
+        }
+
+        markdownFacets.push({
+          index: {byteStart, byteEnd},
+          features: [
+            {$type: 'app.bsky.richtext.facet#link', uri: validUrl},
+          ],
+        })
+      }
+
+      if (markdownFacets.length > 0) {
+
+        const nonOverlapping = (newRt.facets || []).filter(f => {
+          return !markdownFacets.some(mf => {
+            return (
+              (f.index.byteStart >= mf.index.byteStart &&
+                f.index.byteStart < mf.index.byteEnd) ||
+              (f.index.byteEnd > mf.index.byteStart &&
+                f.index.byteEnd <= mf.index.byteEnd) ||
+              (mf.index.byteStart >= f.index.byteStart &&
+                mf.index.byteStart < f.index.byteEnd)
+            )
+          })
+        })
+        newRt.facets = [...nonOverlapping, ...markdownFacets].sort(
+          (a, b) => a.index.byteStart - b.index.byteStart,
+        )
+      }
+
       setRichText(newRt)
 
       // NOTE: BinaryFiddler

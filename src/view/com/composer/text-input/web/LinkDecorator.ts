@@ -41,7 +41,20 @@ function getDecorations(doc: ProsemirrorNode) {
     if (node.isText && node.text) {
       const textContent = node.textContent
 
-      // links
+      // markdown links [text](url)
+      const markdownRegex = /\[([^\]]+)\]\s*\(([^)]+)\)/g
+      let markdownMatch
+      while ((markdownMatch = markdownRegex.exec(textContent)) !== null) {
+        const from = markdownMatch.index
+        const to = from + markdownMatch[0].length
+        decorations.push(
+          Decoration.inline(pos + from, pos + to, {
+            class: 'autolink',
+          }),
+        )
+      }
+
+      // regular links
       iterateUris(textContent, (from, to) => {
         decorations.push(
           Decoration.inline(pos + from, pos + to, {
