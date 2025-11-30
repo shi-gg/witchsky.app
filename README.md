@@ -6,16 +6,16 @@ Get the app itself:
 
 - **Web: [witchsky.app](https://witchsky.app)**
 - **iOS: [Soon™](https://cat-bounce.com/)?**
-- **Android: [F-Droid repo](https://app.jolly.you/fdroid/repo)**
+- **Android: Soon! ([F-Droid repo](https://app.jolly.you/fdroid/repo)?)**
 
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/jollywhoppers/witchsky-app/">
+<!-- <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://tangled.org/jollywhoppers.com/witchsky.app/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
-alt="Get it on Obtainium" align="center" height="54" /></a>
+alt="Get it on Obtainium" height="54" /></a> -->
 
 ## Improvements on Bluesky
 
 - Cooler name (still love you tho bsky!)
-- Nicer colors (kinda like gruvbox? not really)
+- Nicer colors (red-orange)
 - Posts are called Skeets
 - Choose between sharing witchsky.app or bsky.app links
 - Embed player works with [stream.place](https://stream.place/) links!
@@ -31,7 +31,9 @@ These are all available as options in a sub-page of the app's settings.
 
 - Toggle go.bsky.app link proxying for analytics
 - Toggle to see skeets in quotes through blocks and detachments
+- Toggle for buttons to show original fedi posts and in PDSls
 - Toggle to trust your own preferred verifiers (and to operate as one yourself)
+- Toggle to change Constellation instance for custom features
 - Toggle to disable the default app labeler(s)
 
 #### Tweaks
@@ -44,6 +46,7 @@ These are all available as options in a sub-page of the app's settings.
 - Toggle to prevent others from getting notified when you interact with their reskeets
 - Toggle similar account recommendations
 - Toggle to make all user avatars square (like labelers)
+- Toggle for more square-ish UI (still slightly rounded)
 
 #### Metrics
 
@@ -66,24 +69,15 @@ You can completely disable the visiblity of all metrics individually, including 
 
 ## Upcoming or wishful features
 
-- Better OpenGraph support for sharing profiles & skeets (including videos)
+- Better OpenGraph support for sharing profiles & skeets (including videos & fixing quotes)
 - Selecting a custom AppView
 - Seeing past blocks in threads (the nuclear block in reply chains)
 - Configure the location used to determine regional labelers
 
 ### TODO: Xan
 
-- [ ] Update branding (especially colors and app icon) to Witchsky
-  - [ ] ./src/components/WelcomeModal.tsx (tab/hover selector)
-  - [ ] ./src/alf/themes.ts (improve contrast, esp. of links)
-  - [ ] ./src/lib/styles.ts (change likes color, remove gradient from new skeet button)
-  - [ ] ./src/style.css (change links color)
-  - [ ] ./src/view/com/util/UserAvatar.tsx (change #0070FF)
-  - [ ] ./assets/app-icons/ (change new bksy logos to fit Witchsky -remove from social embed!)
-  - [ ] social embed stuff (witchsky logo in image with jollywhoppers logo, use witchsky icon)
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
 - [ ] Automatic PDS detection like other social-app forks (fallback/email addresses to use witchsky.social)
-- [ ] Like of or repost of repost icons in notifications
 - [ ] Change followed accounts [on onboarding](https://github.com/blacksky-algorithms/blacksky.community/commit/e36ee43efb4999f070860d7f70122e45b28c1e2b)
 - [ ] Join date & switch accounts from composer from a fork like [deer.aylac.top](https://github.com/ayla6/deer-social-test)
 - [ ] Visual replies indicator like the [Firmament userstyle](https://witchsky.app/profile/did:plc:jwhxcrf5uvl3vyw7nurecgt5/post/3m4rr3vzmak2a) (and likes?)
