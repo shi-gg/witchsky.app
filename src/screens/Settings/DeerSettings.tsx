@@ -384,14 +384,14 @@ export function DeerSettingsScreen({}: Props) {
             <Toggle.Item
               name="external_share_buttons"
               label={_(
-                msg`Show "Open original post" and "Open post in PDSls" buttons`,
+                msg`Show "Open original skeet" and "Open skeet in PDSls" buttons`,
               )}
               value={showExternalShareButtons}
               onChange={value => setShowExternalShareButtons(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
                 <Trans>
-                  Show "Open original post" and "Open post in PDSls" buttons
+                  Show "Open original skeet" and "Open skeet in PDSls" buttons
                 </Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
