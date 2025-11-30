@@ -46,7 +46,7 @@ module.exports = function (_config) {
       },
       icon: './assets/app-icons/ios_icon_default_next.png',
       userInterfaceStyle: 'automatic',
-      primaryColor: '#af5f5f',
+      primaryColor: '#ED5345',
       newArchEnabled: false,
       ios: {
         supportsTablet: false,
@@ -183,7 +183,7 @@ module.exports = function (_config) {
         adaptiveIcon: {
           foregroundImage: './assets/icon-android-foreground.png',
           monochromeImage: './assets/icon-android-monochrome.png',
-          backgroundColor: '#af5f5f',
+          backgroundColor: '#ED5345',
         },
         googleServicesFile: './google-services.json',
         package: 'app.witchsky',
@@ -281,7 +281,7 @@ module.exports = function (_config) {
           'expo-notifications',
           {
             icon: './assets/icon-android-notification.png',
-            color: '#af5f5f',
+            color: '#ED5345',
             sounds: PLATFORM === 'ios' ? ['assets/dm.aiff'] : ['assets/dm.mp3'],
           },
         ],
@@ -336,11 +336,11 @@ module.exports = function (_config) {
               },
             },
             android: {
-              backgroundColor: '#bb6868',
+              backgroundColor: '#E25C50',
               image: './assets/splash-android-icon.png',
               imageWidth: 150,
               dark: {
-                backgroundColor: '#af5f5f',
+                backgroundColor: '#ED5345',
                 image: './assets/splash-android-icon-dark.png',
                 imageWidth: 150,
               },

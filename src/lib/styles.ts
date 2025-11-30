@@ -25,14 +25,14 @@ export const colors = {
   gray7: '#26272D',
   gray8: '#141417',
 
-  blue0: `hsl(2, 43.5%, 86.7%)`,
-  blue1: `hsl(1, 41.1%, 77.4%)`,
-  blue2: `hsl(1, 37.6%, 65.7%)`,
-  blue3: `hsl(0, 33.3%, 52.9%)`,
-  blue4: `hsl(1, 36.6%, 40.8%)`,
-  blue5: `hsl(2, 39.5%, 29.8%)`,
-  blue6: `hsl(1, 42.5%, 19.6%)`,
-  blue7: `hsl(2, 48.7%, 11.4%)`,
+  blue0: `hsl(5, 30%, 90%)`,
+  blue1: `hsl(5, 52%, 80%)`,
+  blue2: `hsl(5, 64%, 70%)`,
+  blue3: `hsl(5, 84%, 66%)`,
+  blue4: `hsl(5, 82%, 60%)`,
+  blue5: `hsl(5, 80%, 54%)`,
+  blue6: `hsl(5, 58%, 55%)`,
+  blue7: `hsl(5, 42%, 25%)`,
 
   red1: '#ffe6eb',
   red2: '#fba2b2',
@@ -61,14 +61,14 @@ export const colors = {
   green5: '#082b03',
 
   unreadNotifBg: '#ebf6ff',
-  brandBlue: '#af5f5f',
-  like: '#dd39cf',
+  brandBlue: '#ED5345',
+  like: '#dd5e8f',
 }
 
 export const gradients = {
-  blueLight: {start: '#ab8ab1', end: colors.blue3}, // buttons
-  blue: {start: '#987b9e', end: colors.blue3}, // fab
-  blueDark: {start: '#816487', end: colors.blue3}, // avis, banner
+  blueLight: {start: '#EB7A6F', end: colors.blue3}, // buttons
+  blue: {start: '#ED5345', end: colors.blue3}, // fab
+  blueDark: {start: '#BF2518', end: colors.blue3}, // avis, banner
 }
 
 /**

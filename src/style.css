@@ -20,8 +20,8 @@
   :root {
     color-scheme: dark;
     --text: white;
-    --background: #383434;
-    --backgroundLight: #383434;
+    --background: #222020;
+    --backgroundLight: #222020;
   }
 }
 
@@ -33,17 +33,17 @@ html.theme--light {
 }
 html.theme--dark {
   color-scheme: dark;
+  background-color: #000000;
+  --text: white;
+  --background: #000000;
+  --backgroundLight: #000000;
+}
+html.theme--dim {
+  color-scheme: dark;
   background-color: #222020;
   --text: white;
   --background: #222020;
   --backgroundLight: #222020;
-}
-html.theme--dim {
-  color-scheme: dark;
-  background-color: #383434;
-  --text: white;
-  --background: #383434;
-  --backgroundLight: #383434;
 }
 
 /* Buttons and inputs have a font set by UA, so we'll have to reset that */
@@ -109,11 +109,11 @@ a[role='link'][data-no-underline='1']:hover {
   pointer-events: none;
 }
 .ProseMirror .mention {
-  color: #af5f5f;
+  color: #ED5345;
 }
 .ProseMirror a,
 .ProseMirror .autolink {
-  color: #af5f5f;
+  color: #ED5345;
 }
 /* OLLIE: TODO -- this is not accessible */
 /* Remove focus state on inputs */
