@@ -1,12 +1,18 @@
 import {Platform} from 'react-native'
 
 import {tokens} from '#/alf'
-import {darkPalette, dimPalette, lightPalette} from '#/alf/themes'
+import {type Palette} from '#/alf/themes'
 import {fontWeight} from '#/alf/tokens'
 import {colors} from './styles'
 import {type Theme} from './ThemeContext'
 
-export const defaultTheme: Theme = {
+export const defaultTheme = ({
+  lightPalette,
+  darkPalette,
+}: {
+  lightPalette: Palette
+  darkPalette: Palette
+}): Theme => ({
   colorScheme: 'light',
   palette: {
     default: {
@@ -288,13 +294,19 @@ export const defaultTheme: Theme = {
       fontFamily: Platform.OS === 'android' ? 'monospace' : 'Courier New',
     },
   },
-}
+})
 
-export const darkTheme: Theme = {
-  ...defaultTheme,
+export const darkTheme = ({
+  lightPalette,
+  darkPalette,
+}: {
+  lightPalette: Palette
+  darkPalette: Palette
+}): Theme => ({
+  ...defaultTheme({lightPalette, darkPalette}),
   colorScheme: 'dark',
   palette: {
-    ...defaultTheme.palette,
+    ...defaultTheme({lightPalette, darkPalette}).palette,
     default: {
       background: darkPalette.contrast_0,
       backgroundLight: darkPalette.contrast_25,
@@ -318,11 +330,11 @@ export const darkTheme: Theme = {
       borderLinkHover: darkPalette.contrast_300,
     },
     primary: {
-      ...defaultTheme.palette.primary,
+      ...defaultTheme({lightPalette, darkPalette}).palette.primary,
       textInverted: colors.blue2,
     },
     secondary: {
-      ...defaultTheme.palette.secondary,
+      ...defaultTheme({lightPalette, darkPalette}).palette.secondary,
       textInverted: colors.green2,
     },
     inverted: {
@@ -337,14 +349,22 @@ export const darkTheme: Theme = {
       icon: lightPalette.contrast_500,
     },
   },
-}
+})
 
-export const dimTheme: Theme = {
-  ...darkTheme,
+export const dimTheme = ({
+  lightPalette,
+  darkPalette,
+  dimPalette,
+}: {
+  lightPalette: Palette
+  darkPalette: Palette
+  dimPalette: Palette
+}): Theme => ({
+  ...darkTheme({lightPalette, darkPalette}),
   palette: {
-    ...darkTheme.palette,
+    ...darkTheme({lightPalette, darkPalette}).palette,
     default: {
-      ...darkTheme.palette.default,
+      ...darkTheme({lightPalette, darkPalette}).palette.default,
       background: dimPalette.contrast_0,
       backgroundLight: dimPalette.contrast_25,
       text: dimPalette.white,
@@ -367,4 +387,4 @@ export const dimTheme: Theme = {
       borderLinkHover: dimPalette.contrast_300,
     },
   },
-}
+})

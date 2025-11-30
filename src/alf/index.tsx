@@ -1,6 +1,7 @@
 import React from 'react'
 import {type Theme, type ThemeName} from '@bsky.app/alf'
 
+import {useThemePrefs} from '#/state/shell/color-mode'
 import {
   computeFontScaleMultiplier,
   getFontFamily,
@@ -8,7 +9,14 @@ import {
   setFontFamily as persistFontFamily,
   setFontScale as persistFontScale,
 } from '#/alf/fonts'
-import {themes} from '#/alf/themes'
+import {
+  blackskyscheme,
+  blueskyscheme,
+  deerscheme,
+  themes,
+  witchskyscheme,
+  zeppelinscheme,
+} from '#/alf/themes'
 import {type Device} from '#/storage'
 
 export {type TextStyleProp, type Theme, type ViewStyleProp} from '@bsky.app/alf'
@@ -56,10 +64,31 @@ export const Context = React.createContext<Alf>({
 })
 Context.displayName = 'AlfContext'
 
+export type SchemeType = typeof themes
+
+export function selectScheme(colorScheme: string | undefined): SchemeType {
+  switch (colorScheme) {
+    case 'witchsky':
+      return witchskyscheme
+    case 'bluesky':
+      return blueskyscheme
+    case 'blacksky':
+      return blackskyscheme
+    case 'deer':
+      return deerscheme
+    case 'zeppelin':
+      return zeppelinscheme
+    default:
+      return themes
+  }
+}
+
 export function ThemeProvider({
   children,
   theme: themeName,
 }: React.PropsWithChildren<{theme: ThemeName}>) {
+  const {colorScheme} = useThemePrefs()
+  const currentScheme = selectScheme(colorScheme)
   const [fontScale, setFontScale] = React.useState<Alf['fonts']['scale']>(() =>
     getFontScale(),
   )
@@ -91,9 +120,9 @@ export function ThemeProvider({
 
   const value = React.useMemo<Alf>(
     () => ({
-      themes,
+      themes: currentScheme,
       themeName: themeName,
-      theme: themes[themeName],
+      theme: currentScheme[themeName],
       fonts: {
         scale: fontScale,
         scaleMultiplier: fontScaleMultiplier,
@@ -104,6 +133,7 @@ export function ThemeProvider({
       flags: {},
     }),
     [
+      currentScheme,
       themeName,
       fontScale,
       setFontScaleAndPersist,

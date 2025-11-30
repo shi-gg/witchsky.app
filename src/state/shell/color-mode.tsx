@@ -5,15 +5,18 @@ import * as persisted from '#/state/persisted'
 type StateContext = {
   colorMode: persisted.Schema['colorMode']
   darkTheme: persisted.Schema['darkTheme']
+  colorScheme: persisted.Schema['colorScheme']
 }
 type SetContext = {
   setColorMode: (v: persisted.Schema['colorMode']) => void
   setDarkTheme: (v: persisted.Schema['darkTheme']) => void
+  setColorScheme: (v: persisted.Schema['colorScheme']) => void
 }
 
 const stateContext = React.createContext<StateContext>({
   colorMode: 'system',
   darkTheme: 'dark',
+  colorScheme: 'witchsky',
 })
 stateContext.displayName = 'ColorModeStateContext'
 const setContext = React.createContext<SetContext>({} as SetContext)
@@ -22,13 +25,17 @@ setContext.displayName = 'ColorModeSetContext'
 export function Provider({children}: React.PropsWithChildren<{}>) {
   const [colorMode, setColorMode] = React.useState(persisted.get('colorMode'))
   const [darkTheme, setDarkTheme] = React.useState(persisted.get('darkTheme'))
+  const [colorScheme, setColorScheme] = React.useState(
+    persisted.get('colorScheme'),
+  )
 
   const stateContextValue = React.useMemo(
     () => ({
       colorMode,
       darkTheme,
+      colorScheme,
     }),
-    [colorMode, darkTheme],
+    [colorMode, darkTheme, colorScheme],
   )
 
   const setContextValue = React.useMemo(
@@ -41,6 +48,10 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
         setDarkTheme(_darkTheme)
         persisted.write('darkTheme', _darkTheme)
       },
+      setColorScheme: (_colorScheme: persisted.Schema['colorScheme']) => {
+        setColorScheme(_colorScheme)
+        persisted.write('colorScheme', _colorScheme)
+      },
     }),
     [],
   )
@@ -52,9 +63,13 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
     const unsub2 = persisted.onUpdate('colorMode', nextColorMode => {
       setColorMode(nextColorMode)
     })
+    const unsub3 = persisted.onUpdate('colorScheme', nextColorScheme => {
+      setColorScheme(nextColorScheme)
+    })
     return () => {
       unsub1()
       unsub2()
+      unsub3()
     }
   }, [])
 

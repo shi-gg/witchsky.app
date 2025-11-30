@@ -47,6 +47,39 @@ function ShellInner() {
   const welcomeModalControl = useWelcomeModal()
 
   useLayoutEffect(() => {
+    const rootElement = document.documentElement
+    rootElement.className = `html`
+    rootElement.style.setProperty(
+      'background',
+      `${t.atoms.bg.backgroundColor}`,
+      'important',
+    )
+  }, [t.atoms.bg.backgroundColor, t.name])
+
+  useLayoutEffect(() => {
+    const color = t.palette.primary_500
+
+    const styleId = 'prosemirror-mention-color'
+    let style = document.getElementById(styleId) as HTMLStyleElement | null
+
+    if (!style) {
+      style = document.createElement('style')
+      style.id = styleId
+      document.head.appendChild(style)
+    }
+
+    style.innerHTML = `
+      .ProseMirror .mention {
+        color: ${color} !important;
+      }
+      .ProseMirror a,
+      .ProseMirror .autolink {
+        color: ${color} !important;
+      }
+    `
+  }, [t.palette.primary_500])
+
+  useLayoutEffect(() => {
     if (showDrawer !== showDrawerDelayedExit) {
       if (showDrawer) {
         setShowDrawerDelayedExit(true)

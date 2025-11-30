@@ -59,8 +59,16 @@ export const Logo = React.forwardRef(function LogoImpl(props: Props, ref) {
       {gradient && (
         <Defs>
           <LinearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#ED5345" stopOpacity="1" />
-            <Stop offset="1" stopColor="#E25C50" stopOpacity="1" />
+            <Stop
+              offset="0"
+              stopColor={t.palette.primary_500}
+              stopOpacity="1"
+            />
+            <Stop
+              offset="1"
+              stopColor={t.palette.primary_500}
+              stopOpacity="1"
+            />
           </LinearGradient>
         </Defs>
       )}

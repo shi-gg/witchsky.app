@@ -1,8 +1,11 @@
-import {type ReactNode} from 'react'
+import {type ReactNode, useMemo} from 'react'
 import {createContext, useContext} from 'react'
 import {type TextStyle, type ViewStyle} from 'react-native'
 import {type ThemeName} from '@bsky.app/alf'
 
+import {useThemePrefs} from '#/state/shell/color-mode'
+import {type SchemeType, selectScheme} from '#/alf'
+import {themes} from '#/alf/themes'
 import {darkTheme, defaultTheme, dimTheme} from './themes'
 
 export type ColorScheme = 'light' | 'dark'
@@ -88,21 +91,32 @@ export interface ThemeProviderProps {
   theme: ThemeName
 }
 
-export const ThemeContext = createContext<Theme>(defaultTheme)
+export const ThemeContext = createContext<Theme>(
+  defaultTheme({
+    lightPalette: themes.lightPalette,
+    darkPalette: themes.darkPalette,
+  }),
+)
 ThemeContext.displayName = 'ThemeContext'
 
 export const useTheme = () => useContext(ThemeContext)
 
-function getTheme(theme: ThemeName) {
-  switch (theme) {
+function getTheme(themeName: ThemeName, scheme: SchemeType) {
+  const paletteOptions = {
+    lightPalette: scheme.lightPalette,
+    darkPalette: scheme.darkPalette,
+    dimPalette: scheme.dimPalette,
+  }
+
+  switch (themeName) {
     case 'light':
-      return defaultTheme
+      return defaultTheme(paletteOptions)
     case 'dim':
-      return dimTheme
+      return dimTheme(paletteOptions)
     case 'dark':
-      return darkTheme
+      return darkTheme(paletteOptions)
     default:
-      return defaultTheme
+      return defaultTheme(paletteOptions)
   }
 }
 
@@ -110,7 +124,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   theme,
   children,
 }) => {
-  const themeValue = getTheme(theme)
+  const {colorScheme} = useThemePrefs()
+
+  const themeValue = useMemo(() => {
+    const currentScheme = selectScheme(colorScheme)
+    return getTheme(theme, currentScheme)
+  }, [theme, colorScheme])
 
   return (
     <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>

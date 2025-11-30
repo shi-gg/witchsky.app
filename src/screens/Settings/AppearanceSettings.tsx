@@ -20,6 +20,7 @@ import * as SegmentedControl from '#/components/forms/SegmentedControl'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Moon_Stroke2_Corner0_Rounded as MoonIcon} from '#/components/icons/Moon'
 import {Phone_Stroke2_Corner0_Rounded as PhoneIcon} from '#/components/icons/Phone'
+import {Pizza_Stroke2_Corner0_Rounded as PizzaIcon} from '#/components/icons/Pizza'
 import {TextSize_Stroke2_Corner0_Rounded as TextSize} from '#/components/icons/TextSize'
 import {TitleCase_Stroke2_Corner0_Rounded as Aa} from '#/components/icons/TitleCase'
 import * as Layout from '#/components/Layout'
@@ -32,14 +33,21 @@ export function AppearanceSettingsScreen({}: Props) {
   const {_} = useLingui()
   const {fonts} = useAlf()
 
-  const {colorMode, darkTheme} = useThemePrefs()
-  const {setColorMode, setDarkTheme} = useSetThemePrefs()
+  const {colorMode, colorScheme, darkTheme} = useThemePrefs()
+  const {setColorMode, setColorScheme, setDarkTheme} = useSetThemePrefs()
 
   const onChangeAppearance = useCallback(
     (value: 'light' | 'system' | 'dark') => {
       setColorMode(value)
     },
     [setColorMode],
+  )
+
+  const onChangeScheme = useCallback(
+    (value: 'witchsky' | 'bluesky' | 'blacksky' | 'deer' | 'zeppelin') => {
+      setColorScheme(value)
+    },
+    [setColorScheme],
   )
 
   const onChangeDarkTheme = useCallback(
@@ -96,6 +104,35 @@ export function AppearanceSettingsScreen({}: Props) {
               ]}
               value={colorMode}
               onChange={onChangeAppearance}
+            />
+
+            <AppearanceToggleButtonGroup
+              title={_(msg`Color scheme`)}
+              icon={PizzaIcon}
+              items={[
+                {
+                  label: _(msg`Witchsky`),
+                  name: 'witchsky',
+                },
+                {
+                  label: _(msg`Bluesky`),
+                  name: 'bluesky',
+                },
+                {
+                  label: _(msg`Blacksky`),
+                  name: 'blacksky',
+                },
+                {
+                  label: _(msg`Deer`),
+                  name: 'deer',
+                },
+                {
+                  label: _(msg`Zeppelin`),
+                  name: 'zeppelin',
+                },
+              ]}
+              value={colorScheme}
+              onChange={onChangeScheme}
             />
 
             {colorMode !== 'light' && (
