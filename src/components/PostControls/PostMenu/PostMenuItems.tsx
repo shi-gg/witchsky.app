@@ -604,9 +604,9 @@ let PostMenuItems = ({
     <>
       <Prompt.Basic
         control={redraftPromptControl}
-        title={_(msg`Redraft this post?`)}
+        title={_(msg`Redraft this skeet?`)}
         description={_(
-          msg`This will delete the original post and open the composer with its content.`,
+          msg`This will delete the original skeet and open the composer with its content.`,
         )}
         onConfirm={onConfirmRedraft}
         confirmButtonCta={_(msg`Redraft`)}
