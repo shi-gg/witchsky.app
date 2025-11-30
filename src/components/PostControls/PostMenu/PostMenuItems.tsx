@@ -8,6 +8,7 @@ import {
 import * as Clipboard from 'expo-clipboard'
 import {
   type AppBskyEmbedExternal,
+  type AppBskyEmbedImages,
   type AppBskyEmbedRecordWithMedia,
   type AppBskyEmbedVideo,
   type AppBskyFeedDefs,
@@ -15,6 +16,7 @@ import {
   type AppBskyFeedThreadgate,
   AtUri,
   type RichText as RichTextAPI,
+  AppBskyEmbedRecord,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -79,6 +81,7 @@ import {
 import {Eye_Stroke2_Corner0_Rounded as Eye} from '#/components/icons/Eye'
 import {EyeSlash_Stroke2_Corner0_Rounded as EyeSlash} from '#/components/icons/EyeSlash'
 import {Filter_Stroke2_Corner0_Rounded as Filter} from '#/components/icons/Filter'
+import {Pencil_Stroke2_Corner0_Rounded as Pen} from '#/components/icons/Pencil'
 import {Mute_Stroke2_Corner0_Rounded as MuteIcon} from '#/components/icons/Mute'
 import {Mute_Stroke2_Corner0_Rounded as Mute} from '#/components/icons/Mute'
 import {PersonX_Stroke2_Corner0_Rounded as PersonX} from '#/components/icons/Person'
@@ -96,6 +99,7 @@ import {
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
 import {IS_INTERNAL} from '#/env'
+import {useOpenComposer} from '#/lib/hooks/useOpenComposer'
 import * as bsky from '#/types/bsky'
 
 let PostMenuItems = ({
@@ -141,6 +145,7 @@ let PostMenuItems = ({
   const postInteractionSettingsDialogControl = useDialogControl()
   const quotePostDetachConfirmControl = useDialogControl()
   const hideReplyConfirmControl = useDialogControl()
+  const redraftPromptControl = useDialogControl()
   const {mutateAsync: toggleReplyVisibility} =
     useToggleReplyVisibilityMutation()
 
@@ -212,6 +217,95 @@ let PostMenuItems = ({
         Toast.show(_(msg`Failed to delete skeet, please try again`), 'xmark')
       },
     )
+  }
+
+  const {openComposer} = useOpenComposer()
+  const onRedraftPost = () => {
+    redraftPromptControl.open()
+  }
+
+  const onConfirmRedraft = () => {
+    let imageUris: {
+      uri: string
+      width: number
+      height: number
+      altText?: string
+    }[] = []
+
+    if (post.embed?.$type === 'app.bsky.embed.images#view') {
+      const embed = post.embed as AppBskyEmbedImages.View
+      imageUris = embed.images.map(img => ({
+        uri: img.fullsize,
+        width: img.aspectRatio?.width ?? 1000,
+        height: img.aspectRatio?.height ?? 1000,
+        altText: img.alt,
+      }))
+    } else if (post.embed?.$type === 'app.bsky.embed.recordWithMedia#view') {
+      const embed = post.embed as AppBskyEmbedRecordWithMedia.View
+      if (embed.media.$type === 'app.bsky.embed.images#view') {
+        const images = embed.media as AppBskyEmbedImages.View
+        imageUris = images.images.map(img => ({
+          uri: img.fullsize,
+          width: img.aspectRatio?.width ?? 1000,
+          height: img.aspectRatio?.height ?? 1000,
+          altText: img.alt,
+        }))
+      }
+    }
+
+    let quotePost: AppBskyFeedDefs.PostView | undefined
+
+    if (post.embed?.$type === 'app.bsky.embed.record#view') {
+      const embed = post.embed as AppBskyEmbedRecord.View
+      if (
+        AppBskyEmbedRecord.isViewRecord(embed.record) &&
+        AppBskyFeedPost.isRecord(embed.record.value)
+      ) {
+        quotePost = {
+          uri: embed.record.uri,
+          cid: embed.record.cid,
+          author: embed.record.author,
+          record: embed.record.value,
+          indexedAt: embed.record.indexedAt,
+        } as AppBskyFeedDefs.PostView
+      }
+    } else if (post.embed?.$type === 'app.bsky.embed.recordWithMedia#view') {
+      const embed = post.embed as AppBskyEmbedRecordWithMedia.View
+      if (
+        AppBskyEmbedRecord.isViewRecord(embed.record.record) &&
+        AppBskyFeedPost.isRecord(embed.record.record.value)
+      ) {
+        const record = embed.record.record
+        quotePost = {
+          uri: record.uri,
+          cid: record.cid,
+          author: record.author,
+          record: record.value,
+          indexedAt: record.indexedAt,
+        } as AppBskyFeedDefs.PostView
+      }
+    }
+
+    let replyTo: any
+    if (record.reply) {
+      const parent = record.reply.parent || record.reply.root
+      if (parent) {
+        replyTo = {
+          uri: parent.uri,
+          cid: parent.cid,
+        }
+      }
+    }
+
+    openComposer({
+      text: record.text,
+      imageUris,
+      onPost: () => {
+        onDeletePost()
+      },
+      quote: quotePost,
+      replyTo,
+    })
   }
 
   const onToggleThreadMute = () => {
@@ -508,6 +602,16 @@ let PostMenuItems = ({
 
   return (
     <>
+      <Prompt.Basic
+        control={redraftPromptControl}
+        title={_(msg`Redraft this post?`)}
+        description={_(
+          msg`This will delete the original post and open the composer with its content.`,
+        )}
+        onConfirm={onConfirmRedraft}
+        confirmButtonCta={_(msg`Redraft`)}
+        confirmButtonColor="primary"
+      />
       <Menu.Outer>
         {isAuthor && (
           <>
@@ -530,6 +634,13 @@ let PostMenuItems = ({
                   icon={isPinPending ? Loader : PinIcon}
                   position="right"
                 />
+              </Menu.Item>
+              <Menu.Item
+                testID="redraftPostBtn"
+                label={_(msg`Redraft`)}
+                onPress={onRedraftPost}>
+                <Menu.ItemText>{_(msg`Redraft`)}</Menu.ItemText>
+                <Menu.ItemIcon icon={Pen} position="right" />
               </Menu.Item>
             </Menu.Group>
             <Menu.Divider />

@@ -770,7 +770,9 @@ export const ComposePost = ({
             keyboardShouldPersistTaps="always"
             onContentSizeChange={onScrollViewContentSizeChange}
             onLayout={onScrollViewLayout}>
-            {replyTo ? <ComposerReplyTo replyTo={replyTo} /> : undefined}
+            {replyTo && replyTo.text && replyTo.author ? (
+              <ComposerReplyTo replyTo={replyTo} />
+            ) : undefined}
             {thread.posts.map((post, index) => (
               <React.Fragment key={post.id}>
                 <ComposerPost
