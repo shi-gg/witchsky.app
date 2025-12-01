@@ -1,4 +1,5 @@
 import {useCallback} from 'react'
+import {View} from 'react-native'
 import Animated, {
   FadeInUp,
   FadeOutUp,
@@ -17,6 +18,7 @@ import {useSetThemePrefs, useThemePrefs} from '#/state/shell'
 import {SettingsListItem as AppIconSettingsListItem} from '#/screens/Settings/AppIconSettings/SettingsListItem'
 import {type Alf, atoms as a, native, useAlf, useTheme} from '#/alf'
 import * as SegmentedControl from '#/components/forms/SegmentedControl'
+import * as Toggle from '#/components/forms/Toggle'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Moon_Stroke2_Corner0_Rounded as MoonIcon} from '#/components/icons/Moon'
 import {Phone_Stroke2_Corner0_Rounded as PhoneIcon} from '#/components/icons/Phone'
@@ -32,6 +34,7 @@ type Props = NativeStackScreenProps<CommonNavigatorParams, 'AppearanceSettings'>
 export function AppearanceSettingsScreen({}: Props) {
   const {_} = useLingui()
   const {fonts} = useAlf()
+  const t = useTheme()
 
   const {colorMode, colorScheme, darkTheme} = useThemePrefs()
   const {setColorMode, setColorScheme, setDarkTheme} = useSetThemePrefs()
@@ -79,6 +82,15 @@ export function AppearanceSettingsScreen({}: Props) {
     [fonts],
   )
 
+  const colorSchemes = [
+    {name: 'witchsky', label: _(msg`Witchsky`)},
+    {name: 'bluesky', label: _(msg`Bluesky`)},
+    {name: 'blacksky', label: _(msg`Blacksky`)},
+    {name: 'deer', label: _(msg`Deer`)},
+    {name: 'zeppelin', label: _(msg`Zeppelin`)},
+    {name: 'kitty', label: _(msg`Kitty`)},
+  ]
+
   return (
     <LayoutAnimationConfig skipExiting skipEntering>
       <Layout.Screen testID="preferencesThreadsScreen">
@@ -114,39 +126,6 @@ export function AppearanceSettingsScreen({}: Props) {
               onChange={onChangeAppearance}
             />
 
-            <AppearanceToggleButtonGroup
-              title={_(msg`Color scheme`)}
-              icon={PizzaIcon}
-              items={[
-                {
-                  label: _(msg`Witchsky`),
-                  name: 'witchsky',
-                },
-                {
-                  label: _(msg`Bluesky`),
-                  name: 'bluesky',
-                },
-                {
-                  label: _(msg`Blacksky`),
-                  name: 'blacksky',
-                },
-                {
-                  label: _(msg`Deer`),
-                  name: 'deer',
-                },
-                {
-                  label: _(msg`Zeppelin`),
-                  name: 'zeppelin',
-                },
-                {
-                  label: _(msg`Kitty`),
-                  name: 'kitty',
-                },
-              ]}
-              value={colorScheme}
-              onChange={onChangeScheme}
-            />
-
             {colorMode !== 'light' && (
               <Animated.View
                 entering={native(FadeInUp)}
@@ -169,6 +148,36 @@ export function AppearanceSettingsScreen({}: Props) {
                 />
               </Animated.View>
             )}
+
+            <SettingsList.Group>
+              <SettingsList.ItemIcon icon={PizzaIcon} />
+              <SettingsList.ItemText>
+                <Trans>Color Theme</Trans>
+              </SettingsList.ItemText>
+              <View style={[a.w_full, a.gap_md]}>
+                <Text style={[a.flex_1, t.atoms.text_contrast_medium]}>
+                  <Trans>Choose which color scheme to use:</Trans>
+                </Text>
+                <Toggle.Group
+                  label={_(msg`Color Theme`)}
+                  type="radio"
+                  values={[colorScheme]}
+                  onChange={([value]) =>
+                    onChangeScheme(value as typeof colorScheme)
+                  }>
+                  <View style={[a.gap_sm, a.flex_1]}>
+                    {colorSchemes.map(({name, label}) => (
+                      <Toggle.Item key={name} name={name} label={label}>
+                        <Toggle.Radio />
+                        <Toggle.LabelText>
+                          <Trans>{label}</Trans>
+                        </Toggle.LabelText>
+                      </Toggle.Item>
+                    ))}
+                  </View>
+                </Toggle.Group>
+              </View>
+            </SettingsList.Group>
 
             <Animated.View layout={native(LinearTransition)}>
               <SettingsList.Divider />
