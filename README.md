@@ -20,6 +20,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 - Choose between sharing witchsky.app or bsky.app links
 - Embed player works with [stream.place](https://stream.place/) links!
 - Open skeets in PDSls and original pages of bridged posts
+- Redraft skeets (CANNOT REDRAFT SKEETS WITH MEDIA, NOR THREADS YET)
 - Better defaults (alt text required 😉)
 - More unique repost icons
 - No push notifications (may be added later)

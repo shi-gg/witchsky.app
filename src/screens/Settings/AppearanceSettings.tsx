@@ -44,7 +44,15 @@ export function AppearanceSettingsScreen({}: Props) {
   )
 
   const onChangeScheme = useCallback(
-    (value: 'witchsky' | 'bluesky' | 'blacksky' | 'deer' | 'zeppelin') => {
+    (
+      value:
+        | 'witchsky'
+        | 'bluesky'
+        | 'blacksky'
+        | 'deer'
+        | 'zeppelin'
+        | 'kitty',
+    ) => {
       setColorScheme(value)
     },
     [setColorScheme],
