@@ -56,6 +56,7 @@ const schema = z.object({
     'deer',
     'zeppelin',
     'kitty',
+    'reddwarf',
   ]),
   session: z.object({
     accounts: z.array(accountSchema),

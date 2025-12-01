@@ -54,7 +54,8 @@ export function AppearanceSettingsScreen({}: Props) {
         | 'blacksky'
         | 'deer'
         | 'zeppelin'
-        | 'kitty',
+        | 'kitty'
+        | 'reddwarf',
     ) => {
       setColorScheme(value)
     },
@@ -89,6 +90,7 @@ export function AppearanceSettingsScreen({}: Props) {
     {name: 'deer', label: _(msg`Deer`)},
     {name: 'zeppelin', label: _(msg`Zeppelin`)},
     {name: 'kitty', label: _(msg`Kitty`)},
+    {name: 'reddwarf', label: _(msg`RedDwarf`)},
   ]
 
   return (

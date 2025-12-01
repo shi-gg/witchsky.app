@@ -301,160 +301,6 @@ export const themes = {
 
 export const witchskyscheme = themes
 
-// const BLUESKY_THEMES = createThemes({
-//   defaultPalette: BLUESKY_PALETTE,
-//   subduedPalette: BLUESKY_SUBDUED_PALETTE,
-// })
-
-// export const blueskyscheme = {
-//   lightPalette: BLUESKY_THEMES.light.palette,
-//   darkPalette: BLUESKY_THEMES.dark.palette,
-//   dimPalette: BLUESKY_THEMES.dim.palette,
-//   light: BLUESKY_THEMES.light,
-//   dark: BLUESKY_THEMES.dark,
-//   dim: BLUESKY_THEMES.dim,
-// }
-// export const YELLOW_PALETTE: Palette = {
-//   white: '#FEFBFB',
-//   black: '#000000',
-//   like: '#dd5e8f',
-
-//   contrast_0: '#FEFBFB',
-//   contrast_25: '#F8F6EB',
-//   contrast_50: '#F2EDD8',
-//   contrast_100: '#E9E3C1',
-//   contrast_200: '#E0D9AA',
-//   contrast_300: '#D6CF94',
-//   contrast_400: '#CBC47F',
-//   contrast_500: '#C0B96B',
-//   contrast_600: '#A49D59',
-//   contrast_700: '#888249',
-//   contrast_800: '#6D683A',
-//   contrast_900: '#544F2C',
-//   contrast_950: '#3E391F',
-//   contrast_975: '#262413',
-//   contrast_1000: '#000000',
-
-//   primary_25: `hsl(50, 70%, 97%)`,
-//   primary_50: `hsl(50, 70%, 94%)`,
-//   primary_100: `hsl(50, 70%, 88%)`,
-//   primary_200: `hsl(50, 75%, 78%)`,
-//   primary_300: `hsl(50, 78%, 68%)`,
-//   primary_400: `hsl(50, 82%, 58%)`,
-//   primary_500: `hsl(50, 85%, 52%)`,
-//   primary_600: `hsl(50, 80%, 46%)`,
-//   primary_700: `hsl(50, 60%, 33%)`,
-//   primary_800: `hsl(50, 48%, 26%)`,
-//   primary_900: `hsl(50, 45%, 18%)`,
-//   primary_950: `hsl(50, 40%, 10%)`,
-//   primary_975: `hsl(50, 38%, 7%)`,
-
-//   positive_25: '#F3FCEB',
-//   positive_50: '#E8F9D5',
-//   positive_100: '#D4F4AE',
-//   positive_200: '#BEED81',
-//   positive_300: '#A4E34D',
-//   positive_400: '#8FD61E',
-//   positive_500: '#7AB815',
-//   positive_600: '#629412',
-//   positive_700: '#4E720F',
-//   positive_800: '#3C560C',
-//   positive_900: '#2D4109',
-//   positive_950: '#203006',
-//   positive_975: '#162204',
-
-//   negative_25: '#FFF7EB',
-//   negative_50: '#FEEBD3',
-//   negative_100: '#FDDBB3',
-//   negative_200: '#FBC68B',
-//   negative_300: '#F7A44E',
-//   negative_400: '#EF8217',
-//   negative_500: '#D86E0F',
-//   negative_600: '#B55B0D',
-//   negative_700: '#8E480A',
-//   negative_800: '#6C3708',
-//   negative_900: '#4F2906',
-//   negative_950: '#371D04',
-//   negative_975: '#261403',
-// }
-
-// export const YELLOW_SUBDUED_PALETTE: Palette = {
-//   white: '#FEFBFB',
-//   black: '#383434',
-//   like: '#dd5e8f',
-
-//   contrast_0: '#FEFBFB',
-//   contrast_25: '#F8F6EB',
-//   contrast_50: '#F2EDD8',
-//   contrast_100: '#E9E3C1',
-//   contrast_200: '#E0D9AA',
-//   contrast_300: '#D6CF94',
-//   contrast_400: '#CBC47F',
-//   contrast_500: '#C0B96B',
-//   contrast_600: '#A49D59',
-//   contrast_700: '#888249',
-//   contrast_800: '#6D683A',
-//   contrast_900: '#544F2C',
-//   contrast_950: '#3E391F',
-//   contrast_975: '#312F1A',
-//   contrast_1000: '#262414',
-
-//   primary_25: `hsl(50, 70%, 97%)`,
-//   primary_50: `hsl(50, 70%, 94%)`,
-//   primary_100: `hsl(50, 70%, 88%)`,
-//   primary_200: `hsl(50, 75%, 78%)`,
-//   primary_300: `hsl(50, 78%, 68%)`,
-//   primary_400: `hsl(50, 78%, 62%)`,
-//   primary_500: `hsl(50, 75%, 52%)`,
-//   primary_600: `hsl(50, 70%, 46%)`,
-//   primary_700: `hsl(50, 58%, 40%)`,
-//   primary_800: `hsl(50, 48%, 26%)`,
-//   primary_900: `hsl(50, 45%, 18%)`,
-//   primary_950: `hsl(50, 40%, 10%)`,
-//   primary_975: `hsl(50, 38%, 7%)`,
-
-//   positive_25: '#F3FCEB',
-//   positive_50: '#EAF9DA',
-//   positive_100: '#D6F4B3',
-//   positive_200: '#C0ED87',
-//   positive_300: '#A8E45A',
-//   positive_400: '#94D93B',
-//   positive_500: '#7FBE2E',
-//   positive_600: '#659C25',
-//   positive_700: '#517B1D',
-//   positive_800: '#405F17',
-//   positive_900: '#314812',
-//   positive_950: '#23350C',
-//   positive_975: '#1A2709',
-
-//   negative_25: '#FFF7EB',
-//   negative_50: '#FEEFE0',
-//   negative_100: '#FDE2C6',
-//   negative_200: '#FBCDA1',
-//   negative_300: '#F7AD68',
-//   negative_400: '#EF9140',
-//   negative_500: '#E0761F',
-//   negative_600: '#C06319',
-//   negative_700: '#995012',
-//   negative_800: '#75400E',
-//   negative_900: '#58300A',
-//   negative_950: '#3E2107',
-//   negative_975: '#2D1805',
-// }
-
-// const YELLOW_THEMES = createThemes({
-//   defaultPalette: YELLOW_PALETTE,
-//   subduedPalette: YELLOW_SUBDUED_PALETTE,
-// })
-
-// export const yellowscheme = {
-//   lightPalette: YELLOW_THEMES.light.palette,
-//   darkPalette: YELLOW_THEMES.dark.palette,
-//   dimPalette: YELLOW_THEMES.dim.palette,
-//   light: YELLOW_THEMES.light,
-//   dark: YELLOW_THEMES.dark,
-//   dim: YELLOW_THEMES.dim,
-// }
 export const BLACKSKY_BRAND = {
   /* Neutrals */
   black: '#070C0C',
@@ -1129,6 +975,97 @@ export const kittyscheme = {
   light: KITTY_THEMES.light,
   dark: KITTY_THEMES.dark,
   dim: KITTY_THEMES.dim,
+}
+
+const REDDWARF_TAILWIND_ATOMS = {
+  color_gray_25: '#fffbf9',
+  color_gray_50: '#fff7f5',
+  color_gray_100: '#fff0ee',
+  color_gray_200: '#f8e2de',
+  color_gray_300: '#eaccc7',
+  color_gray_400: '#bd948e',
+  color_gray_500: '#93655f',
+  color_gray_600: '#714842',
+  color_gray_700: '#5b342f',
+  color_gray_800: '#401d19',
+  color_gray_900: '#2c0c09',
+  color_gray_950: '#180000',
+  color_gray_970: '#0e0000',
+}
+
+const REDDWARF_TAILWIND_ATOMS_VIBRANT = {
+  ...REDDWARF_TAILWIND_ATOMS,
+  color_gray_500: '#c14c42',
+}
+
+export const REDDWARF_SUBDUED_PALETTE: Palette = {
+  ...DEFAULT_SUBDUED_PALETTE,
+  white: '#FFFFFF',
+  black: '#000000',
+  like: '#FF6B6B',
+
+  contrast_0: REDDWARF_TAILWIND_ATOMS.color_gray_50,
+  contrast_25: REDDWARF_TAILWIND_ATOMS.color_gray_50,
+  contrast_50: REDDWARF_TAILWIND_ATOMS.color_gray_100,
+  contrast_100: REDDWARF_TAILWIND_ATOMS.color_gray_200,
+  contrast_200: REDDWARF_TAILWIND_ATOMS.color_gray_200,
+  contrast_300: REDDWARF_TAILWIND_ATOMS.color_gray_300,
+  contrast_400: REDDWARF_TAILWIND_ATOMS.color_gray_400,
+  contrast_500: REDDWARF_TAILWIND_ATOMS.color_gray_500,
+  contrast_600: REDDWARF_TAILWIND_ATOMS.color_gray_500,
+  contrast_700: REDDWARF_TAILWIND_ATOMS.color_gray_600,
+  contrast_800: REDDWARF_TAILWIND_ATOMS.color_gray_600,
+  contrast_900: REDDWARF_TAILWIND_ATOMS.color_gray_700,
+  contrast_950: REDDWARF_TAILWIND_ATOMS.color_gray_800,
+  contrast_975: REDDWARF_TAILWIND_ATOMS.color_gray_900,
+  contrast_1000: REDDWARF_TAILWIND_ATOMS.color_gray_900,
+
+  primary_25: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_50,
+  primary_50: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_100,
+  primary_100: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_200,
+  primary_200: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_200,
+  primary_300: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_300,
+  primary_400: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_400,
+  primary_500: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_500,
+  primary_600: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_600,
+  primary_700: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_600,
+  primary_800: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_700,
+  primary_900: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_700,
+  primary_950: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_800,
+  primary_975: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_900,
+}
+
+export const REDDWARF_PALETTE: Palette = {
+  ...REDDWARF_SUBDUED_PALETTE,
+  contrast_1000: REDDWARF_TAILWIND_ATOMS.color_gray_950,
+
+  primary_25: REDDWARF_TAILWIND_ATOMS.color_gray_50,
+  primary_50: REDDWARF_TAILWIND_ATOMS.color_gray_100,
+  primary_100: REDDWARF_TAILWIND_ATOMS.color_gray_200,
+  primary_200: REDDWARF_TAILWIND_ATOMS.color_gray_200,
+  primary_300: REDDWARF_TAILWIND_ATOMS.color_gray_300,
+  primary_400: REDDWARF_TAILWIND_ATOMS.color_gray_400,
+  primary_500: REDDWARF_TAILWIND_ATOMS_VIBRANT.color_gray_500,
+  primary_600: REDDWARF_TAILWIND_ATOMS.color_gray_600,
+  primary_700: REDDWARF_TAILWIND_ATOMS.color_gray_600,
+  primary_800: REDDWARF_TAILWIND_ATOMS.color_gray_700,
+  primary_900: REDDWARF_TAILWIND_ATOMS.color_gray_700,
+  primary_950: REDDWARF_TAILWIND_ATOMS.color_gray_800,
+  primary_975: REDDWARF_TAILWIND_ATOMS.color_gray_900,
+}
+
+const REDDWARF_THEMES = createThemes({
+  defaultPalette: REDDWARF_PALETTE,
+  subduedPalette: REDDWARF_SUBDUED_PALETTE,
+})
+
+export const reddwarfscheme = {
+  lightPalette: REDDWARF_THEMES.light.palette,
+  darkPalette: REDDWARF_THEMES.dark.palette,
+  dimPalette: REDDWARF_THEMES.dim.palette,
+  light: REDDWARF_THEMES.light,
+  dark: REDDWARF_THEMES.dark,
+  dim: REDDWARF_THEMES.dim,
 }
 
 /**
