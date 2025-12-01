@@ -130,6 +130,10 @@ export function AppearanceSettingsScreen({}: Props) {
                   label: _(msg`Zeppelin`),
                   name: 'zeppelin',
                 },
+                {
+                  label: _(msg`Kitty`),
+                  name: 'kitty',
+                },
               ]}
               value={colorScheme}
               onChange={onChangeScheme}

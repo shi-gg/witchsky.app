@@ -16,6 +16,7 @@ import {
   themes,
   witchskyscheme,
   zeppelinscheme,
+  kittyscheme,
 } from '#/alf/themes'
 import {type Device} from '#/storage'
 
@@ -78,6 +79,8 @@ export function selectScheme(colorScheme: string | undefined): SchemeType {
       return deerscheme
     case 'zeppelin':
       return zeppelinscheme
+    case 'kitty':
+      return kittyscheme
     default:
       return themes
   }
