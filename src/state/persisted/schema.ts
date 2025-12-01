@@ -58,6 +58,7 @@ const schema = z.object({
     'kitty',
     'reddwarf',
   ]),
+  hue: z.number(),
   session: z.object({
     accounts: z.array(accountSchema),
     currentAccount: currentAccountSchema.optional(),
@@ -174,6 +175,7 @@ export const defaults: Schema = {
   colorMode: 'system',
   darkTheme: 'dim',
   colorScheme: 'witchsky',
+  hue: 0,
   session: {
     accounts: [],
     currentAccount: undefined,

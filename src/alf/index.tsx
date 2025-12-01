@@ -1,5 +1,6 @@
 import React from 'react'
-import {type Theme, type ThemeName} from '@bsky.app/alf'
+import {createTheme, type Theme, type ThemeName} from '@bsky.app/alf'
+import {formatHex, modeOklch, useMode as utilMode} from 'culori'
 
 import {useThemePrefs} from '#/state/shell/color-mode'
 import {
@@ -14,6 +15,7 @@ import {
   blueskyscheme,
   deerscheme,
   kittyscheme,
+  type Palette,
   reddwarfscheme,
   themes,
   witchskyscheme,
@@ -68,6 +70,77 @@ Context.displayName = 'AlfContext'
 
 export type SchemeType = typeof themes
 
+function changeHue(color: string, hueShift: number) {
+  if (!hueShift || hueShift === 0) return color
+
+  let lablch = utilMode(modeOklch)
+  const parsed = lablch(color)
+
+  if (!parsed) return color
+
+  const {l, c, h} = parsed as {l: number; c: number; h: number | undefined}
+
+  const currentHue = h || 0
+
+  const newHue = (currentHue + hueShift + 360) % 360
+
+  return formatHex({mode: 'oklch', l, c, h: newHue})
+}
+
+export function shiftPalette(palette: Palette, hueShift: number): Palette {
+  const newPalette = {...palette}
+  const keys = Object.keys(newPalette) as Array<keyof Palette>
+
+  keys.forEach(key => {
+    newPalette[key] = changeHue(newPalette[key], hueShift)
+  })
+
+  return newPalette
+}
+
+export function hueShifter(scheme: SchemeType, hueShift: number): SchemeType {
+  if (!hueShift || hueShift === 0) {
+    return scheme
+  }
+
+  const lightPalette = shiftPalette(scheme.lightPalette, hueShift)
+  const darkPalette = shiftPalette(scheme.darkPalette, hueShift)
+  const dimPalette = shiftPalette(scheme.dimPalette, hueShift)
+
+  const light = createTheme({
+    scheme: 'light',
+    name: 'light',
+    palette: lightPalette,
+  })
+
+  const dark = createTheme({
+    scheme: 'dark',
+    name: 'dark',
+    palette: darkPalette,
+    options: {
+      shadowOpacity: 0.4,
+    },
+  })
+
+  const dim = createTheme({
+    scheme: 'dark',
+    name: 'dim',
+    palette: dimPalette,
+    options: {
+      shadowOpacity: 0.4,
+    },
+  })
+
+  return {
+    lightPalette,
+    darkPalette,
+    dimPalette,
+    light,
+    dark,
+    dim,
+  }
+}
+
 export function selectScheme(colorScheme: string | undefined): SchemeType {
   switch (colorScheme) {
     case 'witchsky':
@@ -93,7 +166,7 @@ export function ThemeProvider({
   children,
   theme: themeName,
 }: React.PropsWithChildren<{theme: ThemeName}>) {
-  const {colorScheme} = useThemePrefs()
+  const {colorScheme, hue} = useThemePrefs()
   const currentScheme = selectScheme(colorScheme)
   const [fontScale, setFontScale] = React.useState<Alf['fonts']['scale']>(() =>
     getFontScale(),
@@ -126,9 +199,9 @@ export function ThemeProvider({
 
   const value = React.useMemo<Alf>(
     () => ({
-      themes: currentScheme,
+      themes: hueShifter(currentScheme, hue),
       themeName: themeName,
-      theme: currentScheme[themeName],
+      theme: hueShifter(currentScheme, hue)[themeName],
       fonts: {
         scale: fontScale,
         scaleMultiplier: fontScaleMultiplier,
@@ -140,12 +213,13 @@ export function ThemeProvider({
     }),
     [
       currentScheme,
+      hue,
       themeName,
       fontScale,
-      setFontScaleAndPersist,
-      fontFamily,
-      setFontFamilyAndPersist,
       fontScaleMultiplier,
+      fontFamily,
+      setFontScaleAndPersist,
+      setFontFamilyAndPersist,
     ],
   )
 

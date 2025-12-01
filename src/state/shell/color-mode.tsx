@@ -6,17 +6,20 @@ type StateContext = {
   colorMode: persisted.Schema['colorMode']
   darkTheme: persisted.Schema['darkTheme']
   colorScheme: persisted.Schema['colorScheme']
+  hue: persisted.Schema['hue']
 }
 type SetContext = {
   setColorMode: (v: persisted.Schema['colorMode']) => void
   setDarkTheme: (v: persisted.Schema['darkTheme']) => void
   setColorScheme: (v: persisted.Schema['colorScheme']) => void
+  setHue: (v: persisted.Schema['hue']) => void
 }
 
 const stateContext = React.createContext<StateContext>({
   colorMode: 'system',
   darkTheme: 'dark',
   colorScheme: 'witchsky',
+  hue: 0,
 })
 stateContext.displayName = 'ColorModeStateContext'
 const setContext = React.createContext<SetContext>({} as SetContext)
@@ -28,14 +31,16 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
   const [colorScheme, setColorScheme] = React.useState(
     persisted.get('colorScheme'),
   )
+  const [hue, setHue] = React.useState(persisted.get('hue'))
 
   const stateContextValue = React.useMemo(
     () => ({
       colorMode,
       darkTheme,
       colorScheme,
+      hue,
     }),
-    [colorMode, darkTheme, colorScheme],
+    [colorMode, darkTheme, colorScheme, hue],
   )
 
   const setContextValue = React.useMemo(
@@ -52,6 +57,10 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
         setColorScheme(_colorScheme)
         persisted.write('colorScheme', _colorScheme)
       },
+      setHue: (_hue: persisted.Schema['hue']) => {
+        setHue(_hue)
+        persisted.write('hue', _hue)
+      },
     }),
     [],
   )
@@ -66,10 +75,14 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
     const unsub3 = persisted.onUpdate('colorScheme', nextColorScheme => {
       setColorScheme(nextColorScheme)
     })
+    const unsub4 = persisted.onUpdate('hue', nextHue => {
+      setHue(nextHue)
+    })
     return () => {
       unsub1()
       unsub2()
       unsub3()
+      unsub4()
     }
   }, [])
 

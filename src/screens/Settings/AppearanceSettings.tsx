@@ -18,6 +18,7 @@ import {useSetThemePrefs, useThemePrefs} from '#/state/shell'
 import {SettingsListItem as AppIconSettingsListItem} from '#/screens/Settings/AppIconSettings/SettingsListItem'
 import {type Alf, atoms as a, native, useAlf, useTheme} from '#/alf'
 import * as SegmentedControl from '#/components/forms/SegmentedControl'
+import {Slider} from '#/components/forms/Slider'
 import * as Toggle from '#/components/forms/Toggle'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Moon_Stroke2_Corner0_Rounded as MoonIcon} from '#/components/icons/Moon'
@@ -36,8 +37,9 @@ export function AppearanceSettingsScreen({}: Props) {
   const {fonts} = useAlf()
   const t = useTheme()
 
-  const {colorMode, colorScheme, darkTheme} = useThemePrefs()
-  const {setColorMode, setColorScheme, setDarkTheme} = useSetThemePrefs()
+  const {colorMode, colorScheme, darkTheme, hue} = useThemePrefs()
+  const {setColorMode, setColorScheme, setDarkTheme, setHue} =
+    useSetThemePrefs()
 
   const onChangeAppearance = useCallback(
     (value: 'light' | 'system' | 'dark') => {
@@ -178,6 +180,18 @@ export function AppearanceSettingsScreen({}: Props) {
                     ))}
                   </View>
                 </Toggle.Group>
+                <Text style={[a.flex_1, t.atoms.text_contrast_medium]}>
+                  <Trans>Hue shift the colors:</Trans>
+                </Text>
+                <Slider
+                  label="Volume"
+                  value={hue}
+                  onValueChange={setHue}
+                  min={0}
+                  max={360}
+                  step={1}
+                  debounce={0.3}
+                />
               </View>
             </SettingsList.Group>
 
