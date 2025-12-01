@@ -146,7 +146,7 @@ export function MessageInput({
             padding: a.p_sm.padding - 2,
             paddingLeft: a.p_md.padding - 2,
             borderWidth: 1,
-            borderRadius: 23,
+            borderRadius: enableSquareButtons ? 11 : 23,
             borderColor: 'transparent',
           },
           isFocused && inputStyles.chromeFocus,

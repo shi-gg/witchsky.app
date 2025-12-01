@@ -32,7 +32,7 @@ export function FABInner({testID, icon, onPress, style, ...props}: FABProps) {
 
   const enableSquareButtons = useEnableSquareButtons()
 
-  const size = gtMobile ? styles.sizeLarge : styles.sizeRegular
+  const size = gtMobile ? enableSquareButtons ? styles.sizeLargeSquare : styles.sizeLarge : enableSquareButtons ? styles.sizeRegularSquare : styles.sizeRegular
 
   const tabletSpacing = gtMobile
     ? {right: 50, bottom: 50}
@@ -84,6 +84,16 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
+  },
+  sizeRegularSquare: {
+    width: 56,
+    height: 56,
+    borderRadius: 10,
+  },
+  sizeLargeSquare: {
+    width: 70,
+    height: 70,
+    borderRadius: 15,
   },
   outer: {
     // @ts-ignore web-only

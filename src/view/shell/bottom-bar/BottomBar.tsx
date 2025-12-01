@@ -21,6 +21,7 @@ import {getTabState, TabState} from '#/lib/routes/helpers'
 import {useGate} from '#/lib/statsig/statsig'
 import {emitSoftReset} from '#/state/events'
 import {useHomeBadge} from '#/state/home-badge'
+import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useUnreadMessageCount} from '#/state/queries/messages/list-conversations'
 import {useUnreadNotifications} from '#/state/queries/notifications/unread'
@@ -140,6 +141,8 @@ export function BottomBar({navigation}: BottomTabBarProps) {
 
   const [demoMode] = useDemoMode()
   const {isActive: live} = useActorStatus(profile)
+
+  const enableSquareAvatars = useEnableSquareAvatars()
 
   return (
     <>
@@ -272,10 +275,10 @@ export function BottomBar({navigation}: BottomTabBarProps) {
                         styles.ctrlIcon,
                         pal.text,
                         styles.profileIcon,
-                        styles.onProfile,
+                        enableSquareAvatars ? styles.onProfileSquare : styles.onProfile,
                         {
                           borderColor: pal.text.color,
-                          borderWidth: live ? 0 : 1,
+                          borderWidth: live ? 0 : enableSquareAvatars ? 1.5 : 1,
                         },
                       ]}>
                       <UserAvatar

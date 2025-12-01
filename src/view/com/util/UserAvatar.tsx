@@ -106,6 +106,8 @@ let DefaultAvatar = ({
   const finalShape = overrideShape ?? (type === 'user' ? 'circle' : 'square')
   const t = useTheme()
 
+  const enableSquareAvatars = useEnableSquareAvatars()
+
   const aviStyle = useMemo(() => {
     if (finalShape === 'square') {
       return {borderRadius: size > 32 ? 8 : 3, overflow: 'hidden'} as const
@@ -191,7 +193,6 @@ let DefaultAvatar = ({
       </Svg>
     )
   }
-  // TODO: shape=square
   return (
     <Svg
       testID="userAvatarFallback"
@@ -201,7 +202,18 @@ let DefaultAvatar = ({
       fill="none"
       stroke="none"
       style={aviStyle}>
-      <Circle cx="12" cy="12" r="12" fill={t.palette.primary_500} />
+      {enableSquareAvatars ? (
+        <Rect
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+          rx="3"
+          fill={t.palette.primary_500}
+        />
+      ) : (
+        <Circle cx="12" cy="12" r="12" fill={t.palette.primary_500} />
+      )}
       <Circle cx="12" cy="9.5" r="3.5" fill="#fff" />
       <Path
         strokeLinecap="round"
