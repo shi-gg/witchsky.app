@@ -17,6 +17,7 @@ import {sanitizeHandle} from '#/lib/strings/handles'
 import {logger} from '#/logger'
 import {isIOS} from '#/platform/detection'
 import {type Shadow, useProfileShadow} from '#/state/cache/profile-shadow'
+import {useDisableFollowedByMetrics} from '#/state/preferences/disable-followed-by-metrics'
 import {
   useProfileBlockMutationQueue,
   useProfileFollowMutationQueue,
@@ -94,6 +95,9 @@ let ProfileHeaderStandard = ({
 
   const {isActive: live} = useActorStatus(profile)
 
+  // disable metrics
+  const disableFollowedByMetrics = useDisableFollowedByMetrics()
+
   return (
     <>
       <ProfileHeaderShell
@@ -164,6 +168,7 @@ let ProfileHeaderStandard = ({
               ) : undefined}
 
               {!isMe &&
+                !disableFollowedByMetrics &&
                 !isBlockedUser &&
                 shouldShowKnownFollowers(profile.viewer?.knownFollowers) && (
                   <View style={[a.flex_row, a.align_center, a.gap_sm]}>

@@ -6,8 +6,12 @@ import {Provider as ConstellationProvider} from './constellation-enabled'
 import {Provider as ConstellationInstanceProvider} from './constellation-instance'
 import {Provider as DeerVerificationProvider} from './deer-verification'
 import {Provider as DirectFetchRecordsProvider} from './direct-fetch-records'
+import {Provider as DisableFollowedByMetricsProvider} from './disable-followed-by-metrics'
+import {Provider as DisableFollowersMetricsProvider} from './disable-followers-metrics'
+import {Provider as DisableFollowingMetricsProvider} from './disable-following-metrics'
 import {Provider as DisableHapticsProvider} from './disable-haptics'
 import {Provider as DisableLikesMetricsProvider} from './disable-likes-metrics'
+import {Provider as DisablePostsMetricsProvider} from './disable-posts-metrics'
 import {Provider as DisableQuotesMetricsProvider} from './disable-quotes-metrics'
 import {Provider as DisableReplyMetricsProvider} from './disable-reply-metrics'
 import {Provider as DisableRepostsMetricsProvider} from './disable-reposts-metrics'
@@ -86,13 +90,21 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                         <DisableQuotesMetricsProvider>
                                                           <DisableSavesMetricsProvider>
                                                             <DisableReplyMetricsProvider>
-                                                              <HideSimilarAccountsRecommProvider>
-                                                                <EnableSquareAvatarsProvider>
-                                                                  <EnableSquareButtonsProvider>
-                                                                    {children}
-                                                                  </EnableSquareButtonsProvider>
-                                                                </EnableSquareAvatarsProvider>
-                                                              </HideSimilarAccountsRecommProvider>
+                                                              <DisableFollowersMetricsProvider>
+                                                                <DisableFollowingMetricsProvider>
+                                                                  <DisableFollowedByMetricsProvider>
+                                                                    <DisablePostsMetricsProvider>
+                                                                      <HideSimilarAccountsRecommProvider>
+                                                                        <EnableSquareAvatarsProvider>
+                                                                          <EnableSquareButtonsProvider>
+                                                                            {children}
+                                                                          </EnableSquareButtonsProvider>
+                                                                        </EnableSquareAvatarsProvider>
+                                                                      </HideSimilarAccountsRecommProvider>
+                                                                    </DisablePostsMetricsProvider>
+                                                                  </DisableFollowedByMetricsProvider>
+                                                                </DisableFollowingMetricsProvider>
+                                                              </DisableFollowersMetricsProvider>
                                                             </DisableReplyMetricsProvider>
                                                           </DisableSavesMetricsProvider>
                                                         </DisableQuotesMetricsProvider>

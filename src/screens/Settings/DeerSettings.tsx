@@ -17,10 +17,6 @@ import {isWeb} from '#/platform/detection'
 import * as persisted from '#/state/persisted'
 import {useGoLinksEnabled, useSetGoLinksEnabled} from '#/state/preferences'
 import {
-  useConstellationEnabled,
-  useSetConstellationEnabled,
-} from '#/state/preferences/constellation-enabled'
-import {
   useConstellationInstance,
   useSetConstellationInstance,
 } from '#/state/preferences/constellation-instance'
@@ -34,6 +30,18 @@ import {
   useSetDirectFetchRecords,
 } from '#/state/preferences/direct-fetch-records'
 import {
+  useDisableFollowersMetrics,
+  useSetDisableFollowersMetrics
+} from '#/state/preferences/disable-followers-metrics'
+import {
+  useDisableFollowingMetrics,
+  useSetDisableFollowingMetrics
+} from '#/state/preferences/disable-following-metrics'
+import {
+  useDisableFollowedByMetrics,
+  useSetDisableFollowedByMetrics
+} from '#/state/preferences/disable-followed-by-metrics'
+import {
   useDisableLikesMetrics,
   useSetDisableLikesMetrics,
 } from '#/state/preferences/disable-likes-metrics'
@@ -45,6 +53,10 @@ import {
   useDisableReplyMetrics,
   useSetDisableReplyMetrics,
 } from '#/state/preferences/disable-reply-metrics'
+import {
+  useDisablePostsMetrics,
+  useSetDisablePostsMetrics,
+} from '#/state/preferences/disable-posts-metrics'
 import {
   useDisableRepostsMetrics,
   useSetDisableRepostsMetrics,
@@ -65,6 +77,10 @@ import {
   useEnableSquareButtons,
   useSetEnableSquareButtons,
 } from '#/state/preferences/enable-square-buttons'
+import {
+  useSetShowExternalShareButtons,
+  useShowExternalShareButtons,
+} from '#/state/preferences/external-share-buttons'
 import {
   useHideFeedsPromoTab,
   useSetHideFeedsPromoTab,
@@ -95,10 +111,6 @@ import {
   useShowLinkInHandle,
 } from '#/state/preferences/show-link-in-handle.tsx'
 import {useProfilesQuery} from '#/state/queries/profile'
-import {
-  useSetShowExternalShareButtons,
-  useShowExternalShareButtons,
-} from '#/state/preferences/external-share-buttons'
 import * as SettingsList from '#/screens/Settings/components/SettingsList'
 import {atoms as a, useBreakpoints} from '#/alf'
 import {Admonition} from '#/components/Admonition'
@@ -250,9 +262,6 @@ export function DeerSettingsScreen({}: Props) {
   const goLinksEnabled = useGoLinksEnabled()
   const setGoLinksEnabled = useSetGoLinksEnabled()
 
-  const constellationEnabled = useConstellationEnabled()
-  const setConstellationEnabled = useSetConstellationEnabled()
-
   const directFetchRecords = useDirectFetchRecords()
   const setDirectFetchRecords = useSetDirectFetchRecords()
 
@@ -288,6 +297,18 @@ export function DeerSettingsScreen({}: Props) {
 
   const disableReplyMetrics = useDisableReplyMetrics()
   const setDisableReplyMetrics = useSetDisableReplyMetrics()
+
+  const disableFollowersMetrics = useDisableFollowersMetrics()
+  const setDisableFollowersMetrics = useSetDisableFollowersMetrics()
+
+  const disableFollowingMetrics = useDisableFollowingMetrics()
+  const setDisableFollowingMetrics = useSetDisableFollowingMetrics()
+
+  const disableFollowedByMetrics = useDisableFollowedByMetrics()
+  const setDisableFollowedByMetrics = useSetDisableFollowedByMetrics()
+
+  const disablePostsMetrics = useDisablePostsMetrics()
+  const setDisablePostsMetrics = useSetDisablePostsMetrics()
 
   const hideSimilarAccountsRecomm = useHideSimilarAccountsRecomm()
   const setHideSimilarAccountsRecomm = useSetHideSimilarAccountsRecomm()
@@ -545,12 +566,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_via_repost_notification"
-              label={_(msg`Disable via reskeet notifications`)}
+              label={_(msg`Disable "via reskeet" notifications`)}
               value={disableViaRepostNotification}
               onChange={value => setDisableViaRepostNotification(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable via reskeet notifications</Trans>
+                <Trans>Disable "via reskeet" notifications</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -606,60 +627,108 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_likes_metrics"
-              label={_(msg`Disable Likes Metrics`)}
+              label={_(msg`Disable likes metrics`)}
               value={disableLikesMetrics}
               onChange={value => setDisableLikesMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable Likes Metrics</Trans>
+                <Trans>Disable likes metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
 
             <Toggle.Item
               name="disable_reposts_metrics"
-              label={_(msg`Disable Reskeets Metrics`)}
+              label={_(msg`Disable reskeets metrics`)}
               value={disableRepostsMetrics}
               onChange={value => setDisableRepostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable Reskeets Metrics</Trans>
+                <Trans>Disable reskeets metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
 
             <Toggle.Item
               name="disable_quotes_metrics"
-              label={_(msg`Disable Quotes Metrics`)}
+              label={_(msg`Disable quotes metrics`)}
               value={disableQuotesMetrics}
               onChange={value => setDisableQuotesMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable Quotes Metrics</Trans>
+                <Trans>Disable quotes metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
 
             <Toggle.Item
               name="disable_saves_metrics"
-              label={_(msg`Disable Saves Metrics`)}
+              label={_(msg`Disable saves metrics`)}
               value={disableSavesMetrics}
               onChange={value => setDisableSavesMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable Saves Metrics</Trans>
+                <Trans>Disable saves metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
 
             <Toggle.Item
               name="disable_reply_metrics"
-              label={_(msg`Disable Reply Metrics`)}
+              label={_(msg`Disable reply metrics`)}
               value={disableReplyMetrics}
               onChange={value => setDisableReplyMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable Reply Metrics</Trans>
+                <Trans>Disable reply metrics</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="disable_followers_metrics"
+              label={_(msg`Disable followers metrics`)}
+              value={disableFollowersMetrics}
+              onChange={value => setDisableFollowersMetrics(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Disable followers metrics</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="disable_following_metrics"
+              label={_(msg`Disable following metrics`)}
+              value={disableFollowingMetrics}
+              onChange={value => setDisableFollowingMetrics(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Disable following metrics</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="disable_followed_by_metrics"
+              label={_(msg`Disable "followed by" metrics`)}
+              value={disableFollowedByMetrics}
+              onChange={value => setDisableFollowedByMetrics(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Disable "followed by" metrics</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="disable_posts_metrics"
+              label={_(msg`Disable skeets metrics`)}
+              value={disablePostsMetrics}
+              onChange={value => setDisablePostsMetrics(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Disable skeets metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>

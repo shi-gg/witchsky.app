@@ -18,6 +18,9 @@ import {type NavigationProp} from '#/lib/routes/types'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
+import {useDisableFollowedByMetrics} from '#/state/preferences/disable-followed-by-metrics'
+import {useDisableFollowersMetrics} from '#/state/preferences/disable-followers-metrics'
+import {useDisableFollowingMetrics} from '#/state/preferences/disable-following-metrics'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {usePrefetchProfileQuery, useProfileQuery} from '#/state/queries/profile'
@@ -463,6 +466,11 @@ function Inner({
 
   const enableSquareButtons = useEnableSquareButtons()
 
+  // disable metrics
+  const disableFollowersMetrics = useDisableFollowersMetrics()
+  const disableFollowingMetrics = useDisableFollowingMetrics()
+  const disableFollowedByMetrics = useDisableFollowedByMetrics()
+
   return (
     <View>
       <View style={[a.flex_row, a.justify_between, a.align_start]}>
@@ -572,28 +580,34 @@ function Inner({
 
       {!isBlockedUser && (
         <>
-          <View style={[a.flex_row, a.flex_wrap, a.gap_md, a.pt_xs]}>
-            <InlineLinkText
-              to={makeProfileLink(profile, 'followers')}
-              label={`${followers} ${pluralizedFollowers}`}
-              style={[t.atoms.text]}
-              onPress={hide}>
-              <Text style={[a.text_md, a.font_semi_bold]}>{followers} </Text>
-              <Text style={[t.atoms.text_contrast_medium]}>
-                {pluralizedFollowers}
-              </Text>
-            </InlineLinkText>
-            <InlineLinkText
-              to={makeProfileLink(profile, 'follows')}
-              label={_(msg`${following} following`)}
-              style={[t.atoms.text]}
-              onPress={hide}>
-              <Text style={[a.text_md, a.font_semi_bold]}>{following} </Text>
-              <Text style={[t.atoms.text_contrast_medium]}>
-                {pluralizedFollowings}
-              </Text>
-            </InlineLinkText>
-          </View>
+          {disableFollowersMetrics && disableFollowingMetrics ? ( null ) : 
+            <View style={[a.flex_row, a.flex_wrap, a.gap_md, a.pt_xs]}>
+              {!disableFollowersMetrics ? (
+                <InlineLinkText
+                  to={makeProfileLink(profile, 'followers')}
+                  label={`${followers} ${pluralizedFollowers}`}
+                  style={[t.atoms.text]}
+                  onPress={hide}>
+                  <Text style={[a.text_md, a.font_semi_bold]}>{followers} </Text>
+                  <Text style={[t.atoms.text_contrast_medium]}>
+                    {pluralizedFollowers}
+                  </Text>
+                </InlineLinkText>
+              ) : null}
+              {!disableFollowingMetrics ? (
+                <InlineLinkText
+                  to={makeProfileLink(profile, 'follows')}
+                  label={_(msg`${following} following`)}
+                  style={[t.atoms.text]}
+                  onPress={hide}>
+                  <Text style={[a.text_md, a.font_semi_bold]}>{following} </Text>
+                  <Text style={[t.atoms.text_contrast_medium]}>
+                    {pluralizedFollowings}
+                  </Text>
+                </InlineLinkText>
+              ) : null}
+            </View>
+          }
 
           {profile.description?.trim() && !moderation.ui('profileView').blur ? (
             <View style={[a.pt_md]}>
@@ -606,6 +620,7 @@ function Inner({
           ) : undefined}
 
           {!isMe &&
+            !disableFollowedByMetrics &&
             shouldShowKnownFollowers(profile.viewer?.knownFollowers) && (
               <View style={[a.flex_row, a.align_center, a.gap_sm, a.pt_md]}>
                 <KnownFollowers
