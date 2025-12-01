@@ -9,6 +9,7 @@ import * as Clipboard from 'expo-clipboard'
 import {
   type AppBskyEmbedExternal,
   type AppBskyEmbedImages,
+  AppBskyEmbedRecord,
   type AppBskyEmbedRecordWithMedia,
   type AppBskyEmbedVideo,
   type AppBskyFeedDefs,
@@ -16,13 +17,13 @@ import {
   type AppBskyFeedThreadgate,
   AtUri,
   type RichText as RichTextAPI,
-  AppBskyEmbedRecord,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
 
 import {DISCOVER_DEBUG_DIDS} from '#/lib/constants'
+import {useOpenComposer} from '#/lib/hooks/useOpenComposer'
 import {useOpenLink} from '#/lib/hooks/useOpenLink'
 import {useTranslate} from '#/lib/hooks/useTranslate'
 import {saveVideoToMediaLibrary} from '#/lib/media/manip'
@@ -81,9 +82,9 @@ import {
 import {Eye_Stroke2_Corner0_Rounded as Eye} from '#/components/icons/Eye'
 import {EyeSlash_Stroke2_Corner0_Rounded as EyeSlash} from '#/components/icons/EyeSlash'
 import {Filter_Stroke2_Corner0_Rounded as Filter} from '#/components/icons/Filter'
-import {Pencil_Stroke2_Corner0_Rounded as Pen} from '#/components/icons/Pencil'
 import {Mute_Stroke2_Corner0_Rounded as MuteIcon} from '#/components/icons/Mute'
 import {Mute_Stroke2_Corner0_Rounded as Mute} from '#/components/icons/Mute'
+import {Pencil_Stroke2_Corner0_Rounded as Pen} from '#/components/icons/Pencil'
 import {PersonX_Stroke2_Corner0_Rounded as PersonX} from '#/components/icons/Person'
 import {Pin_Stroke2_Corner0_Rounded as PinIcon} from '#/components/icons/Pin'
 import {SettingsGear2_Stroke2_Corner0_Rounded as Gear} from '#/components/icons/SettingsGear2'
@@ -99,7 +100,6 @@ import {
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
 import {IS_INTERNAL} from '#/env'
-import {useOpenComposer} from '#/lib/hooks/useOpenComposer'
 import * as bsky from '#/types/bsky'
 
 let PostMenuItems = ({
@@ -606,7 +606,7 @@ let PostMenuItems = ({
         control={redraftPromptControl}
         title={_(msg`Redraft this skeet?`)}
         description={_(
-          msg`This will delete the original skeet and open the composer with its content.`,
+          msg`This will delete the original skeet and open the composer with its content. (WARNING: DOESN'T WORK ON SKEETS WITH MEDIA ALREADY ATTACHED. Probably no threads support either.)`,
         )}
         onConfirm={onConfirmRedraft}
         confirmButtonCta={_(msg`Redraft`)}
