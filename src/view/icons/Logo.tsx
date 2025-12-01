@@ -8,8 +8,9 @@ import Svg, {
   Stop,
   type SvgProps,
 } from 'react-native-svg'
+import {Image} from 'expo-image'
 
-//import {useKawaiiMode} from '#/state/preferences/kawaii'
+import {useKawaiiMode} from '#/state/preferences/kawaii'
 import {flatten, useTheme} from '#/alf'
 
 const ratio = 512 / 512
@@ -30,23 +31,23 @@ export const Logo = React.forwardRef(function LogoImpl(props: Props, ref) {
   // @ts-ignore it's fiiiiine
   const size = parseInt(rest.width || 32, 10)
 
-  // const isKawaii = useKawaiiMode()
+  const isKawaii = useKawaiiMode()
 
-  // if (isKawaii) {
-  //   return (
-  //     <Image
-  //       source={
-  //         size > 100
-  //           ? require('../../../assets/kawaii.png')
-  //           : require('../../../assets/kawaii_smol.png')
-  //       }
-  //       accessibilityLabel="Bluesky"
-  //       accessibilityHint=""
-  //       accessibilityIgnoresInvertColors
-  //       style={[{height: size, aspectRatio: 1.4}]}
-  //     />
-  //   )
-  // }
+  if (isKawaii) {
+    return (
+      <Image
+        source={
+          size > 100
+            ? require('../../../assets/kawaii.png')
+            : require('../../../assets/kawaii_smol.png')
+        }
+        accessibilityLabel="Witchsky"
+        accessibilityHint=""
+        accessibilityIgnoresInvertColors
+        style={[{height: size, aspectRatio: 2}]}
+      />
+    )
+  }
 
   return (
     <Svg

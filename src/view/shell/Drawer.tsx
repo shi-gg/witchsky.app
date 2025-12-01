@@ -709,12 +709,12 @@ function ExtraLinks() {
       {kawaii && (
         <Text style={t.atoms.text_contrast_medium}>
           <Trans>
-            Logo by{' '}
+            Kawaii logo by{' '}
             <InlineLinkText
               style={[a.text_md]}
-              to="/profile/sawaratsuki.bsky.social"
-              label="@sawaratsuki.bsky.social">
-              @sawaratsuki.bsky.social
+              to="https://ovvie.neocities.org/"
+              label="ovvie">
+              ovvie
             </InlineLinkText>
           </Trans>
         </Text>
