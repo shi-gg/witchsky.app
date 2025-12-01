@@ -184,13 +184,11 @@ export function AppearanceSettingsScreen({}: Props) {
                   <Trans>Hue shift the colors:</Trans>
                 </Text>
                 <Slider
-                  label="Volume"
                   value={hue}
                   onValueChange={setHue}
-                  min={0}
-                  max={360}
+                  minimumValue={0}
+                  maximumValue={360}
                   step={1}
-                  debounce={0.3}
                 />
               </View>
             </SettingsList.Group>
