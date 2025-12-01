@@ -18,7 +18,10 @@ import {
   postUriToRelativePath,
   toBskyAppUrl,
 } from '#/lib/strings/url-helpers'
-import {type ComposerImage, createInitialImages} from '#/state/gallery'
+import {
+  type ComposerImage,
+  createInitialImages,
+} from '#/state/gallery'
 import {createPostgateRecord} from '#/state/queries/postgate/util'
 import {type Gif} from '#/state/queries/tenor'
 import {threadgateRecordToAllowUISetting} from '#/state/queries/threadgate'
@@ -30,6 +33,8 @@ import {
 } from '#/view/com/composer/text-input/text-input-util'
 import {
   createVideoState,
+  createRedraftVideoState,
+  type RedraftState,
   type VideoAction,
   videoReducer,
   type VideoState,
@@ -491,6 +496,7 @@ export function createComposerState({
   initImageUris,
   initQuoteUri,
   initInteractionSettings,
+  initVideoUri,
 }: {
   initText: string | undefined
   initMention: string | undefined
@@ -499,12 +505,24 @@ export function createComposerState({
   initInteractionSettings:
   | BskyPreferences['postInteractionSettings']
   | undefined
+  initVideoUri?: ComposerOpts['videoUri']
 }): ComposerState {
-  let media: ImagesMedia | undefined
+  let media: ImagesMedia | VideoMedia | undefined
   if (initImageUris?.length) {
     media = {
       type: 'images',
       images: createInitialImages(initImageUris),
+    }
+  } else if (initVideoUri?.blobRef) {
+    media = {
+      type: 'video',
+      video: createRedraftVideoState({
+        blobRef: initVideoUri.blobRef,
+        width: initVideoUri.width,
+        height: initVideoUri.height,
+        altText: initVideoUri.altText || '',
+        playlistUri: initVideoUri.uri,
+      }),
     }
   }
   let quote: Link | undefined

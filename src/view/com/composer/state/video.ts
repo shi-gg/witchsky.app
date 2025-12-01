@@ -130,12 +130,27 @@ type DoneState = {
   captions: CaptionsTrack[]
 }
 
+export type RedraftState = {
+  status: 'done'
+  progress: 100
+  abortController: AbortController
+  asset: null
+  video?: undefined
+  jobId?: undefined
+  pendingPublish: {blobRef: BlobRef}
+  altText: string
+  captions: CaptionsTrack[]
+  redraftDimensions: {width: number; height: number}
+  playlistUri: string
+}
+
 export type VideoState =
   | ErrorState
   | CompressingState
   | UploadingState
   | ProcessingState
   | DoneState
+  | RedraftState
 
 export function createVideoState(
   asset: ImagePickerAsset,
@@ -148,6 +163,27 @@ export function createVideoState(
     asset,
     altText: '',
     captions: [],
+  }
+}
+
+export function createRedraftVideoState(opts: {
+  blobRef: BlobRef
+  width: number
+  height: number
+  altText?: string
+  playlistUri: string
+}): RedraftState {
+  const noopController = new AbortController()
+  return {
+    status: 'done',
+    progress: 100,
+    abortController: noopController,
+    asset: null,
+    pendingPublish: {blobRef: opts.blobRef},
+    altText: opts.altText || '',
+    captions: [],
+    redraftDimensions: {width: opts.width, height: opts.height},
+    playlistUri: opts.playlistUri,
   }
 }
 

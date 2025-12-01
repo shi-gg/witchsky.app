@@ -324,6 +324,17 @@ async function resolveMedia(
     onStateChange?.(t`Uploading images...`)
     const images: AppBskyEmbedImages.Image[] = await Promise.all(
       imagesDraft.map(async (image, i) => {
+        if (image.blobRef) {
+          logger.debug(`Reusing existing blob for image #${i}`)
+          return {
+            image: image.blobRef,
+            alt: image.alt,
+            aspectRatio: {
+              width: image.source.width,
+              height: image.source.height,
+            },
+          }
+        }
         logger.debug(`Compressing image #${i}`)
         const {path, width, height, mime} = await compressImage(image)
         logger.debug(`Uploading image #${i}`)
@@ -356,9 +367,14 @@ async function resolveMedia(
         }),
     )
 
-    // lexicon numbers must be floats
-    const width = Math.round(videoDraft.asset.width)
-    const height = Math.round(videoDraft.asset.height)
+    const width = Math.round(
+      videoDraft.asset?.width || 
+      ('redraftDimensions' in videoDraft ? videoDraft.redraftDimensions.width : 1000)
+    )
+    const height = Math.round(
+      videoDraft.asset?.height || 
+      ('redraftDimensions' in videoDraft ? videoDraft.redraftDimensions.height : 1000)
+    )
 
     // aspect ratio values must be >0 - better to leave as unset otherwise
     // posting will fail if aspect ratio is set to 0
@@ -366,7 +382,7 @@ async function resolveMedia(
 
     if (!aspectRatio) {
       logger.error(
-        `Invalid aspect ratio - got { width: ${videoDraft.asset.width}, height: ${videoDraft.asset.height} }`,
+        `Invalid aspect ratio - got { width: ${width}, height: ${height} }`,
       )
     }
 

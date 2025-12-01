@@ -119,6 +119,7 @@ import {ThreadgateBtn} from '#/view/com/composer/threadgate/ThreadgateBtn'
 import {SubtitleDialogBtn} from '#/view/com/composer/videos/SubtitleDialog'
 import {VideoPreview} from '#/view/com/composer/videos/VideoPreview'
 import {VideoTranscodeProgress} from '#/view/com/composer/videos/VideoTranscodeProgress'
+import {VideoEmbedRedraft} from '#/view/com/composer/videos/VideoEmbedRedraft'
 import {Text} from '#/view/com/util/text/Text'
 import {UserAvatar} from '#/view/com/util/UserAvatar'
 import {atoms as a, native, useTheme, web} from '#/alf'
@@ -126,6 +127,7 @@ import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import {CircleInfo_Stroke2_Corner0_Rounded as CircleInfoIcon} from '#/components/icons/CircleInfo'
 import {EmojiArc_Stroke2_Corner0_Rounded as EmojiSmileIcon} from '#/components/icons/Emoji'
 import {PlusLarge_Stroke2_Corner0_Rounded as PlusIcon} from '#/components/icons/Plus'
+import {Play_Stroke2_Corner0_Rounded as PlayIcon} from '#/components/icons/Play'
 import {TimesLarge_Stroke2_Corner0_Rounded as XIcon} from '#/components/icons/Times'
 import {LazyQuoteEmbed} from '#/components/Post/Embed/LazyQuoteEmbed'
 import * as Prompt from '#/components/Prompt'
@@ -238,14 +240,14 @@ export const ComposePost = ({
 
   const [composerState, composerDispatch] = useReducer(
     composerReducer,
-    {
+    createComposerState({
       initImageUris,
       initQuoteUri: initQuote?.uri,
       initText,
       initMention,
       initInteractionSettings: preferences?.postInteractionSettings,
-    },
-    createComposerState,
+      initVideoUri,
+    }),
   )
 
   const thread = composerState.thread
@@ -297,7 +299,7 @@ export const ComposePost = ({
   )
 
   const onInitVideo = useNonReactiveCallback(() => {
-    if (initVideoUri) {
+    if (initVideoUri && !initVideoUri.blobRef) {
       selectVideo(activePost.id, initVideoUri)
     }
   })
@@ -1172,6 +1174,7 @@ function ComposerEmbeds({
   canRemoveQuote: boolean
   isActivePost: boolean
 }) {
+  const theme = useTheme()
   const video = embed.media?.type === 'video' ? embed.media.video : null
   return (
     <>
@@ -1226,6 +1229,16 @@ function ComposerEmbeds({
                   clear={clearVideo}
                 />
               ) : null)}
+            {!video.asset && video.status === 'done' && 'playlistUri' in video && (
+              <View style={[a.relative, a.mt_lg]}>
+                <VideoEmbedRedraft
+                  blobRef={video.pendingPublish?.blobRef!}
+                  playlistUri={video.playlistUri}
+                  aspectRatio={video.redraftDimensions}
+                  onRemove={clearVideo}
+                />
+              </View>
+            )}
             <SubtitleDialogBtn
               defaultAltText={video.altText}
               saveAltText={altText =>
@@ -1239,7 +1252,7 @@ function ComposerEmbeds({
                 })
               }
               captions={video.captions}
-              setCaptions={updater => {
+              setCaptions={(updater: (captions: any[]) => any[]) => {
                 dispatch({
                   type: 'embed_update_video',
                   videoAction: {

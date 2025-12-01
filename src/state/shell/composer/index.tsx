@@ -3,6 +3,7 @@ import {
   type AppBskyActorDefs,
   type AppBskyFeedDefs,
   type AppBskyUnspeccedGetPostThreadV2,
+  type BlobRef,
   type ModerationDecision,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
@@ -41,8 +42,8 @@ export interface ComposerOpts {
   mention?: string // handle of user to mention
   openEmojiPicker?: (pos: EmojiPickerPosition | undefined) => void
   text?: string
-  imageUris?: {uri: string; width: number; height: number; altText?: string}[]
-  videoUri?: {uri: string; width: number; height: number}
+  imageUris?: {uri: string; width: number; height: number; altText?: string; blobRef?: BlobRef}[]
+  videoUri?: {uri: string; width: number; height: number; blobRef?: BlobRef; altText?: string}
 }
 
 type StateContext = ComposerOpts | undefined

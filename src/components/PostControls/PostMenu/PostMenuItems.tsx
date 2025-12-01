@@ -17,6 +17,7 @@ import {
   type AppBskyFeedThreadgate,
   AtUri,
   type RichText as RichTextAPI,
+  type BlobRef,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -230,25 +231,39 @@ let PostMenuItems = ({
       width: number
       height: number
       altText?: string
+      blobRef?: AppBskyEmbedImages.Image['image']
     }[] = []
+
+    const recordEmbed = record.embed
+    let recordImages: AppBskyEmbedImages.Image[] = []
+    if (recordEmbed?.$type === 'app.bsky.embed.images') {
+      recordImages = (recordEmbed as AppBskyEmbedImages.Main).images
+    } else if (recordEmbed?.$type === 'app.bsky.embed.recordWithMedia') {
+      const media = (recordEmbed as AppBskyEmbedRecordWithMedia.Main).media
+      if (media.$type === 'app.bsky.embed.images') {
+        recordImages = (media as AppBskyEmbedImages.Main).images
+      }
+    }
 
     if (post.embed?.$type === 'app.bsky.embed.images#view') {
       const embed = post.embed as AppBskyEmbedImages.View
-      imageUris = embed.images.map(img => ({
+      imageUris = embed.images.map((img, i) => ({
         uri: img.fullsize,
         width: img.aspectRatio?.width ?? 1000,
         height: img.aspectRatio?.height ?? 1000,
         altText: img.alt,
+        blobRef: recordImages[i]?.image,
       }))
     } else if (post.embed?.$type === 'app.bsky.embed.recordWithMedia#view') {
       const embed = post.embed as AppBskyEmbedRecordWithMedia.View
       if (embed.media.$type === 'app.bsky.embed.images#view') {
         const images = embed.media as AppBskyEmbedImages.View
-        imageUris = images.images.map(img => ({
+        imageUris = images.images.map((img, i) => ({
           uri: img.fullsize,
           width: img.aspectRatio?.width ?? 1000,
           height: img.aspectRatio?.height ?? 1000,
           altText: img.alt,
+          blobRef: recordImages[i]?.image,
         }))
       }
     }
@@ -297,9 +312,47 @@ let PostMenuItems = ({
       }
     }
 
+    let videoUri: {uri: string; width: number; height: number; blobRef?: BlobRef; altText?: string} | undefined
+    let recordVideo: AppBskyEmbedVideo.Main | undefined
+    
+    if (recordEmbed?.$type === 'app.bsky.embed.video') {
+      recordVideo = recordEmbed as AppBskyEmbedVideo.Main
+    } else if (recordEmbed?.$type === 'app.bsky.embed.recordWithMedia') {
+      const media = (recordEmbed as AppBskyEmbedRecordWithMedia.Main).media
+      if (media.$type === 'app.bsky.embed.video') {
+        recordVideo = media as AppBskyEmbedVideo.Main
+      }
+    }
+    
+    if (post.embed?.$type === 'app.bsky.embed.video#view') {
+      const embed = post.embed as AppBskyEmbedVideo.View
+      if (recordVideo) {
+        videoUri = {
+          uri: embed.playlist || '',
+          width: embed.aspectRatio?.width ?? 1000,
+          height: embed.aspectRatio?.height ?? 1000,
+          blobRef: recordVideo.video,
+          altText: embed.alt || '',
+        }
+      }
+    } else if (post.embed?.$type === 'app.bsky.embed.recordWithMedia#view') {
+      const embed = post.embed as AppBskyEmbedRecordWithMedia.View
+      if (embed.media.$type === 'app.bsky.embed.video#view' && recordVideo) {
+        const video = embed.media as AppBskyEmbedVideo.View
+        videoUri = {
+          uri: video.playlist || '',
+          width: video.aspectRatio?.width ?? 1000,
+          height: video.aspectRatio?.height ?? 1000,
+          blobRef: recordVideo.video,
+          altText: video.alt || '',
+        }
+      }
+    }
+
     openComposer({
       text: record.text,
       imageUris,
+      videoUri,
       onPost: () => {
         onDeletePost()
       },
@@ -606,7 +659,7 @@ let PostMenuItems = ({
         control={redraftPromptControl}
         title={_(msg`Redraft this skeet?`)}
         description={_(
-          msg`This will delete the original skeet and open the composer with its content. (WARNING: DOESN'T WORK ON SKEETS WITH MEDIA ALREADY ATTACHED. Probably no threads support either.)`,
+          msg`This will delete the original skeet and open the composer with its content.`,
         )}
         onConfirm={onConfirmRedraft}
         confirmButtonCta={_(msg`Redraft`)}

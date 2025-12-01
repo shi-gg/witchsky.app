@@ -1,3 +1,4 @@
+import {type BlobRef} from '@atproto/api'
 import {
   cacheDirectory,
   deleteAsync,
@@ -37,6 +38,7 @@ export type ImageSource = ImageMeta & {
 type ComposerImageBase = {
   alt: string
   source: ImageSource
+  blobRef?: BlobRef
 }
 type ComposerImageWithoutTransformation = ComposerImageBase & {
   transformed?: undefined
@@ -81,12 +83,13 @@ export type InitialImage = {
   width: number
   height: number
   altText?: string
+  blobRef?: BlobRef
 }
 
 export function createInitialImages(
   uris: InitialImage[] = [],
 ): ComposerImageWithoutTransformation[] {
-  return uris.map(({uri, width, height, altText = ''}) => {
+  return uris.map(({uri, width, height, altText = '', blobRef}) => {
     return {
       alt: altText,
       source: {
@@ -96,6 +99,7 @@ export function createInitialImages(
         height: height,
         mime: 'image/jpeg',
       },
+      blobRef,
     }
   })
 }
@@ -197,7 +201,6 @@ export function resetImageManipulation(
 
 export async function compressImage(img: ComposerImage): Promise<PickerImage> {
   const source = img.transformed || img.source
-
   const [w, h] = containImageRes(source.width, source.height, POST_IMG_MAX)
 
   let minQualityPercentage = 0
