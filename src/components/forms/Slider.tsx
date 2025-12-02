@@ -1,7 +1,8 @@
+import {useEffect, useState} from 'react'
 import {type ViewStyle} from 'react-native'
 import {Slider as RNSlider} from '@miblanchard/react-native-slider'
 
-import {useTheme} from '#/alf'
+import {changeHue, useTheme} from '#/alf'
 
 interface SliderProps {
   value: number
@@ -13,6 +14,7 @@ interface SliderProps {
   minimumTrackStyle?: ViewStyle
   thumbStyle?: ViewStyle
   thumbTouchSize?: {width: number; height: number}
+  debounceFull?: boolean
 }
 
 export function Slider({
@@ -25,13 +27,35 @@ export function Slider({
   minimumTrackStyle,
   thumbStyle,
   thumbTouchSize = {width: 40, height: 40},
+  debounceFull,
 }: SliderProps) {
   const t = useTheme()
+  // We need local state to handle visual updates while dragging if debounceFull is true
+  const [localValue, setLocalValue] = useState(value)
+
+  // Sync local state if the parent updates the value prop externally
+  useEffect(() => {
+    setLocalValue(value)
+  }, [value])
 
   return (
     <RNSlider
-      value={[value]} // always an array
-      onValueChange={values => onValueChange(values[0])}
+      value={[localValue]} // Read from local state
+      onValueChange={values => {
+        const nextVal = values[0]
+        setLocalValue(nextVal)
+
+        // If NOT debouncing, update parent immediately while dragging
+        if (!debounceFull) {
+          onValueChange(nextVal)
+        }
+      }}
+      onSlidingComplete={values => {
+        // If debouncing, update parent only when done dragging
+        if (debounceFull) {
+          onValueChange(values[0])
+        }
+      }}
       minimumValue={minimumValue}
       maximumValue={maximumValue}
       step={step}
@@ -44,7 +68,7 @@ export function Slider({
       minimumTrackStyle={{
         height: 4,
         borderRadius: 2,
-        backgroundColor: t.palette.primary_500,
+        backgroundColor: changeHue(t.palette.primary_500, localValue - value),
         ...minimumTrackStyle,
       }}
       thumbStyle={{

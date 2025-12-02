@@ -1,6 +1,6 @@
 import React from 'react'
 import {createTheme, type Theme, type ThemeName} from '@bsky.app/alf'
-import {formatHex, modeOklch, useMode as utilMode} from 'culori'
+import chroma from 'chroma-js'
 
 import {useThemePrefs} from '#/state/shell/color-mode'
 import {
@@ -70,21 +70,14 @@ Context.displayName = 'AlfContext'
 
 export type SchemeType = typeof themes
 
-function changeHue(color: string, hueShift: number) {
-  if (!hueShift || hueShift === 0) return color
+export function changeHue(colorStr: string, hueShift: number) {
+  if (!hueShift || hueShift === 0) return colorStr
 
-  let lablch = utilMode(modeOklch)
-  const parsed = lablch(color)
+  const color = chroma(colorStr).oklch()
 
-  if (!parsed) return color
+  const newHue = (color[2] + hueShift + 360) % 360
 
-  const {l, c, h} = parsed as {l: number; c: number; h: number | undefined}
-
-  const currentHue = h || 0
-
-  const newHue = (currentHue + hueShift + 360) % 360
-
-  return formatHex({mode: 'oklch', l, c, h: newHue})
+  return chroma.oklch(color[0], color[1], newHue).hex()
 }
 
 export function shiftPalette(palette: Palette, hueShift: number): Palette {

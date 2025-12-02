@@ -189,6 +189,7 @@ export function AppearanceSettingsScreen({}: Props) {
                   minimumValue={0}
                   maximumValue={360}
                   step={1}
+                  debounceFull={true}
                 />
               </View>
             </SettingsList.Group>
