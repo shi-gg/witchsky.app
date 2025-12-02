@@ -2,6 +2,38 @@ import {AppBskyRichtextFacet,type RichText,UnicodeString} from '@atproto/api'
 
 import {toShortUrl} from './url-helpers'
 
+export function restoreLinks(
+  text: string,
+  facets?: AppBskyRichtextFacet.Main[],
+): string {
+  if (!facets?.length) {
+    return text
+  }
+
+  const rt = new UnicodeString(text)
+  const parts: string[] = []
+  let lastIndex = 0
+
+  const sortedFacets = [...facets].sort(
+    (a, b) => a.index.byteStart - b.index.byteStart,
+  )
+
+  for (const facet of sortedFacets) {
+    const isLink = facet.features.find(AppBskyRichtextFacet.isLink)
+    if (!isLink) {
+      continue
+    }
+
+    parts.push(rt.slice(lastIndex, facet.index.byteStart))
+    parts.push(isLink.uri)
+    lastIndex = facet.index.byteEnd
+  }
+
+  parts.push(rt.slice(lastIndex))
+
+  return parts.join('')
+}
+
 export function shortenLinks(rt: RichText): RichText {
   if (!rt.facets?.length) {
     return rt

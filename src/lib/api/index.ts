@@ -203,7 +203,7 @@ async function resolveRT(agent: BskyAgent, richtext: RichText) {
   const {text: parsedText, facets: markdownFacets} =
     parseMarkdownLinks(trimmedText)
 
-  let rt = new RichText({text: parsedText}, {cleanNewlines: true})
+  let rt = new RichText({text: parsedText})
   await rt.detectFacets(agent)
 
   if (markdownFacets.length > 0) {
@@ -368,11 +368,11 @@ async function resolveMedia(
     )
 
     const width = Math.round(
-      videoDraft.asset?.width || 
+      videoDraft.asset?.width ||
       ('redraftDimensions' in videoDraft ? videoDraft.redraftDimensions.width : 1000)
     )
     const height = Math.round(
-      videoDraft.asset?.height || 
+      videoDraft.asset?.height ||
       ('redraftDimensions' in videoDraft ? videoDraft.redraftDimensions.height : 1000)
     )
 

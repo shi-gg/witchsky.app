@@ -37,6 +37,7 @@ import {
 } from '#/lib/routes/types'
 import {logEvent, useGate} from '#/lib/statsig/statsig'
 import {richTextToString} from '#/lib/strings/rich-text-helpers'
+import {restoreLinks} from '#/lib/strings/rich-text-manip'
 import {toShareUrl} from '#/lib/strings/url-helpers'
 import {logger} from '#/logger'
 import {isWeb} from '#/platform/detection'
@@ -350,7 +351,7 @@ let PostMenuItems = ({
     }
 
     openComposer({
-      text: record.text,
+      text: restoreLinks(record.text, record.facets),
       imageUris,
       videoUri,
       onPost: () => {
