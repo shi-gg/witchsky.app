@@ -231,7 +231,7 @@ export function Signup({
                         label={_(msg`Contact support`)}
                         to={FEEDBACK_FORM_URL({email: state.email})}
                         style={[!gtMobile && a.text_md]}>
-                        <Trans>Open a Github Issue</Trans>
+                        <Trans>Open a Tangled Issue</Trans>
                       </InlineLinkText>
                     </Text>
                   </View>
