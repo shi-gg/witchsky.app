@@ -15,6 +15,8 @@ import {sanitizeHandle} from '#/lib/strings/handles'
 import {colors} from '#/lib/styles'
 import {isWeb} from '#/platform/detection'
 import {emitSoftReset} from '#/state/events'
+import {useDisableFollowersMetrics} from '#/state/preferences/disable-followers-metrics'
+import {useDisableFollowingMetrics} from '#/state/preferences/disable-following-metrics'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useKawaiiMode} from '#/state/preferences/kawaii'
 import {useUnreadNotifications} from '#/state/queries/notifications/unread'
@@ -72,6 +74,10 @@ let DrawerProfileCard = ({
   const verification = useSimpleVerificationState({profile})
   const {isActive: live} = useActorStatus(profile)
 
+  // disable metrics
+  const disableFollowersMetrics = useDisableFollowersMetrics()
+  const disableFollowingMetrics = useDisableFollowingMetrics()
+
   return (
     <TouchableOpacity
       testID="profileCardButton"
@@ -114,29 +120,40 @@ let DrawerProfileCard = ({
           {sanitizeHandle(account.handle, '@')}
         </Text>
       </View>
-      <Text style={[a.text_md, t.atoms.text_contrast_medium]}>
-        <Trans>
-          <Text style={[a.text_md, a.font_semi_bold]}>
-            {formatCount(i18n, profile?.followersCount ?? 0)}
-          </Text>{' '}
-          <Plural
-            value={profile?.followersCount || 0}
-            one="follower"
-            other="followers"
-          />
-        </Trans>{' '}
-        &middot;{' '}
-        <Trans>
-          <Text style={[a.text_md, a.font_semi_bold]}>
-            {formatCount(i18n, profile?.followsCount ?? 0)}
-          </Text>{' '}
-          <Plural
-            value={profile?.followsCount || 0}
-            one="following"
-            other="following"
-          />
-        </Trans>
-      </Text>
+      {disableFollowersMetrics && disableFollowingMetrics ? null : (
+        <Text style={[a.text_md, t.atoms.text_contrast_medium]}>
+          {!disableFollowersMetrics ? (
+            <Trans>
+              <Text style={[a.text_md, a.font_semi_bold]}>
+                {formatCount(i18n, profile?.followersCount ?? 0)}
+              </Text>{' '}
+              <Plural
+                value={profile?.followersCount || 0}
+                one="follower"
+                other="followers"
+              />
+            </Trans>
+          ) : null}
+          {!disableFollowersMetrics && !disableFollowingMetrics ? (
+            <Text style={[a.text_md, t.atoms.text_contrast_medium]}>
+              {' '}
+              &middot;{' '}
+            </Text>
+          ) : null}
+          {!disableFollowingMetrics ? (
+            <Trans>
+              <Text style={[a.text_md, a.font_semi_bold]}>
+                {formatCount(i18n, profile?.followsCount ?? 0)}
+              </Text>{' '}
+              <Plural
+                value={profile?.followsCount || 0}
+                one="following"
+                other="following"
+              />
+            </Trans>
+          ) : null}
+        </Text>
+      )}
     </TouchableOpacity>
   )
 }
