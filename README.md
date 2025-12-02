@@ -1,4 +1,4 @@
-# Witchsky Social App 🧙 (WIP)
+# Witchsky Social App 🧙 (alpha)
 
 Hey, witches! This is the codebase for the Witchsky app, based on [social.daniela.lol](https://github.com/kittibytess/deer-social) and prior [Bluesky](https://github.com/bluesky-social/social-app) forks.
 
@@ -15,14 +15,16 @@ alt="Get it on Obtainium" height="54" /></a> -->
 ## Improvements on Bluesky
 
 - Cooler name (still love you tho bsky!)
-- Nicer colors (red-orange)
-- Posts are called Skeets
+- Color scheme options and hue slider (defaults to Witchsky orange)
+- Posts are called Skeets (may let you choose in the future)
 - Choose between sharing witchsky.app or bsky.app links
 - Embed player works with [stream.place](https://stream.place/) links!
 - Open skeets in PDSls and original pages of bridged posts
-- Redraft skeets (CANNOT REDRAFT SKEETS WITH MEDIA, NOR THREADS YET)
+- You can redraft skeets
 - Better defaults (alt text required 😉)
 - More unique repost icons
+- Can download videos
+- 'Mutuals' in place of 'Following' when relevant
 - No push notifications (may be added later)
 - Kept as up-to-date as possible (sporadically unstable as a result)
 
@@ -58,6 +60,9 @@ You can completely disable the visiblity of all metrics individually, including 
 - quotes
 - saves
 - replies
+- followers
+- following
+- & who someone's followed by
 
 #### Gates
 
@@ -65,7 +70,7 @@ You can completely disable the visiblity of all metrics individually, including 
 - Toggle to show feed context for debugging
 - Toggle to hide the 'show latest' button
 - Toggle to make reply button open thread from feeds
-- More may be available in developer mode?
+- More may be available in developer mode? Often less 🤷
   - (Accessible by holding the version in the About settings screen)
 
 ## Upcoming or wishful features
@@ -83,7 +88,6 @@ You can completely disable the visiblity of all metrics individually, including 
 - [ ] Join date & switch accounts from composer from a fork like [deer.aylac.top](https://github.com/ayla6/deer-social-test)
 - [ ] Visual replies indicator like the [Firmament userstyle](https://witchsky.app/profile/did:plc:jwhxcrf5uvl3vyw7nurecgt5/post/3m4rr3vzmak2a) (and likes?)
 - [ ] Additional translation service providers + setting (Deepl, Kagi)
-- [ ] Move Mutuals label to the follow button
 - [ ] Put DeerSettings into separate subpages
 - [ ] After subpages for options, add [Outlinks page](https://witchsky.app/profile/did:plc:q7suwaz53ztc4mbiqyygbn43/post/3m5zjhhshic2g) &
   - [ ] ShareMenuItems.tsx, ShareMenuItems.web.tsx
@@ -99,7 +103,7 @@ You can completely disable the visiblity of all metrics individually, including 
 - [ ] Toggle between handle and DID in share links
 - [ ] Move TOS and privacy policy to Jollywhoppers website?
 - [ ] Ignore `!no-unauthenticated` labels
-- [ ] Rewrite ALF for M3 Expressive (with in-app color slider like red dwarf, for web?)
+- [ ] Material 3 Expressive theming on Android (Liquid **ass on iOS)
 
 ## Development Resources
 
