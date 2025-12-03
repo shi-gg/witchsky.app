@@ -30,10 +30,10 @@ import * as SegmentedControl from '#/components/forms/SegmentedControl'
 import {Slider} from '#/components/forms/Slider'
 import * as Toggle from '#/components/forms/Toggle'
 import {Circle_And_Square_Stroke1_Corner0_Rounded_Filled as SquareIcon} from '#/components/icons/CircleAndSquare'
+import {ColorPalette_Stroke2_Corner0_Rounded as ColorPaletteIcon} from '#/components/icons/ColorPalette'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Moon_Stroke2_Corner0_Rounded as MoonIcon} from '#/components/icons/Moon'
 import {Phone_Stroke2_Corner0_Rounded as PhoneIcon} from '#/components/icons/Phone'
-import {Pizza_Stroke2_Corner0_Rounded as PizzaIcon} from '#/components/icons/Pizza'
 import {Sparkle_Stroke2_Corner0_Rounded as SparkleIcon} from '#/components/icons/Sparkle'
 import {TextSize_Stroke2_Corner0_Rounded as TextSize} from '#/components/icons/TextSize'
 import {TitleCase_Stroke2_Corner0_Rounded as Aa} from '#/components/icons/TitleCase'
@@ -174,7 +174,7 @@ export function AppearanceSettingsScreen({}: Props) {
             )}
 
             <SettingsList.Group>
-              <SettingsList.ItemIcon icon={PizzaIcon} />
+              <SettingsList.ItemIcon icon={ColorPaletteIcon} />
               <SettingsList.ItemText>
                 <Trans>Color Theme</Trans>
               </SettingsList.ItemText>
