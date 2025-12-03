@@ -158,6 +158,7 @@ const schema = z.object({
   hideSimilarAccountsRecomm: z.boolean().optional(),
   enableSquareAvatars: z.boolean().optional(),
   enableSquareButtons: z.boolean().optional(),
+  disableVerifyEmailReminder: z.boolean().optional(),
   deerVerification: z
     .object({
       enabled: z.boolean(),
@@ -245,6 +246,7 @@ export const defaults: Schema = {
   hideSimilarAccountsRecomm: true,
   enableSquareAvatars: false,
   enableSquareButtons: false,
+  disableVerifyEmailReminder: false,
   deerVerification: {
     enabled: false,
     // https://witchsky.app/profile/did:plc:p2cp5gopk7mgjegy6wadk3ep/post/3lndyqyyr4k2k

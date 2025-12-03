@@ -30,6 +30,10 @@ import {
   useSetDirectFetchRecords,
 } from '#/state/preferences/direct-fetch-records'
 import {
+  useDisableFollowedByMetrics,
+  useSetDisableFollowedByMetrics
+} from '#/state/preferences/disable-followed-by-metrics'
+import {
   useDisableFollowersMetrics,
   useSetDisableFollowersMetrics
 } from '#/state/preferences/disable-followers-metrics'
@@ -38,13 +42,13 @@ import {
   useSetDisableFollowingMetrics
 } from '#/state/preferences/disable-following-metrics'
 import {
-  useDisableFollowedByMetrics,
-  useSetDisableFollowedByMetrics
-} from '#/state/preferences/disable-followed-by-metrics'
-import {
   useDisableLikesMetrics,
   useSetDisableLikesMetrics,
 } from '#/state/preferences/disable-likes-metrics'
+import {
+  useDisablePostsMetrics,
+  useSetDisablePostsMetrics,
+} from '#/state/preferences/disable-posts-metrics'
 import {
   useDisableQuotesMetrics,
   useSetDisableQuotesMetrics,
@@ -54,10 +58,6 @@ import {
   useSetDisableReplyMetrics,
 } from '#/state/preferences/disable-reply-metrics'
 import {
-  useDisablePostsMetrics,
-  useSetDisablePostsMetrics,
-} from '#/state/preferences/disable-posts-metrics'
-import {
   useDisableRepostsMetrics,
   useSetDisableRepostsMetrics,
 } from '#/state/preferences/disable-reposts-metrics'
@@ -65,6 +65,10 @@ import {
   useDisableSavesMetrics,
   useSetDisableSavesMetrics,
 } from '#/state/preferences/disable-saves-metrics'
+import {
+  useDisableVerifyEmailReminder,
+  useSetDisableVerifyEmailReminder,
+} from '#/state/preferences/disable-verify-email-reminder'
 import {
   useDisableViaRepostNotification,
   useSetDisableViaRepostNotification,
@@ -318,6 +322,9 @@ export function DeerSettingsScreen({}: Props) {
 
   const enableSquareButtons = useEnableSquareButtons()
   const setEnableSquareButtons = useSetEnableSquareButtons()
+
+  const disableVerifyEmailReminder = useDisableVerifyEmailReminder()
+  const setDisableVerifyEmailReminder = useSetDisableVerifyEmailReminder()
 
   const constellationInstance = useConstellationInstance()
   const setConstellationInstanceControl = Dialog.useDialogControl()
@@ -617,6 +624,25 @@ export function DeerSettingsScreen({}: Props) {
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
+
+            <Toggle.Item
+              name="disable_verify_email_reminder"
+              label={_(msg`Disable verify email reminder`)}
+              value={disableVerifyEmailReminder}
+              onChange={value => setDisableVerifyEmailReminder(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Disable verify email reminder</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+            <Admonition type="warning" style={[a.flex_1]}>
+              <Trans>
+                This only gets rid of the reminder on app launch,
+                useful if your PDS does not have email verification setup.\nThis
+                does NOT give access to features locked behind email verification.
+              </Trans>
+            </Admonition>
           </SettingsList.Group>
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>

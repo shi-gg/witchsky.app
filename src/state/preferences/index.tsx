@@ -16,6 +16,7 @@ import {Provider as DisableQuotesMetricsProvider} from './disable-quotes-metrics
 import {Provider as DisableReplyMetricsProvider} from './disable-reply-metrics'
 import {Provider as DisableRepostsMetricsProvider} from './disable-reposts-metrics'
 import {Provider as DisableSavesMetricsProvider} from './disable-saves-metrics'
+import {Provider as DisableVerifyEmailReminderProvider} from './disable-verify-email-reminder'
 import {Provider as DisableViaRepostNotificationProvider} from './disable-via-repost-notification'
 import {Provider as EnableSquareAvatarsProvider} from './enable-square-avatars'
 import {Provider as EnableSquareButtonsProvider} from './enable-square-buttons'
@@ -97,7 +98,9 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                                       <HideSimilarAccountsRecommProvider>
                                                                         <EnableSquareAvatarsProvider>
                                                                           <EnableSquareButtonsProvider>
-                                                                            {children}
+                                                                            <DisableVerifyEmailReminderProvider>
+                                                                              {children}
+                                                                            </DisableVerifyEmailReminderProvider>
                                                                           </EnableSquareButtonsProvider>
                                                                         </EnableSquareAvatarsProvider>
                                                                       </HideSimilarAccountsRecommProvider>

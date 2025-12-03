@@ -7,6 +7,8 @@ export const color = {
   temp_purple_dark: tokens.labelerColor.purple_dark,
 } as const
 
+// FIXME: some of these should probs be changed up for witchsky branding reasons, they should also work with all the other themes
+
 export const gradients = {
   primary: {
     values: [

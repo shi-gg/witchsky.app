@@ -24,6 +24,11 @@ export function VerificationReminder({
 
   const dialogPadding = gtMobile ? a.p_2xl.padding : a.p_xl.padding
 
+  // FIXME: the usage of "tokens.gradients.summer" here is temporary,
+  // its the closest thats built into bluesky that matches witchskys color scheme
+  // someone, preferbly xan, should edit src/alf/tokens.ts to have proper witchsky colors
+  // maybe even support all the other themes too?
+
   return (
     <View style={[a.gap_lg]}>
       <View
@@ -50,7 +55,7 @@ export function VerificationReminder({
               borderTopRightRadius: a.rounded_md.borderRadius,
             },
           ]}>
-          <GradientFill gradient={tokens.gradients.primary} />
+          <GradientFill gradient={tokens.gradients.summer} />
           <ShieldIcon width={64} fill="white" style={[a.z_10]} />
         </View>
       </View>
@@ -64,7 +69,7 @@ export function VerificationReminder({
         <Text style={[a.text_sm, a.leading_snug, t.atoms.text_contrast_medium]}>
           <Trans>
             Your email has not yet been verified. Please verify your email in
-            order to enjoy all the features of Bluesky.
+            order to enjoy all the features of Witchsky.
           </Trans>
         </Text>
       </View>

@@ -43,6 +43,7 @@ import {attachRouteToLogEvents, logEvent} from '#/lib/statsig/statsig'
 import {bskyTitle} from '#/lib/strings/headings'
 import {logger} from '#/logger'
 import {isNative, isWeb} from '#/platform/detection'
+import {useDisableVerifyEmailReminder} from '#/state/preferences/disable-verify-email-reminder'
 import {useUnreadNotifications} from '#/state/queries/notifications/unread'
 import {useSession} from '#/state/session'
 import {
@@ -867,6 +868,8 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
   const emailDialogControl = useEmailDialogControl()
   const closeAllActiveElements = useCloseAllActiveElements()
 
+  const disableVerifyEmailReminder = useDisableVerifyEmailReminder()
+
   /**
    * Handle navigation to a conversation, or prepares for account switch.
    *
@@ -955,7 +958,7 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
 
   function onReady() {
     prevLoggedRouteName.current = getCurrentRouteName()
-    if (currentAccount && shouldRequestEmailConfirmation(currentAccount)) {
+    if (currentAccount && shouldRequestEmailConfirmation(currentAccount) && !disableVerifyEmailReminder) {
       emailDialogControl.open({
         id: EmailDialogScreenID.VerificationReminder,
       })
