@@ -14,6 +14,7 @@ import {
   type NativeStackScreenProps,
 } from '#/lib/routes/types'
 import {isNative} from '#/platform/detection'
+import {useKawaiiMode, useSetKawaiiMode} from '#/state/preferences/kawaii'
 import {useSetThemePrefs, useThemePrefs} from '#/state/shell'
 import {SettingsListItem as AppIconSettingsListItem} from '#/screens/Settings/AppIconSettings/SettingsListItem'
 import {type Alf, atoms as a, native, useAlf, useTheme} from '#/alf'
@@ -24,6 +25,7 @@ import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Moon_Stroke2_Corner0_Rounded as MoonIcon} from '#/components/icons/Moon'
 import {Phone_Stroke2_Corner0_Rounded as PhoneIcon} from '#/components/icons/Phone'
 import {Pizza_Stroke2_Corner0_Rounded as PizzaIcon} from '#/components/icons/Pizza'
+import {Sparkle_Stroke2_Corner0_Rounded as SparkleIcon} from '#/components/icons/Sparkle'
 import {TextSize_Stroke2_Corner0_Rounded as TextSize} from '#/components/icons/TextSize'
 import {TitleCase_Stroke2_Corner0_Rounded as Aa} from '#/components/icons/TitleCase'
 import * as Layout from '#/components/Layout'
@@ -40,6 +42,9 @@ export function AppearanceSettingsScreen({}: Props) {
   const {colorMode, colorScheme, darkTheme, hue} = useThemePrefs()
   const {setColorMode, setColorScheme, setDarkTheme, setHue} =
     useSetThemePrefs()
+
+  const kawaiiMode = useKawaiiMode()
+  const setKawaiiMode = useSetKawaiiMode()
 
   const onChangeAppearance = useCallback(
     (value: 'light' | 'system' | 'dark') => {
@@ -237,6 +242,26 @@ export function AppearanceSettingsScreen({}: Props) {
                 value={fonts.scale}
                 onChange={onChangeFontScale}
               />
+
+              <SettingsList.Divider />
+
+              <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+                <SettingsList.ItemIcon icon={SparkleIcon} />
+                <SettingsList.ItemText>
+                  <Trans>Logo</Trans>
+                </SettingsList.ItemText>
+                <Toggle.Item
+                  name="kawaii_mode"
+                  label={_(msg`Enable kawaii logo`)}
+                  value={kawaiiMode}
+                  onChange={value => setKawaiiMode(value)}
+                  style={[a.w_full]}>
+                  <Toggle.LabelText style={[a.flex_1]}>
+                    <Trans>Enable kawaii logo</Trans>
+                  </Toggle.LabelText>
+                  <Toggle.Platform />
+                </Toggle.Item>
+              </SettingsList.Group>
 
               {isNative && IS_INTERNAL && (
                 <>

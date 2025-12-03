@@ -43,9 +43,24 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
     }
   }, [setStateWrapped])
 
-  return <stateContext.Provider value={state}>{children}</stateContext.Provider>
+  return (
+    <stateContext.Provider value={state}>
+      <setterContext.Provider value={setStateWrapped}>
+        {children}
+      </setterContext.Provider>
+    </stateContext.Provider>
+  )
 }
 
 export function useKawaiiMode() {
   return React.useContext(stateContext)
+}
+
+const setterContext = React.createContext<(kawaii: boolean) => void>(
+  (_: boolean) => {},
+)
+setterContext.displayName = 'KawaiiSetterContext'
+
+export function useSetKawaiiMode() {
+  return React.useContext(setterContext)
 }
