@@ -14,6 +14,14 @@ import {
   type NativeStackScreenProps,
 } from '#/lib/routes/types'
 import {isNative} from '#/platform/detection'
+import {
+  useEnableSquareAvatars,
+  useSetEnableSquareAvatars,
+} from '#/state/preferences/enable-square-avatars'
+import {
+  useEnableSquareButtons,
+  useSetEnableSquareButtons,
+} from '#/state/preferences/enable-square-buttons'
 import {useKawaiiMode, useSetKawaiiMode} from '#/state/preferences/kawaii'
 import {useSetThemePrefs, useThemePrefs} from '#/state/shell'
 import {SettingsListItem as AppIconSettingsListItem} from '#/screens/Settings/AppIconSettings/SettingsListItem'
@@ -21,6 +29,7 @@ import {type Alf, atoms as a, native, useAlf, useTheme} from '#/alf'
 import * as SegmentedControl from '#/components/forms/SegmentedControl'
 import {Slider} from '#/components/forms/Slider'
 import * as Toggle from '#/components/forms/Toggle'
+import {Circle_And_Square_Stroke1_Corner0_Rounded_Filled as SquareIcon} from '#/components/icons/CircleAndSquare'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Moon_Stroke2_Corner0_Rounded as MoonIcon} from '#/components/icons/Moon'
 import {Phone_Stroke2_Corner0_Rounded as PhoneIcon} from '#/components/icons/Phone'
@@ -45,6 +54,12 @@ export function AppearanceSettingsScreen({}: Props) {
 
   const kawaiiMode = useKawaiiMode()
   const setKawaiiMode = useSetKawaiiMode()
+
+  const enableSquareAvatars = useEnableSquareAvatars()
+  const setEnableSquareAvatars = useSetEnableSquareAvatars()
+
+  const enableSquareButtons = useEnableSquareButtons()
+  const setEnableSquareButtons = useSetEnableSquareButtons()
 
   const onChangeAppearance = useCallback(
     (value: 'light' | 'system' | 'dark') => {
@@ -258,6 +273,38 @@ export function AppearanceSettingsScreen({}: Props) {
                   style={[a.w_full]}>
                   <Toggle.LabelText style={[a.flex_1]}>
                     <Trans>Enable kawaii logo</Trans>
+                  </Toggle.LabelText>
+                  <Toggle.Platform />
+                </Toggle.Item>
+              </SettingsList.Group>
+
+              <SettingsList.Divider />
+
+              <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+                <SettingsList.ItemIcon icon={SquareIcon} />
+                <SettingsList.ItemText>
+                  <Trans>Shapes</Trans>
+                </SettingsList.ItemText>
+                <Toggle.Item
+                  name="enable_square_avatars"
+                  label={_(msg`Enable square avatars`)}
+                  value={enableSquareAvatars}
+                  onChange={value => setEnableSquareAvatars(value)}
+                  style={[a.w_full]}>
+                  <Toggle.LabelText style={[a.flex_1]}>
+                    <Trans>Enable square avatars</Trans>
+                  </Toggle.LabelText>
+                  <Toggle.Platform />
+                </Toggle.Item>
+
+                <Toggle.Item
+                  name="enable_square_buttons"
+                  label={_(msg`Enable square buttons`)}
+                  value={enableSquareButtons}
+                  onChange={value => setEnableSquareButtons(value)}
+                  style={[a.w_full]}>
+                  <Toggle.LabelText style={[a.flex_1]}>
+                    <Trans>Enable square buttons</Trans>
                   </Toggle.LabelText>
                   <Toggle.Platform />
                 </Toggle.Item>

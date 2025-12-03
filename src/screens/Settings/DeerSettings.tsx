@@ -31,15 +31,15 @@ import {
 } from '#/state/preferences/direct-fetch-records'
 import {
   useDisableFollowedByMetrics,
-  useSetDisableFollowedByMetrics
+  useSetDisableFollowedByMetrics,
 } from '#/state/preferences/disable-followed-by-metrics'
 import {
   useDisableFollowersMetrics,
-  useSetDisableFollowersMetrics
+  useSetDisableFollowersMetrics,
 } from '#/state/preferences/disable-followers-metrics'
 import {
   useDisableFollowingMetrics,
-  useSetDisableFollowingMetrics
+  useSetDisableFollowingMetrics,
 } from '#/state/preferences/disable-following-metrics'
 import {
   useDisableLikesMetrics,
@@ -73,14 +73,6 @@ import {
   useDisableViaRepostNotification,
   useSetDisableViaRepostNotification,
 } from '#/state/preferences/disable-via-repost-notification'
-import {
-  useEnableSquareAvatars,
-  useSetEnableSquareAvatars,
-} from '#/state/preferences/enable-square-avatars'
-import {
-  useEnableSquareButtons,
-  useSetEnableSquareButtons,
-} from '#/state/preferences/enable-square-buttons'
 import {
   useSetShowExternalShareButtons,
   useShowExternalShareButtons,
@@ -316,12 +308,6 @@ export function DeerSettingsScreen({}: Props) {
 
   const hideSimilarAccountsRecomm = useHideSimilarAccountsRecomm()
   const setHideSimilarAccountsRecomm = useSetHideSimilarAccountsRecomm()
-
-  const enableSquareAvatars = useEnableSquareAvatars()
-  const setEnableSquareAvatars = useSetEnableSquareAvatars()
-
-  const enableSquareButtons = useEnableSquareButtons()
-  const setEnableSquareButtons = useSetEnableSquareButtons()
 
   const disableVerifyEmailReminder = useDisableVerifyEmailReminder()
   const setDisableVerifyEmailReminder = useSetDisableVerifyEmailReminder()
@@ -602,30 +588,6 @@ export function DeerSettingsScreen({}: Props) {
             </Toggle.Item>
 
             <Toggle.Item
-              name="enable_square_avatars"
-              label={_(msg`Enable square avatars`)}
-              value={enableSquareAvatars}
-              onChange={value => setEnableSquareAvatars(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Enable square avatars</Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
-
-            <Toggle.Item
-              name="enable_square_buttons"
-              label={_(msg`Enable square buttons`)}
-              value={enableSquareButtons}
-              onChange={value => setEnableSquareButtons(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Enable square buttons</Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
-
-            <Toggle.Item
               name="disable_verify_email_reminder"
               label={_(msg`Disable verify email reminder`)}
               value={disableVerifyEmailReminder}
@@ -638,9 +600,9 @@ export function DeerSettingsScreen({}: Props) {
             </Toggle.Item>
             <Admonition type="warning" style={[a.flex_1]}>
               <Trans>
-                This only gets rid of the reminder on app launch,
-                useful if your PDS does not have email verification setup.\nThis
-                does NOT give access to features locked behind email verification.
+                This only gets rid of the reminder on app launch, useful if your
+                PDS does not have email verification setup.\nThis does NOT give
+                access to features locked behind email verification.
               </Trans>
             </Admonition>
           </SettingsList.Group>
