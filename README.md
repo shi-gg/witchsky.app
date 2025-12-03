@@ -5,8 +5,8 @@ Hey, witches! This is the codebase for the Witchsky app, based on [social.daniel
 Get the app itself:
 
 - **Web: [witchsky.app](https://witchsky.app)**
-- **iOS: [Soon™](https://cat-bounce.com/)?**
-- **Android: Soon! ([F-Droid repo](https://app.jolly.you/fdroid/repo)?)**
+- **iOS: App Store [Soon™](https://cat-bounce.com/)?**
+- **Android: Play Store Soon! ([F-Droid repo](https://app.jolly.you/fdroid/repo)?)**
 
 <!-- <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://tangled.org/jollywhoppers.com/witchsky.app/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
@@ -14,7 +14,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 
 ## Improvements on Bluesky
 
-- Cooler name (still love you tho bsky!)
+- Cooler name (and kawaii logo)
 - Color scheme options and hue slider (defaults to Witchsky orange)
 - Posts are called Skeets (may let you choose in the future)
 - Choose between sharing witchsky.app or bsky.app links
@@ -25,7 +25,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 - More unique repost icons
 - Can download videos
 - 'Mutuals' in place of 'Following' when relevant
-- No push notifications (may be added later)
+- No push notifications (hopefully will be added later)
 - Kept as up-to-date as possible (sporadically unstable as a result)
 
 ### Experiments
