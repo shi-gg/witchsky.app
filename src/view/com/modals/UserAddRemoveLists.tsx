@@ -14,6 +14,7 @@ import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {cleanError} from '#/lib/strings/errors'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {s} from '#/lib/styles'
+import {useTheme} from '#/lib/ThemeContext'
 import {isAndroid, isMobileWeb, isWeb} from '#/platform/detection'
 import {useModalControls} from '#/state/modals'
 import {
@@ -137,6 +138,7 @@ function ListItem({
   onAdd?: (listUri: string) => void
   onRemove?: (listUri: string) => void
 }) {
+  const t = useTheme();
   const pal = usePalette('default')
   const {_} = useLingui()
   const {currentAccount} = useSession()
