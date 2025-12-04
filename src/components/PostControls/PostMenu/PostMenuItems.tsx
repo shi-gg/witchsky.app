@@ -16,8 +16,8 @@ import {
   AppBskyFeedPost,
   type AppBskyFeedThreadgate,
   AtUri,
-  type RichText as RichTextAPI,
   type BlobRef,
+  type RichText as RichTextAPI,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

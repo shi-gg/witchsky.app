@@ -32,9 +32,8 @@ import {
   suggestLinkCardUri,
 } from '#/view/com/composer/text-input/text-input-util'
 import {
-  createVideoState,
   createRedraftVideoState,
-  type RedraftState,
+  createVideoState,
   type VideoAction,
   videoReducer,
   type VideoState,

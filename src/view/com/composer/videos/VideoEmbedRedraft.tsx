@@ -1,11 +1,10 @@
-import React from 'react'
 import {Platform, View} from 'react-native'
 import {type BlobRef} from '@atproto/api'
 import {BlueskyVideoView} from '@haileyok/bluesky-video'
 
 import {atoms as a} from '#/alf'
-import {ExternalEmbedRemoveBtn} from '../ExternalEmbedRemoveBtn'
 import {VideoEmbedInnerWeb} from '#/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerWeb'
+import {ExternalEmbedRemoveBtn} from '../ExternalEmbedRemoveBtn'
 
 interface Props {
   blobRef: BlobRef

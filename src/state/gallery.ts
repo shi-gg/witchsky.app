@@ -1,4 +1,3 @@
-import {type BlobRef} from '@atproto/api'
 import {
   cacheDirectory,
   deleteAsync,
@@ -11,6 +10,7 @@ import {
   manipulateAsync,
   SaveFormat,
 } from 'expo-image-manipulator'
+import {type BlobRef} from '@atproto/api'
 import {nanoid} from 'nanoid/non-secure'
 
 import {POST_IMG_MAX} from '#/lib/constants'

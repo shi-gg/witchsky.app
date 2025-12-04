@@ -23,7 +23,7 @@ import {CID} from 'multiformats/cid'
 import * as Hasher from 'multiformats/hashes/hasher'
 
 import {isNetworkError} from '#/lib/strings/errors'
-import {shortenLinks, stripInvalidMentions, parseMarkdownLinks} from '#/lib/strings/rich-text-manip'
+import {parseMarkdownLinks,shortenLinks, stripInvalidMentions} from '#/lib/strings/rich-text-manip'
 import {logger} from '#/logger'
 import {compressImage} from '#/state/gallery'
 import {

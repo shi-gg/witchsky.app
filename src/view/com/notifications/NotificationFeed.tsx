@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
-import {useTheme} from '#/alf'
 
 import {useInitialNumToRender} from '#/lib/hooks/useInitialNumToRender'
 import {cleanError} from '#/lib/strings/errors'
@@ -20,6 +19,7 @@ import {ErrorMessage} from '#/view/com/util/error/ErrorMessage'
 import {List, type ListProps, type ListRef} from '#/view/com/util/List'
 import {NotificationFeedLoadingPlaceholder} from '#/view/com/util/LoadingPlaceholder'
 import {LoadMoreRetryBtn} from '#/view/com/util/LoadMoreRetryBtn'
+import {useTheme} from '#/alf'
 import {Bell_Stroke2_Corner0_Rounded as BellIcon} from '#/components/icons/Bell'
 import {NotificationFeedItem} from './NotificationFeedItem'
 
@@ -159,7 +159,7 @@ export function NotificationFeed({
       ) : (
         <View />
       ),
-    [isFetchingNextPage],
+    [isFetchingNextPage, t.palette.primary_500],
   )
 
   return (
