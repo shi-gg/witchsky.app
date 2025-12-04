@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useCallback} from 'react'
 import {View} from 'react-native'
 import {Trans} from '@lingui/macro'
 
@@ -8,6 +8,7 @@ import {
 } from '#/lib/routes/types'
 import {
   type EmbedPlayerSource,
+  embedPlayerSources,
   externalEmbedLabels,
 } from '#/lib/strings/embed-player'
 import {
@@ -53,6 +54,8 @@ export function ExternalMediaPreferencesScreen({}: Props) {
             </SettingsList.ItemText>
             <View style={[a.mt_sm, a.w_full]}>
               {native(<SettingsList.Divider style={[a.my_0]} />)}
+              <PrefSelector source="all" label="All" />
+              <SettingsList.Divider />
               {Object.entries(externalEmbedLabels)
                 // TODO: Remove special case when we disable the old integration.
                 .filter(([key]) => key !== 'tenor')
@@ -78,24 +81,39 @@ function PrefSelector({
   source,
   label,
 }: {
-  source: EmbedPlayerSource
+  source: EmbedPlayerSource | 'all'
   label: string
 }) {
   const setExternalEmbedPref = useSetExternalEmbedPref()
   const sources = useExternalEmbedsPrefs()
+
+  const isChecked =
+    source === 'all'
+      ? embedPlayerSources
+          .filter(key => key !== 'tenor')
+          .every(key => sources?.[key] === 'show')
+      : sources?.[source] === 'show'
+
+  const handleChange = useCallback(() => {
+    if (source === 'all') {
+      const newValue = isChecked ? 'hide' : 'show'
+      for (const key of embedPlayerSources) {
+        if (key !== 'tenor') {
+          setExternalEmbedPref(key, newValue)
+        }
+      }
+    } else {
+      setExternalEmbedPref(source, isChecked ? 'hide' : 'show')
+    }
+  }, [source, isChecked, setExternalEmbedPref])
 
   return (
     <Toggle.Item
       name={label}
       label={label}
       type="checkbox"
-      value={sources?.[source] === 'show'}
-      onChange={() =>
-        setExternalEmbedPref(
-          source,
-          sources?.[source] === 'show' ? 'hide' : 'show',
-        )
-      }
+      value={isChecked}
+      onChange={handleChange}
       style={[
         a.flex_1,
         a.py_md,
