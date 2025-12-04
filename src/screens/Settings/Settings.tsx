@@ -241,11 +241,11 @@ export function SettingsScreen({}: Props) {
           </SettingsList.LinkItem>
           <SettingsList.PressableItem
             onPress={() => Linking.openURL(HELP_DESK_URL)}
-            label={_(msg`Help`)}
-            accessibilityHint={_(msg`Opens helpdesk in browser`)}>
+            label={_(msg`Code`)}
+            accessibilityHint={_(msg`Opens code repository in browser`)}>
             <SettingsList.ItemIcon icon={CircleQuestionIcon} />
             <SettingsList.ItemText>
-              <Trans>Help</Trans>
+              <Trans>Source code</Trans>
             </SettingsList.ItemText>
             <SettingsList.Chevron />
           </SettingsList.PressableItem>

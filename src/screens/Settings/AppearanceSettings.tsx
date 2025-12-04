@@ -112,7 +112,7 @@ export function AppearanceSettingsScreen({}: Props) {
     {name: 'deer', label: _(msg`Deer`)},
     {name: 'zeppelin', label: _(msg`Zeppelin`)},
     {name: 'kitty', label: _(msg`Kitty`)},
-    {name: 'reddwarf', label: _(msg`RedDwarf`)},
+    {name: 'reddwarf', label: _(msg`Red Dwarf`)},
   ]
 
   return (
@@ -277,8 +277,6 @@ export function AppearanceSettingsScreen({}: Props) {
                   <Toggle.Platform />
                 </Toggle.Item>
               </SettingsList.Group>
-
-              <SettingsList.Divider />
 
               <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
                 <SettingsList.ItemIcon icon={SquareIcon} />

@@ -387,7 +387,7 @@ let DrawerFooter = ({
         </ButtonText>
       </Button>
       <Button
-        label={_(msg`Get help`)}
+        label={_(msg`Visit code repository`)}
         size="small"
         variant="outline"
         color="secondary"
@@ -396,7 +396,7 @@ let DrawerFooter = ({
           backgroundColor: 'transparent',
         }}>
         <ButtonText>
-          <Trans>Help</Trans>
+          <Trans>Code</Trans>
         </ButtonText>
       </Button>
     </View>

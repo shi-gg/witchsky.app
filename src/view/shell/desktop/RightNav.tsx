@@ -120,8 +120,8 @@ export function DesktopRightNav({routeName}: {routeName: string}) {
           {_(msg`Terms`)}
         </InlineLinkText>
         {' • '}
-        <InlineLinkText label={_(msg`Help`)} to={HELP_DESK_URL}>
-          {_(msg`Help`)}
+        <InlineLinkText label={_(msg`Code`)} to={HELP_DESK_URL}>
+          {_(msg`Code`)}
         </InlineLinkText>
       </Text>
 
