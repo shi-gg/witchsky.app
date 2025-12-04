@@ -13,6 +13,7 @@ import {type FetchHandlerOptions} from '@atproto/xrpc'
 
 import {networkRetry} from '#/lib/async/retry'
 import {
+  APPVIEW_DID_PROXY,
   BLUESKY_PROXY_HEADER,
   BSKY_SERVICE,
   DISCOVER_SAVED_FEED,
@@ -25,6 +26,7 @@ import {getAge} from '#/lib/strings/time'
 import {logger} from '#/logger'
 import {snoozeEmailConfirmationPrompt} from '#/state/shell/reminders'
 import {emitNetworkConfirmed, emitNetworkLost} from '../events'
+import {readCustomAppViewDidUri} from '../preferences/custom-appview-did'
 import {addSessionErrorLog} from './logging'
 import {
   configureModerationForAccount,
@@ -39,7 +41,9 @@ export function createPublicAgent() {
   configureModerationForGuest() // Side effect but only relevant for tests
 
   const agent = new BskyAppAgent({service: PUBLIC_BSKY_SERVICE})
-  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
+  const proxyDid =
+    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
+  agent.configureProxy(proxyDid)
   return agent
 }
 
@@ -77,7 +81,9 @@ export async function createAgentAndResume(
     }
   }
 
-  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
+  const proxyDid =
+    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
+  agent.configureProxy(proxyDid)
 
   return agent.prepare(gates, moderation, onSessionChange)
 }
@@ -112,7 +118,9 @@ export async function createAgentAndLogin(
   const gates = tryFetchGates(account.did, 'prefer-fresh-gates')
   const moderation = configureModerationForAccount(agent, account)
 
-  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
+  const proxyDid =
+    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
+  agent.configureProxy(proxyDid)
 
   return agent.prepare(gates, moderation, onSessionChange)
 }
@@ -201,7 +209,9 @@ export async function createAgentAndCreateAccount(
     logger.error(e, {message: `session: failed snoozeEmailConfirmationPrompt`})
   }
 
-  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
+  const proxyDid =
+    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
+  agent.configureProxy(proxyDid)
 
   return agent.prepare(gates, moderation, onSessionChange)
 }
@@ -304,6 +314,10 @@ class BskyAppAgent extends BskyAgent {
         }
       },
     })
+    const proxyDid = readCustomAppViewDidUri() || APPVIEW_DID_PROXY
+    if (proxyDid) {
+      this.configureProxy(proxyDid)
+    }
   }
 
   async prepare(

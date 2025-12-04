@@ -111,3 +111,8 @@ export const BAPP_CONFIG_DEV_URL = process.env.BAPP_CONFIG_DEV_URL
  */
 export const BAPP_CONFIG_DEV_BYPASS_SECRET: string =
   process.env.BAPP_CONFIG_DEV_BYPASS_SECRET
+
+export const ENV_PUBLIC_BSKY_SERVICE: string | undefined =
+  process.env.EXPO_PUBLIC_PUBLIC_BSKY_SERVICE
+export const ENV_APPVIEW_DID_PROXY: `did:${string}#bsky_appview` | undefined =
+  process.env.EXPO_PUBLIC_APPVIEW_DID_PROXY

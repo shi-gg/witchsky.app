@@ -17,6 +17,7 @@ import {
   type AppBskyFeedThreadgate,
   AtUri,
   type BlobRef,
+  isDid,
   type RichText as RichTextAPI,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
@@ -313,9 +314,17 @@ let PostMenuItems = ({
       }
     }
 
-    let videoUri: {uri: string; width: number; height: number; blobRef?: BlobRef; altText?: string} | undefined
+    let videoUri:
+      | {
+          uri: string
+          width: number
+          height: number
+          blobRef?: BlobRef
+          altText?: string
+        }
+      | undefined
     let recordVideo: AppBskyEmbedVideo.Main | undefined
-    
+
     if (recordEmbed?.$type === 'app.bsky.embed.video') {
       recordVideo = recordEmbed as AppBskyEmbedVideo.Main
     } else if (recordEmbed?.$type === 'app.bsky.embed.recordWithMedia') {
@@ -324,7 +333,7 @@ let PostMenuItems = ({
         recordVideo = media as AppBskyEmbedVideo.Main
       }
     }
-    
+
     if (post.embed?.$type === 'app.bsky.embed.video#view') {
       const embed = post.embed as AppBskyEmbedVideo.View
       if (recordVideo) {
@@ -569,8 +578,8 @@ let PostMenuItems = ({
     if (!videoEmbed) return
     const did = post.author.did
     const cid = videoEmbed.cid
-    if (!did.startsWith('did:')) return
-    const pdsUrl = await resolvePdsServiceUrl(did as `did:${string}`)
+    if (!isDid(did)) return
+    const pdsUrl = await resolvePdsServiceUrl(did as `did:${string}:${string}`)
     const uri = `${pdsUrl}/xrpc/com.atproto.sync.getBlob?did=${did}&cid=${cid}`
 
     Toast.show(_(msg({message: 'Downloading video...', context: 'toast'})))
