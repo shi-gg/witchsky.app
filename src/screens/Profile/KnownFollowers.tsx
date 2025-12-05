@@ -5,6 +5,7 @@ import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'
 
 import {useInitialNumToRender} from '#/lib/hooks/useInitialNumToRender'
+import {useSetTitle} from '#/lib/hooks/useSetTitle'
 import {
   type CommonNavigatorParams,
   type NativeStackScreenProps,
@@ -12,6 +13,7 @@ import {
 import {cleanError} from '#/lib/strings/errors'
 import {logger} from '#/logger'
 import {useProfileKnownFollowersQuery} from '#/state/queries/known-followers'
+import {useProfileQuery} from '#/state/queries/profile'
 import {useResolveDidQuery} from '#/state/queries/resolve-uri'
 import {useSetMinimalShellMode} from '#/state/shell'
 import {ProfileCardWithFollowBtn} from '#/view/com/profile/ProfileCard'
@@ -57,6 +59,9 @@ export const ProfileKnownFollowersScreen = ({route}: Props) => {
     isLoading: isDidLoading,
     error: resolveError,
   } = useResolveDidQuery(route.params.name)
+  const {data: profile} = useProfileQuery({
+    did: resolvedDid,
+  })
   const {
     data,
     isLoading: isFollowersLoading,
@@ -66,6 +71,10 @@ export const ProfileKnownFollowersScreen = ({route}: Props) => {
     error,
     refetch,
   } = useProfileKnownFollowersQuery(resolvedDid)
+
+  useSetTitle(
+    profile ? _(msg`Followers of @${profile.handle} that you know`) : undefined,
+  )
 
   const onRefresh = React.useCallback(async () => {
     setIsPTRing(true)

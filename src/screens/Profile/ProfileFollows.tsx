@@ -1,7 +1,9 @@
 import React from 'react'
-import {Plural} from '@lingui/macro'
+import {msg, Plural} from '@lingui/macro'
+import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'
 
+import {useSetTitle} from '#/lib/hooks/useSetTitle'
 import {
   type CommonNavigatorParams,
   type NativeStackScreenProps,
@@ -16,12 +18,17 @@ import * as Layout from '#/components/Layout'
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'ProfileFollows'>
 export const ProfileFollowsScreen = ({route}: Props) => {
   const {name} = route.params
+  const {_} = useLingui()
   const setMinimalShellMode = useSetMinimalShellMode()
 
   const {data: resolvedDid} = useResolveDidQuery(name)
   const {data: profile} = useProfileQuery({
     did: resolvedDid,
   })
+
+  useSetTitle(
+    profile ? _(msg`People followed by @${profile.handle}`) : undefined,
+  )
 
   useFocusEffect(
     React.useCallback(() => {

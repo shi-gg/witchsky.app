@@ -2,6 +2,7 @@ import {useMemo} from 'react'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
+import {useSetTitle} from '#/lib/hooks/useSetTitle'
 import {
   type CommonNavigatorParams,
   type NativeStackScreenProps,
@@ -19,6 +20,8 @@ export const ProfileSearchScreen = ({route}: Props) => {
 
   const {data: resolvedDid} = useResolveDidQuery(name)
   const {data: profile} = useProfileQuery({did: resolvedDid})
+
+  useSetTitle(profile ? _(msg`Search @${profile.handle}'s skeets`) : undefined)
 
   const fixedParams = useMemo(
     () => ({

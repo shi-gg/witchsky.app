@@ -1,23 +1,33 @@
 import React from 'react'
-import {Plural, Trans} from '@lingui/macro'
+import {msg, Plural, Trans} from '@lingui/macro'
+import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'
 
+import {useSetTitle} from '#/lib/hooks/useSetTitle'
 import {
   type CommonNavigatorParams,
   type NativeStackScreenProps,
 } from '#/lib/routes/types'
 import {makeRecordUri} from '#/lib/strings/url-helpers'
 import {usePostQuery} from '#/state/queries/post'
+import {useProfileQuery} from '#/state/queries/profile'
+import {useResolveDidQuery} from '#/state/queries/resolve-uri'
 import {useSetMinimalShellMode} from '#/state/shell'
 import {PostRepostedBy as PostRepostedByComponent} from '#/view/com/post-thread/PostRepostedBy'
 import * as Layout from '#/components/Layout'
 
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'PostRepostedBy'>
 export const PostRepostedByScreen = ({route}: Props) => {
+  const {_} = useLingui()
   const {name, rkey} = route.params
   const uri = makeRecordUri(name, 'app.bsky.feed.post', rkey)
   const setMinimalShellMode = useSetMinimalShellMode()
   const {data: post} = usePostQuery(uri)
+
+  const {data: resolvedDid} = useResolveDidQuery(name)
+  const {data: profile} = useProfileQuery({did: resolvedDid})
+
+  useSetTitle(profile ? _(msg`Skeet by @${profile.handle}`) : undefined)
 
   let quoteCount
   if (post) {
