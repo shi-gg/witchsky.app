@@ -43,7 +43,8 @@ export function makeRecordUri(
   collection: string,
   rkey: string,
 ) {
-  const urip = new AtUri('at://host/')
+  const urip = new AtUri('at://placeholder.placeholder/')
+  // @ts-expect-error TODO new-sdk-migration
   urip.host = didOrName
   urip.collection = collection
   urip.rkey = rkey
@@ -323,7 +324,7 @@ export function isPossiblyAUrl(str: string): boolean {
   if (str.startsWith('https://')) {
     return true
   }
-  const [firstWord] = str.split(/[\s\/]/)
+  const [firstWord] = str.split(/[\s/]/)
   return isValidDomain(firstWord)
 }
 

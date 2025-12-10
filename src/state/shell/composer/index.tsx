@@ -42,8 +42,21 @@ export interface ComposerOpts {
   mention?: string // handle of user to mention
   openEmojiPicker?: (pos: EmojiPickerPosition | undefined) => void
   text?: string
-  imageUris?: {uri: string; width: number; height: number; altText?: string; blobRef?: BlobRef}[]
-  videoUri?: {uri: string; width: number; height: number; blobRef?: BlobRef; altText?: string}
+  imageUris?: {
+    uri: string
+    width: number
+    height: number
+    altText?: string
+    blobRef?: BlobRef
+  }[]
+  videoUri?: {
+    uri: string
+    width: number
+    height: number
+    blobRef?: BlobRef
+    altText?: string
+  }
+  openGallery?: boolean
 }
 
 type StateContext = ComposerOpts | undefined

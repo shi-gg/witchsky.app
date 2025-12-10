@@ -1,4 +1,4 @@
-import {useCallback} from 'react'
+import {useCallback, useEffect, useRef} from 'react'
 import {Keyboard} from 'react-native'
 import {type ImagePickerAsset} from 'expo-image-picker'
 import {msg, plural} from '@lingui/macro'
@@ -32,6 +32,10 @@ export type SelectMediaButtonProps = {
     assets: ImagePickerAsset[]
     errors: string[]
   }) => void
+  /**
+   * If true, automatically open the media picker when the component mounts.
+   */
+  autoOpen?: boolean
 }
 
 /**
@@ -359,12 +363,14 @@ export function SelectMediaButton({
   allowedAssetTypes,
   selectedAssetsCount,
   onSelectAssets,
+  autoOpen,
 }: SelectMediaButtonProps) {
   const {_} = useLingui()
   const {requestPhotoAccessIfNeeded} = usePhotoLibraryPermission()
   const {requestVideoAccessIfNeeded} = useVideoLibraryPermission()
   const sheetWrapper = useSheetWrapper()
   const t = useTheme()
+  const hasAutoOpened = useRef(false)
 
   const selectionCountRemaining = MAX_IMAGES - selectedAssetsCount
 
@@ -462,6 +468,13 @@ export function SelectMediaButton({
   ])
 
   const enableSquareButtons = useEnableSquareButtons()
+
+  useEffect(() => {
+    if (autoOpen && !hasAutoOpened.current && !disabled) {
+      hasAutoOpened.current = true
+      onPressSelectMedia()
+    }
+  }, [autoOpen, disabled, onPressSelectMedia])
 
   return (
     <Button

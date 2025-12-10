@@ -27,6 +27,7 @@ export function usePostQuery(uri: string | undefined) {
         const res = await agent.resolveHandle({
           handle: urip.host,
         })
+        // @ts-expect-error TODO new-sdk-migration
         urip.host = res.data.did
       }
 
@@ -55,6 +56,7 @@ export function useGetPost() {
             const res = await agent.resolveHandle({
               handle: urip.host,
             })
+            // @ts-expect-error TODO new-sdk-migration
             urip.host = res.data.did
           }
 

@@ -5,6 +5,7 @@ import {Trans} from '@lingui/macro'
 
 import {useInitialNumToRender} from '#/lib/hooks/useInitialNumToRender'
 import {useOpenComposer} from '#/lib/hooks/useOpenComposer'
+import {usePostViewTracking} from '#/lib/hooks/usePostViewTracking'
 import {logger} from '#/logger'
 import {useFeedFeedback} from '#/state/feed-feedback'
 import {type ThreadViewOption} from '#/state/queries/preferences/useThreadPreferences'
@@ -96,6 +97,9 @@ export function PostThread({uri}: {uri: string}) {
       )
     }
   }, [anchor, feedFeedback.feedDescriptor])
+
+  // Track post:view events for parent posts and replies (non-anchor posts)
+  const trackThreadItemView = usePostViewTracking('PostThreadItem')
 
   const {openComposer} = useOpenComposer()
   const optimisticOnPostReply = useCallback(
@@ -189,11 +193,11 @@ export function PostThread({uri}: {uri: string}) {
    */
   const onContentSizeChangeWebOnly = web(() => {
     const list = listRef.current
-    const anchor = anchorRef.current as any as Element
+    const anchorElement = anchorRef.current as any as Element
     const header = headerRef.current as any as Element
 
-    if (list && anchor && header && shouldHandleScroll.current) {
-      const anchorOffsetTop = anchor.getBoundingClientRect().top
+    if (list && anchorElement && header && shouldHandleScroll.current) {
+      const anchorOffsetTop = anchorElement.getBoundingClientRect().top
       const headerHeight = header.getBoundingClientRect().height
 
       /*
@@ -247,9 +251,9 @@ export function PostThread({uri}: {uri: string}) {
    */
   const onContentSizeChangeNativeOnly = native(() => {
     const list = listRef.current
-    const anchor = anchorRef.current
+    const anchorElement = anchorRef.current
 
-    if (list && anchor && shouldHandleScroll.current) {
+    if (list && anchorElement && shouldHandleScroll.current) {
       /*
        * `prepareForParamsUpdate` is called any time the user changes thread params like
        * `view` or `sort`, which sets `deferParents(true)` and resets the
@@ -557,6 +561,12 @@ export function PostThread({uri}: {uri: string}) {
           onEndReached={onEndReached}
           onEndReachedThreshold={4}
           onStartReachedThreshold={1}
+          onItemSeen={item => {
+            // Track post:view for parent posts and replies (non-anchor posts)
+            if (item.type === 'threadPost' && item.depth !== 0) {
+              trackThreadItemView(item.value.post)
+            }
+          }}
           /**
            * NATIVE ONLY
            * {@link https://reactnative.dev/docs/scrollview#maintainvisiblecontentposition}

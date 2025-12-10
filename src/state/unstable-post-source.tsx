@@ -53,16 +53,16 @@ export function useUnstablePostSource(key: string) {
   const [source] = useState(() => {
     assertValidDevOnly(
       key,
-      `consumeUnstablePostSource key should be a URI containing a handle, received ${key} — be sure to use buildPostSourceKey when setting the source`,
+      `consumeUnstablePostSource key should be a URI containing a handle, received ${key} — be sure to use buildPostSourceKey when setting the source`,
       true,
     )
-    const source = consumedSources.get(id) || transientSources.get(key)
-    if (source) {
-      logger.debug('consume', {id, key, source})
+    const existingSource = consumedSources.get(id) || transientSources.get(key)
+    if (existingSource) {
+      logger.debug('consume', {id, key, source: existingSource})
       transientSources.delete(key)
-      consumedSources.set(id, source)
+      consumedSources.set(id, existingSource)
     }
-    return source
+    return existingSource
   })
 
   useEffect(() => {
@@ -81,6 +81,7 @@ export function useUnstablePostSource(key: string) {
  */
 export function buildPostSourceKey(key: string, handle: string) {
   const urip = new AtUri(key)
+  // @ts-expect-error TODO new-sdk-migration
   urip.host = handle
   return urip.toString()
 }

@@ -2,8 +2,6 @@ import {View} from 'react-native'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
-import {useAgeAssurance} from '#/state/ageAssurance/useAgeAssurance'
-import {logger} from '#/state/ageAssurance/util'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {Nux, useNux, useSaveNux} from '#/state/queries/nuxs'
 import {atoms as a, type ViewStyleProp} from '#/alf'
@@ -11,22 +9,20 @@ import {AgeAssuranceAdmonition} from '#/components/ageAssurance/AgeAssuranceAdmo
 import {useAgeAssuranceCopy} from '#/components/ageAssurance/useAgeAssuranceCopy'
 import {Button, ButtonIcon} from '#/components/Button'
 import {TimesLarge_Stroke2_Corner0_Rounded as X} from '#/components/icons/Times'
+import {useAgeAssurance} from '#/ageAssurance'
+import {logger} from '#/ageAssurance'
 
 export function AgeAssuranceDismissibleNotice({style}: ViewStyleProp & {}) {
   const {_} = useLingui()
-  const {isReady, isDeclaredUnderage, isAgeRestricted, lastInitiatedAt} =
-    useAgeAssurance()
+  const aa = useAgeAssurance()
   const {nux} = useNux(Nux.AgeAssuranceDismissibleNotice)
   const copy = useAgeAssuranceCopy()
   const {mutate: save, variables} = useSaveNux()
+  const enableSquareButtons = useEnableSquareButtons()
   const hidden = !!variables
 
-  const enableSquareButtons = useEnableSquareButtons()
-
-  if (!isReady) return null
-  if (isDeclaredUnderage) return null
-  if (!isAgeRestricted) return null
-  if (lastInitiatedAt) return null
+  if (aa.state.access === aa.Access.Full) return null
+  if (aa.state.lastInitiatedAt) return null
   if (hidden) return null
   if (nux && nux.completed) return null
 

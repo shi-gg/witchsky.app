@@ -11,7 +11,6 @@ import {shareText, shareUrl} from '#/lib/sharing'
 import {toShareUrl, toShareUrlBsky} from '#/lib/strings/url-helpers'
 import {logger} from '#/logger'
 import {isWeb} from '#/platform/detection'
-import {useAgeAssurance} from '#/state/ageAssurance/useAgeAssurance'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {useShowExternalShareButtons} from '#/state/preferences/external-share-buttons'
 import {useSession} from '#/state/session'
@@ -25,6 +24,7 @@ import {CodeBrackets_Stroke2_Corner0_Rounded as CodeBracketsIcon} from '#/compon
 import {PaperPlane_Stroke2_Corner0_Rounded as Send} from '#/components/icons/PaperPlane'
 import {SquareArrowTopRight_Stroke2_Corner0_Rounded as ExternalIcon} from '#/components/icons/SquareArrowTopRight'
 import * as Menu from '#/components/Menu'
+import {useAgeAssurance} from '#/ageAssurance'
 import {useDevMode} from '#/storage/hooks/dev-mode'
 import {type ShareMenuItemsProps} from './ShareMenuItems.types'
 
@@ -41,7 +41,7 @@ let ShareMenuItems = ({
   const embedPostControl = useDialogControl()
   const sendViaChatControl = useDialogControl()
   const [devModeEnabled] = useDevMode()
-  const {isAgeRestricted} = useAgeAssurance()
+  const aa = useAgeAssurance()
   const openLink = useOpenLink()
 
   const postUri = post.uri
@@ -157,7 +157,7 @@ let ShareMenuItems = ({
           </Menu.Item>
         )}
 
-        {hasSession && !isAgeRestricted && (
+        {hasSession && aa.state.access === aa.Access.Full && (
           <Menu.Item
             testID="postDropdownSendViaDMBtn"
             label={_(msg`Send via direct message`)}
@@ -190,7 +190,9 @@ let ShareMenuItems = ({
             {hasSession && <Menu.Divider />}
             {copyLinkItem}
             <Menu.LabelText style={{maxWidth: 220}}>
-              <Trans>Note: This skeet is only visible to logged-in users.</Trans>
+              <Trans>
+                Note: This skeet is only visible to logged-in users.
+              </Trans>
             </Menu.LabelText>
           </>
         )}

@@ -174,6 +174,7 @@ export const ComposePost = ({
   text: initText,
   imageUris: initImageUris,
   videoUri: initVideoUri,
+  openGallery,
   cancelRef,
 }: Props & {
   cancelRef?: React.RefObject<CancelRef | null>
@@ -723,6 +724,7 @@ export const ComposePost = ({
         }}
         currentLanguages={currentLanguages}
         onSelectLanguage={onSelectLanguage}
+        openGallery={openGallery}
       />
     </>
   )
@@ -1227,16 +1229,18 @@ function ComposerEmbeds({
                   clear={clearVideo}
                 />
               ) : null)}
-            {!video.asset && video.status === 'done' && 'playlistUri' in video && (
-              <View style={[a.relative, a.mt_lg]}>
-                <VideoEmbedRedraft
-                  blobRef={video.pendingPublish?.blobRef!}
-                  playlistUri={video.playlistUri}
-                  aspectRatio={video.redraftDimensions}
-                  onRemove={clearVideo}
-                />
-              </View>
-            )}
+            {!video.asset &&
+              video.status === 'done' &&
+              'playlistUri' in video && (
+                <View style={[a.relative, a.mt_lg]}>
+                  <VideoEmbedRedraft
+                    blobRef={video.pendingPublish?.blobRef!}
+                    playlistUri={video.playlistUri}
+                    aspectRatio={video.redraftDimensions}
+                    onRemove={clearVideo}
+                  />
+                </View>
+              )}
             <SubtitleDialogBtn
               defaultAltText={video.altText}
               saveAltText={altText =>
@@ -1361,6 +1365,7 @@ function ComposerFooter({
   onAddPost,
   currentLanguages,
   onSelectLanguage,
+  openGallery,
 }: {
   post: PostDraft
   dispatch: (action: PostAction) => void
@@ -1371,6 +1376,7 @@ function ComposerFooter({
   onAddPost: () => void
   currentLanguages: string[]
   onSelectLanguage?: (language: string) => void
+  openGallery?: boolean
 }) {
   const t = useTheme()
   const {_} = useLingui()
@@ -1434,7 +1440,7 @@ function ComposerFooter({
 
       if (assets.length) {
         if (type === 'image') {
-          const images: ComposerImage[] = []
+          const composerImages: ComposerImage[] = []
 
           await Promise.all(
             assets.map(async image => {
@@ -1444,7 +1450,7 @@ function ComposerFooter({
                 height: image.height,
                 mime: image.mimeType!,
               })
-              images.push(composerImage)
+              composerImages.push(composerImage)
             }),
           ).catch(e => {
             logger.error(`createComposerImage failed`, {
@@ -1452,7 +1458,7 @@ function ComposerFooter({
             })
           })
 
-          onImageAdd(images)
+          onImageAdd(composerImages)
         } else if (type === 'video') {
           onSelectVideo(post.id, assets[0])
         } else if (type === 'gif') {
@@ -1492,6 +1498,7 @@ function ComposerFooter({
                 allowedAssetTypes={selectedAssetsType}
                 selectedAssetsCount={selectedAssetsCount}
                 onSelectAssets={onSelectAssets}
+                autoOpen={openGallery}
               />
               <OpenCameraBtn
                 disabled={media?.type === 'images' ? isMaxImages : !!media}

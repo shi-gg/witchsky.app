@@ -111,6 +111,7 @@ function Inner({state}: {state: ComposerOpts}) {
             text={state.text}
             imageUris={state.imageUris}
             videoUri={state.videoUri}
+            openGallery={state.openGallery}
           />
         </View>
         <EmojiPicker state={pickerState} close={onClosePicker} />

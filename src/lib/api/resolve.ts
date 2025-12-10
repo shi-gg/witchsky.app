@@ -81,8 +81,9 @@ export async function resolveLink(
   agent: BskyAgent,
   uri: string,
 ): Promise<ResolvedLink> {
-  if (isShortLink(uri)) {
-    uri = await resolveShortLink(uri)
+  let resolvedUri = uri
+  if (isShortLink(resolvedUri)) {
+    resolvedUri = await resolveShortLink(resolvedUri)
   }
   if (isBskyPostUrl(uri)) {
     uri = convertBskyAppUrlIfNeeded(uri)
@@ -102,9 +103,9 @@ export async function resolveLink(
       view: post,
     }
   }
-  if (isBskyCustomFeedUrl(uri)) {
-    uri = convertBskyAppUrlIfNeeded(uri)
-    const [_0, handleOrDid, _1, rkey] = uri.split('/').filter(Boolean)
+  if (isBskyCustomFeedUrl(resolvedUri)) {
+    resolvedUri = convertBskyAppUrlIfNeeded(resolvedUri)
+    const [_0, handleOrDid, _1, rkey] = resolvedUri.split('/').filter(Boolean)
     const did = await fetchDid(handleOrDid)
     const feed = makeRecordUri(did, 'app.bsky.feed.generator', rkey)
     const res = await agent.app.bsky.feed.getFeedGenerator({feed})
@@ -118,9 +119,9 @@ export async function resolveLink(
       view: res.data.view,
     }
   }
-  if (isBskyListUrl(uri)) {
-    uri = convertBskyAppUrlIfNeeded(uri)
-    const [_0, handleOrDid, _1, rkey] = uri.split('/').filter(Boolean)
+  if (isBskyListUrl(resolvedUri)) {
+    resolvedUri = convertBskyAppUrlIfNeeded(resolvedUri)
+    const [_0, handleOrDid, _1, rkey] = resolvedUri.split('/').filter(Boolean)
     const did = await fetchDid(handleOrDid)
     const list = makeRecordUri(did, 'app.bsky.graph.list', rkey)
     const res = await agent.app.bsky.graph.getList({list})
@@ -134,8 +135,8 @@ export async function resolveLink(
       view: res.data.list,
     }
   }
-  if (isBskyStartUrl(uri) || isBskyStarterPackUrl(uri)) {
-    const parsed = parseStarterPackUri(uri)
+  if (isBskyStartUrl(resolvedUri) || isBskyStarterPackUrl(resolvedUri)) {
+    const parsed = parseStarterPackUri(resolvedUri)
     if (!parsed) {
       throw new Error(
         'Unexpectedly called getStarterPackAsEmbed with a non-starterpack url',
@@ -154,7 +155,7 @@ export async function resolveLink(
       view: res.data.starterPack,
     }
   }
-  return resolveExternal(agent, uri)
+  return resolveExternal(agent, resolvedUri)
 
   // Forked from useGetPost. TODO: move into RQ.
   async function getPost({uri}: {uri: string}) {
@@ -163,6 +164,7 @@ export async function resolveLink(
       const res = await agent.resolveHandle({
         handle: urip.host,
       })
+      // @ts-expect-error TODO new-sdk-migration
       urip.host = res.data.did
     }
     const res = await agent.getPosts({
