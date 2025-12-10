@@ -1,6 +1,7 @@
 import {useCallback,useEffect, useMemo, useRef, useState} from 'react'
 import {KeyboardAvoidingView} from 'react-native'
 import Animated, {FadeIn, LayoutAnimationConfig} from 'react-native-reanimated'
+import {type Did} from '@atproto/api'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import debounce from 'lodash.debounce'
@@ -20,7 +21,6 @@ import {SetNewPasswordForm} from '#/screens/Login/SetNewPasswordForm'
 import {atoms as a, native} from '#/alf'
 import {ScreenTransition} from '#/components/ScreenTransition'
 import {ChooseAccountForm} from './ChooseAccountForm'
-import { Did } from '@atproto/api'
 
 enum Forms {
   Login,
