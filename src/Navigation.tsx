@@ -18,7 +18,9 @@ import {
 } from '@react-navigation/native'
 
 import {timeout} from '#/lib/async/timeout'
+import {useAccountSwitcher} from '#/lib/hooks/useAccountSwitcher'
 import {useColorSchemeStyle} from '#/lib/hooks/useColorSchemeStyle'
+import {useNonReactiveCallback} from '#/lib/hooks/useNonReactiveCallback'
 import {
   getNotificationPayload,
   type NotificationPayload,
@@ -46,10 +48,12 @@ import {isNative, isWeb} from '#/platform/detection'
 import {useDisableVerifyEmailReminder} from '#/state/preferences/disable-verify-email-reminder'
 import {useUnreadNotifications} from '#/state/queries/notifications/unread'
 import {useSession} from '#/state/session'
+import {useLoggedOutViewControls} from '#/state/shell/logged-out'
 import {
   shouldRequestEmailConfirmation,
   snoozeEmailConfirmationPrompt,
 } from '#/state/shell/reminders'
+import {useCloseAllActiveElements} from '#/state/util'
 import {CommunityGuidelinesScreen} from '#/view/screens/CommunityGuidelines'
 import {CopyrightPolicyScreen} from '#/view/screens/CopyrightPolicy'
 import {DebugModScreen} from '#/view/screens/DebugMod'
@@ -72,6 +76,7 @@ import {BottomBar} from '#/view/shell/bottom-bar/BottomBar'
 import {createNativeStackNavigatorWithAuth} from '#/view/shell/createNativeStackNavigatorWithAuth'
 import {BookmarksScreen} from '#/screens/Bookmarks'
 import {SharedPreferencesTesterScreen} from '#/screens/E2E/SharedPreferencesTesterScreen'
+import {FindContactsFlowScreen} from '#/screens/FindContactsFlowScreen'
 import HashtagScreen from '#/screens/Hashtag'
 import {LogScreen} from '#/screens/Log'
 import {MessagesScreen} from '#/screens/Messages/ChatList'
@@ -104,6 +109,7 @@ import {AppPasswordsScreen} from '#/screens/Settings/AppPasswords'
 import {ContentAndMediaSettingsScreen} from '#/screens/Settings/ContentAndMediaSettings'
 import {DeerSettingsScreen} from '#/screens/Settings/DeerSettings'
 import {ExternalMediaPreferencesScreen} from '#/screens/Settings/ExternalMediaPreferences'
+import {FindContactsSettingsScreen} from '#/screens/Settings/FindContactsSettings'
 import {FollowingFeedPreferencesScreen} from '#/screens/Settings/FollowingFeedPreferences'
 import {InterestsSettingsScreen} from '#/screens/Settings/InterestsSettings'
 import {LanguageSettingsScreen} from '#/screens/Settings/LanguageSettings'
@@ -136,10 +142,6 @@ import {
 } from '#/components/dialogs/EmailDialog'
 import {router} from '#/routes'
 import {Referrer} from '../modules/expo-bluesky-swiss-army'
-import {useAccountSwitcher} from './lib/hooks/useAccountSwitcher'
-import {useNonReactiveCallback} from './lib/hooks/useNonReactiveCallback'
-import {useLoggedOutViewControls} from './state/shell/logged-out'
-import {useCloseAllActiveElements} from './state/util'
 
 const navigationRef = createNavigationContainerRef<AllNavigatorParams>()
 
@@ -427,6 +429,14 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         }}
       />
       <Stack.Screen
+        name="FindContactsSettings"
+        getComponent={() => FindContactsSettingsScreen}
+        options={{
+          title: title(msg`Find Contacts`),
+          requireAuth: true,
+        }}
+      />
+      <Stack.Screen
         name="NotificationSettings"
         getComponent={() => NotificationSettingsScreen}
         options={{title: title(msg`Notification settings`), requireAuth: true}}
@@ -617,6 +627,15 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         options={{
           title: title(msg`Saved Skeets`),
           requireAuth: true,
+        }}
+      />
+      <Stack.Screen
+        name="FindContactsFlow"
+        getComponent={() => FindContactsFlowScreen}
+        options={{
+          title: title(msg`Find Contacts`),
+          requireAuth: true,
+          gestureEnabled: false,
         }}
       />
     </>
@@ -958,7 +977,11 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
 
   function onReady() {
     prevLoggedRouteName.current = getCurrentRouteName()
-    if (currentAccount && shouldRequestEmailConfirmation(currentAccount) && !disableVerifyEmailReminder) {
+    if (
+      currentAccount &&
+      shouldRequestEmailConfirmation(currentAccount) &&
+      !disableVerifyEmailReminder
+    ) {
       emailDialogControl.open({
         id: EmailDialogScreenID.VerificationReminder,
       })
