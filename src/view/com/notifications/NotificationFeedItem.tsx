@@ -838,7 +838,7 @@ function FollowBackButton({profile}: {profile: AppBskyActorDefs.ProfileView}) {
           onPress={onPressUnfollow}>
           <ButtonIcon icon={CheckIcon} />
           <ButtonText>
-            <Trans>Following</Trans>
+            {isFollowedBy ? <Trans>Mutuals</Trans> : <Trans>Following</Trans>}
           </ButtonText>
         </Button>
       ) : (
