@@ -3,7 +3,6 @@ import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {logger} from '#/logger'
-import {isWeb} from '#/platform/detection'
 import {type SessionAccount, useSessionApi} from '#/state/session'
 import {useLoggedOutViewControls} from '#/state/shell/logged-out'
 import * as Toast from '#/view/com/util/Toast'
@@ -28,14 +27,6 @@ export function useAccountSwitcher() {
       try {
         setPendingDid(account.did)
         if (account.accessJwt) {
-          if (isWeb) {
-            // We're switching accounts, which remounts the entire app.
-            // On mobile, this gets us Home, but on the web we also need reset the URL.
-            // We can't change the URL via a navigate() call because the navigator
-            // itself is about to unmount, and it calls pushState() too late.
-            // So we change the URL ourselves. The navigator will pick it up on remount.
-            history.pushState(null, '', '/')
-          }
           await resumeSession(account, true)
           logEvent('account:loggedIn', {logContext, withPassword: false})
           Toast.show(_(msg`Signed in as @${account.handle}`))
