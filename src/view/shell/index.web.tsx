@@ -22,6 +22,7 @@ import {AgeAssuranceRedirectDialog} from '#/components/ageAssurance/AgeAssurance
 import {EmailDialog} from '#/components/dialogs/EmailDialog'
 import {LinkWarningDialog} from '#/components/dialogs/LinkWarning'
 import {MutedWordsDialog} from '#/components/dialogs/MutedWords'
+import {NuxDialogs} from '#/components/dialogs/nuxs'
 import {SigninDialog} from '#/components/dialogs/Signin'
 import {useWelcomeModal} from '#/components/hooks/useWelcomeModal'
 import {
@@ -119,6 +120,7 @@ function ShellInner() {
       <AgeAssuranceRedirectDialog />
       <LinkWarningDialog />
       <Lightbox />
+      <NuxDialogs />
 
       {welcomeModalControl.isOpen && (
         <WelcomeModal control={welcomeModalControl} />
