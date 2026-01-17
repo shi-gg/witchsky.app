@@ -1,6 +1,6 @@
 {
   "name": "witchsky-app",
-  "version": "1.113.0",
+  "version": "1.114.0",
   "private": true,
   "engines": {
     "node": ">=18"
@@ -73,10 +73,11 @@
     "icons:optimize": "svgo -f ./assets/icons"
   },
   "dependencies": {
-    "@atproto/api": "^0.18.8",
+    "@atproto/api": "^0.18.15",
     "@bitdrift/react-native": "^0.6.8",
     "@braintree/sanitize-url": "^6.0.2",
     "@bsky.app/alf": "^0.1.6",
+    "@bsky.app/expo-image-crop-tool": "^0.5.0",
     "@bsky.app/react-native-mmkv": "2.12.5",
     "@discord/bottom-sheet": "bluesky-social/react-native-bottom-sheet",
     "@emoji-mart/react": "^1.1.1",
@@ -146,7 +147,6 @@
     "expo-font": "~14.0.10",
     "expo-haptics": "~15.0.8",
     "expo-image": "~3.0.11",
-    "expo-image-crop-tool": "^0.4.0",
     "expo-image-manipulator": "~14.0.8",
     "expo-image-picker": "~17.0.9",
     "expo-intent-launcher": "~13.0.8",
@@ -157,6 +157,7 @@
     "expo-location": "~19.0.8",
     "expo-media-library": "~18.2.1",
     "expo-notifications": "~0.32.14",
+    "expo-privacy-sensitive": "^0.1.0",
     "expo-screen-orientation": "~9.0.8",
     "expo-sharing": "~14.0.8",
     "expo-sms": "^14.0.7",
@@ -166,6 +167,7 @@
     "expo-updates": "~29.0.14",
     "expo-video": "~3.0.15",
     "expo-web-browser": "~15.0.10",
+    "fast-deep-equal": "^3.1.3",
     "fast-text-encoding": "^1.0.6",
     "history": "^5.3.0",
     "hls.js": "^1.6.2",
@@ -175,7 +177,6 @@
     "libphonenumber-js": "^1.12.31",
     "lodash.chunk": "^4.2.0",
     "lodash.debounce": "^4.0.8",
-    "fast-deep-equal": "^3.1.3",
     "lodash.shuffle": "^4.2.0",
     "lodash.throttle": "^4.1.1",
     "multiformats": "9.9.0",
@@ -227,7 +228,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@atproto/dev-env": "^0.3.196",
+    "@atproto/dev-env": "^0.3.204",
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/runtime": "^7.26.0",
@@ -287,6 +288,7 @@
     "@react-native/babel-preset": "0.81.5",
     "@react-native/normalize-colors": "0.81.5",
     "**/@expo/image-utils": "0.8.7",
+    "**/@react-native-async-storage/async-storage": "2.2.0",
     "**/expo-constants": "18.0.8",
     "**/expo-device": "7.1.4",
     "**/zod": "3.23.8",

@@ -57,6 +57,7 @@ function CardOuter({
   const {gtMobile} = useBreakpoints()
   return (
     <View
+      testID="CardOuter"
       style={[
         a.flex_1,
         a.w_full,
@@ -579,7 +580,8 @@ export function ProfileGrid({
                   suggestedDid: profile.did,
                   category: null,
                 })
-              }}>
+              }}
+              style={[a.flex_1]}>
               {({hovered, pressed}) => (
                 <CardOuter
                   style={[
@@ -846,6 +848,7 @@ export function SuggestedFeeds() {
                   <FeedCard.TitleAndByline
                     title={feed.displayName}
                     creator={feed.creator}
+                    uri={feed.uri}
                   />
                 </FeedCard.Header>
                 <FeedCard.Description
@@ -937,8 +940,15 @@ export function SuggestedFeeds() {
 
 export function ProgressGuide() {
   const t = useTheme()
+  const {gtMobile} = useBreakpoints()
   return (
-    <View style={[t.atoms.border_contrast_low, a.px_lg, a.py_lg, a.pb_lg]}>
+    <View
+      style={[
+        t.atoms.border_contrast_low,
+        a.px_lg,
+        a.py_lg,
+        !gtMobile && {marginTop: 4},
+      ]}>
       <ProgressGuideList />
     </View>
   )

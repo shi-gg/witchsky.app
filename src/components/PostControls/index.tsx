@@ -13,6 +13,7 @@ import {CountWheel} from '#/lib/custom-animations/CountWheel'
 import {AnimatedLikeIcon} from '#/lib/custom-animations/LikeIcon'
 import {useHaptics} from '#/lib/haptics'
 import {useOpenComposer} from '#/lib/hooks/useOpenComposer'
+import {logger} from '#/logger'
 import {type Shadow} from '#/state/cache/types'
 import {useFeedFeedbackContext} from '#/state/feed-feedback'
 import {useDisableLikesMetrics} from '#/state/preferences/disable-likes-metrics'
@@ -182,6 +183,12 @@ let PostControls = ({
       feedContext,
       reqId,
     })
+    logger.metric('post:clickQuotePost', {
+      uri: post.uri,
+      authorDid: post.author.did,
+      logContext,
+      feedDescriptor,
+    })
     openComposer({
       quote: post,
       onPost: onPostReply,
@@ -225,7 +232,16 @@ let PostControls = ({
             testID="replyBtn"
             onPress={
               !replyDisabled
-                ? () => requireAuth(() => onPressReply())
+                ? () =>
+                    requireAuth(() => {
+                      logger.metric('post:clickReply', {
+                        uri: post.uri,
+                        authorDid: post.author.did,
+                        logContext,
+                        feedDescriptor,
+                      })
+                      onPressReply()
+                    })
                 : undefined
             }
             label={_(
@@ -331,6 +347,7 @@ let PostControls = ({
             left: secondaryControlSpacingStyles.gap / 2,
             right: secondaryControlSpacingStyles.gap / 2,
           }}
+          logContext={logContext}
         />
         <PostMenuButton
           testID="postDropdownBtn"
@@ -346,6 +363,7 @@ let PostControls = ({
           hitSlop={{
             left: secondaryControlSpacingStyles.gap / 2,
           }}
+          logContext={logContext}
         />
       </View>
     </View>

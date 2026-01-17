@@ -393,6 +393,7 @@ let Card = ({
       {data && moderationOpts ? (
         status.isActive ? (
           <LiveStatus
+            status={status}
             profile={data}
             embed={status.embed}
             padding="lg"

@@ -112,8 +112,8 @@ export function usePostLikeMutationQueue(
   const postCid = post.cid
   const initialLikeUri = post.viewer?.like
   const likeMutation = usePostLikeMutation(feedDescriptor, logContext, post)
-  const unlikeMutation = usePostUnlikeMutation(feedDescriptor, logContext)
   const disableViaRepostNotification = useDisableViaRepostNotification()
+  const unlikeMutation = usePostUnlikeMutation(feedDescriptor, logContext, post)
 
   const queueToggle = useToggleMutationQueue({
     initialState: initialLikeUri,
@@ -184,6 +184,8 @@ function usePostLikeMutation(
         ownProfile = findProfileQueryData(queryClient, currentAccount.did)
       }
       logger.metric('post:like', {
+        uri,
+        authorDid: postAuthor.did,
         logContext,
         doesPosterFollowLiker: postAuthor.viewer
           ? Boolean(postAuthor.viewer.followedBy)
@@ -208,11 +210,17 @@ function usePostLikeMutation(
 function usePostUnlikeMutation(
   feedDescriptor: string | undefined,
   logContext: LogEvents['post:unlike']['logContext'],
+  post: Shadow<AppBskyFeedDefs.PostView>,
 ) {
   const agent = useAgent()
   return useMutation<void, Error, {postUri: string; likeUri: string}>({
-    mutationFn: ({likeUri}) => {
-      logger.metric('post:unlike', {logContext, feedDescriptor})
+    mutationFn: ({postUri, likeUri}) => {
+      logger.metric('post:unlike', {
+        uri: postUri,
+        authorDid: post.author.did,
+        logContext,
+        feedDescriptor,
+      })
       return agent.deleteLike(likeUri)
     },
   })
@@ -229,9 +237,13 @@ export function usePostRepostMutationQueue(
   const postUri = post.uri
   const postCid = post.cid
   const initialRepostUri = post.viewer?.repost
-  const repostMutation = usePostRepostMutation(feedDescriptor, logContext)
-  const unrepostMutation = usePostUnrepostMutation(feedDescriptor, logContext)
   const disableViaRepostNotification = useDisableViaRepostNotification()
+  const repostMutation = usePostRepostMutation(feedDescriptor, logContext, post)
+  const unrepostMutation = usePostUnrepostMutation(
+    feedDescriptor,
+    logContext,
+    post,
+  )
 
   const queueToggle = useToggleMutationQueue({
     initialState: initialRepostUri,
@@ -283,6 +295,7 @@ export function usePostRepostMutationQueue(
 function usePostRepostMutation(
   feedDescriptor: string | undefined,
   logContext: LogEvents['post:repost']['logContext'],
+  post: Shadow<AppBskyFeedDefs.PostView>,
 ) {
   const agent = useAgent()
   return useMutation<
@@ -291,7 +304,12 @@ function usePostRepostMutation(
     {uri: string; cid: string; via?: {uri: string; cid: string}} // the post's uri and cid, and the repost uri/cid if present
   >({
     mutationFn: ({uri, cid, via}) => {
-      logger.metric('post:repost', {logContext, feedDescriptor})
+      logger.metric('post:repost', {
+        uri,
+        authorDid: post.author.did,
+        logContext,
+        feedDescriptor,
+      })
       return agent.repost(uri, cid, via)
     },
   })
@@ -300,11 +318,17 @@ function usePostRepostMutation(
 function usePostUnrepostMutation(
   feedDescriptor: string | undefined,
   logContext: LogEvents['post:unrepost']['logContext'],
+  post: Shadow<AppBskyFeedDefs.PostView>,
 ) {
   const agent = useAgent()
   return useMutation<void, Error, {postUri: string; repostUri: string}>({
-    mutationFn: ({repostUri}) => {
-      logger.metric('post:unrepost', {logContext, feedDescriptor})
+    mutationFn: ({postUri, repostUri}) => {
+      logger.metric('post:unrepost', {
+        uri: postUri,
+        authorDid: post.author.did,
+        logContext,
+        feedDescriptor,
+      })
       return agent.deleteRepost(repostUri)
     },
   })
@@ -376,7 +400,6 @@ function useThreadMuteMutation() {
     {uri: string} // the root post's uri
   >({
     mutationFn: ({uri}) => {
-      logger.metric('post:mute', {})
       return agent.api.app.bsky.graph.muteThread({root: uri})
     },
   })
@@ -386,7 +409,6 @@ function useThreadUnmuteMutation() {
   const agent = useAgent()
   return useMutation<{}, Error, {uri: string}>({
     mutationFn: ({uri}) => {
-      logger.metric('post:unmute', {})
       return agent.api.app.bsky.graph.unmuteThread({root: uri})
     },
   })

@@ -33,7 +33,7 @@ interface Props {
   viewContext?: PostEmbedViewContext
   insetBorderStyle?: StyleProp<ViewStyle>
   containerRefs: AnimatedRef<any>[]
-  thumbDimsRef: React.MutableRefObject<(Dimensions | null)[]>
+  thumbDimsRef: React.RefObject<(Dimensions | null)[]>
 }
 
 export function GalleryItem({
@@ -94,6 +94,7 @@ export function GalleryItem({
               height: e.source.height,
             }
           }}
+          loading="lazy"
         />
         <MediaInsetBorder style={insetBorderStyle} />
       </Pressable>

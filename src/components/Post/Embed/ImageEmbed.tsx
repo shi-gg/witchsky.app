@@ -14,9 +14,9 @@ import {
   useHighQualityImages,
 } from '#/state/preferences/high-quality-images'
 import {type Dimensions} from '#/view/com/lightbox/ImageViewing/@types'
-import {AutoSizedImage} from '#/view/com/util/images/AutoSizedImage'
-import {ImageLayoutGrid} from '#/view/com/util/images/ImageLayoutGrid'
 import {atoms as a} from '#/alf'
+import {AutoSizedImage} from '#/components/images/AutoSizedImage'
+import {ImageLayoutGrid} from '#/components/images/ImageLayoutGrid'
 import {PostEmbedViewContext} from '#/components/Post/Embed/types'
 import {type EmbedType} from '#/types/bsky/post'
 import {type CommonProps} from './types'

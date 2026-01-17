@@ -16,6 +16,8 @@ import {ENV} from '#/env'
 import {bitdriftTransport} from './transports/bitdrift'
 import {sentryTransport} from './transports/sentry'
 
+export {type MetricEvents as Metrics} from '#/logger/metrics'
+
 const TRANSPORTS: Transport[] = (function configureTransports() {
   switch (ENV) {
     case 'production': {

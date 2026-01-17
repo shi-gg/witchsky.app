@@ -1,6 +1,6 @@
 import {memo, useCallback, useMemo, useState} from 'react'
 import {
-  Image,
+  Image as RNImage,
   Pressable,
   type StyleProp,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native'
 import Svg, {Circle, Path, Rect} from 'react-native-svg'
+import {Image as ExpoImage} from 'expo-image'
 import {type ModerationUI} from '@atproto/api'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, Trans} from '@lingui/macro'
@@ -42,7 +43,6 @@ import {
 } from '#/state/preferences/high-quality-images'
 import {unstableCacheProfileView} from '#/state/queries/unstable-profile-cache'
 import {EditImageDialog} from '#/view/com/composer/photos/EditImageDialog'
-import {HighPriorityImage} from '#/view/com/util/images/Image'
 import {atoms as a, tokens, useTheme} from '#/alf'
 import {Button} from '#/components/Button'
 import {useDialogControl} from '#/components/Dialog'
@@ -314,7 +314,7 @@ let UserAvatar = ({
     !((moderation?.blur && isAndroid) /* android crashes with blur */) ? (
     <View style={containerStyle}>
       {usePlainRNImage ? (
-        <Image
+        <RNImage
           accessibilityIgnoresInvertColors
           testID="userAvatarImage"
           style={aviStyle}
@@ -329,7 +329,7 @@ let UserAvatar = ({
           onLoad={onLoad}
         />
       ) : (
-        <HighPriorityImage
+        <ExpoImage
           testID="userAvatarImage"
           style={aviStyle}
           contentFit="cover"
@@ -475,7 +475,7 @@ let EditableUserAvatar = ({
           {({props}) => (
             <Pressable {...props} testID="changeAvatarBtn">
               {avatar ? (
-                <HighPriorityImage
+                <ExpoImage
                   testID="userAvatarImage"
                   style={aviStyle}
                   source={{

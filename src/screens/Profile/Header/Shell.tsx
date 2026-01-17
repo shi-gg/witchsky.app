@@ -1,5 +1,5 @@
 import {memo, useCallback, useEffect, useMemo} from 'react'
-import {TouchableWithoutFeedback, View} from 'react-native'
+import {Pressable, View} from 'react-native'
 import Animated, {
   measure,
   type MeasuredDimensions,
@@ -72,7 +72,7 @@ let ProfileHeaderShell = ({
   const enableSquareButtons = useEnableSquareButtons()
 
   const aviRef = useAnimatedRef()
-  const bannerRef = useAnimatedRef()
+  const bannerRef = useAnimatedRef<Animated.View>()
 
   const onPressBack = useCallback(() => {
     if (navigation.canGoBack()) {
@@ -82,19 +82,30 @@ let ProfileHeaderShell = ({
     }
   }, [navigation])
 
-  const _openLightboxAvi = useCallback(
-    (uri: string, thumbRect: MeasuredDimensions | null) => {
+  const _openLightbox = useCallback(
+    (
+      uri: string,
+      thumbRect: MeasuredDimensions | null,
+      type: 'circle-avi' | 'image' = 'circle-avi',
+    ) => {
       openLightbox({
         images: [
           {
             uri: maybeModifyHighQualityImage(uri, highQualityImages),
             thumbUri: maybeModifyHighQualityImage(uri, highQualityImages),
             thumbRect,
-            dimensions: {
-              // It's fine if it's actually smaller but we know it's 1:1.
-              height: 1000,
-              width: 1000,
-            },
+            dimensions:
+              type === 'circle-avi'
+                ? {
+                    // It's fine if it's actually smaller but we know it's 1:1.
+                    height: 1000,
+                    width: 1000,
+                  }
+                : {
+                    // Banner aspect ratio is 3:1
+                    width: 3000,
+                    height: 1000,
+                  },
             thumbDimensions: null,
             type: enableSquareAvatars ? 'rect-avi' : 'circle-avi',
           },
@@ -173,34 +184,16 @@ let ProfileHeaderShell = ({
   ])
 
   const onPressBanner = useCallback(() => {
-    if (live.isActive) {
-      playHaptic('Light')
-      logger.metric(
-        'live:card:open',
-        {subject: profile.did, from: 'profile'},
-        {statsig: true},
-      )
-      liveStatusControl.open()
-    } else {
-      const modui = moderation.ui('banner')
-      const banner = profile.banner
-      if (banner && !(modui.blur && modui.noOverride)) {
-        runOnUI(() => {
-          'worklet'
-          const rect = measure(bannerRef)
-          runOnJS(_openLightboxBanner)(banner, rect)
-        })()
-      }
+    const modui = moderation.ui('banner')
+    const banner = profile.banner
+    if (banner && !(modui.blur && modui.noOverride)) {
+      runOnUI(() => {
+        'worklet'
+        const rect = measure(bannerRef)
+        runOnJS(_openLightbox)(banner, rect, 'image')
+      })()
     }
-  }, [
-    profile,
-    moderation,
-    _openLightboxBanner,
-    bannerRef,
-    liveStatusControl,
-    live,
-    playHaptic,
-  ])
+  }, [profile.banner, moderation, _openLightbox, bannerRef])
 
   return (
     <View style={t.atoms.bg} pointerEvents={isIOS ? 'auto' : 'box-none'}>
@@ -209,6 +202,8 @@ let ProfileHeaderShell = ({
         style={[a.relative, {height: 150}]}>
         <StatusBarShadow />
         <GrowableBanner
+          onPress={isPlaceholderProfile ? undefined : onPressBanner}
+          bannerRef={bannerRef}
           backButton={
             !hideBackButton && (
               <Button
@@ -306,7 +301,7 @@ let ProfileHeaderShell = ({
         ))}
 
       <GrowableAvatar style={[a.absolute, {top: 104, left: 10}]}>
-        <TouchableWithoutFeedback
+        <Pressable
           testID="profileHeaderAviButton"
           onPress={onPressAvi}
           accessibilityRole="image"
@@ -337,7 +332,7 @@ let ProfileHeaderShell = ({
               {live.isActive && <LiveIndicator size="large" />}
             </Animated.View>
           </View>
-        </TouchableWithoutFeedback>
+        </Pressable>
       </GrowableAvatar>
 
       {live.isActive &&

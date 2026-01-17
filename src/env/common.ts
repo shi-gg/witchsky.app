@@ -108,19 +108,21 @@ export const GCP_PROJECT_ID: number =
  * URLs for the app config web worker. Can be a
  * locally running server, see `env.example` for more.
  */
-export const BAPP_CONFIG_DEV_URL = process.env.BAPP_CONFIG_DEV_URL
+export const GEOLOCATION_DEV_URL = process.env.GEOLOCATION_DEV_URL
+export const GEOLOCATION_PROD_URL = `https://ip.bsky.app`
+export const GEOLOCATION_URL = IS_DEV
+  ? (GEOLOCATION_DEV_URL ?? GEOLOCATION_PROD_URL)
+  : GEOLOCATION_PROD_URL
 
 /**
- * Dev environment passthrough value for bapp-config web worker. Allows local
- * dev access to the web worker running in `development` mode.
+ * URLs for the live-event config web worker. Can be a
+ * locally running server, see `env.example` for more.
  */
-export const BAPP_CONFIG_DEV_BYPASS_SECRET: string =
-  process.env.BAPP_CONFIG_DEV_BYPASS_SECRET
-
-export const BAPP_CONFIG_PROD_URL = `https://ip.bsky.app`
-export const BAPP_CONFIG_URL = IS_DEV
-  ? (BAPP_CONFIG_DEV_URL ?? BAPP_CONFIG_PROD_URL)
-  : BAPP_CONFIG_PROD_URL
+export const LIVE_EVENTS_DEV_URL = process.env.LIVE_EVENTS_DEV_URL
+export const LIVE_EVENTS_PROD_URL = `https://live-events.workers.bsky.app`
+export const LIVE_EVENTS_URL = IS_DEV
+  ? (LIVE_EVENTS_DEV_URL ?? LIVE_EVENTS_PROD_URL)
+  : LIVE_EVENTS_PROD_URL
 
 export const ENV_PUBLIC_BSKY_SERVICE: string | undefined =
   process.env.EXPO_PUBLIC_PUBLIC_BSKY_SERVICE
