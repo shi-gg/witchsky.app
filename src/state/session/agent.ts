@@ -465,6 +465,9 @@ class BskyAppAgent extends BskyAgent {
  * other PDS-specific operations like preferences.
  */
 export function pdsAgent<T extends BaseAgent>(agent: T): T {
+  if ('cloneWithoutProxy' in agent && typeof agent.cloneWithoutProxy === 'function') {
+    return agent.cloneWithoutProxy() as T
+  }
   const clone = agent.clone() as T
   clone.configureProxy(null)
   return clone
