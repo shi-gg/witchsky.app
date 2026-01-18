@@ -126,5 +126,5 @@ export const LIVE_EVENTS_URL = IS_DEV
 
 export const ENV_PUBLIC_BSKY_SERVICE: string | undefined =
   process.env.EXPO_PUBLIC_PUBLIC_BSKY_SERVICE
-export const ENV_APPVIEW_DID_PROXY: `did:${string}#bsky_appview` | undefined =
+export const ENV_APPVIEW_DID_PROXY: `did:${string}:${string}#bsky_appview` | undefined =
   process.env.EXPO_PUBLIC_APPVIEW_DID_PROXY

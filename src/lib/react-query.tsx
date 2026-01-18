@@ -10,8 +10,8 @@ import {
 import type React from 'react'
 
 import {listenNetworkConfirmed, listenNetworkLost} from '#/state/events'
-import {PUBLIC_BSKY_SERVICE} from './constants'
 import {IS_NATIVE, IS_WEB} from '#/env'
+import {PUBLIC_BSKY_SERVICE} from './constants'
 
 declare global {
   interface Window {

@@ -1,5 +1,5 @@
 export type ConstellationLink = {
-  did: `did:${string}`
+  did: `did:${string}:${string}`
   collection: string
   rkey: string
 }

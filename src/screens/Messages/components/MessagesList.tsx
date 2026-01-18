@@ -15,6 +15,7 @@ import {
   AppBskyRichtextFacet,
   RichText,
 } from '@atproto/api'
+import { isNative } from '@bsky.app/alf'
 
 import {useHideBottomBarBorderForScreen} from '#/lib/hooks/useHideBottomBarBorder'
 import {ScrollProvider} from '#/lib/ScrollContext'

@@ -190,7 +190,7 @@ let ProfileHeaderShell = ({
       runOnUI(() => {
         'worklet'
         const rect = measure(bannerRef)
-        runOnJS(_openLightboxBanner)(banner, rect, 'image')
+        runOnJS(_openLightboxBanner)(banner, rect)
       })()
     }
   }, [profile.banner, moderation, _openLightboxBanner, bannerRef])

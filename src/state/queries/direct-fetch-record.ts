@@ -27,7 +27,7 @@ export async function directFetchRecordAndProfile(
     const res = await agent.resolveHandle({
       handle: urip.host,
     })
-    urip.host = res.data.did
+    urip.host = res.data.did as `did:${string}:${string}`
   }
 
   try {

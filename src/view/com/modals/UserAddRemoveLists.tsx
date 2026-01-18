@@ -14,7 +14,6 @@ import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {cleanError} from '#/lib/strings/errors'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {s} from '#/lib/styles'
-import {useTheme} from '#/alf'
 import {useModalControls} from '#/state/modals'
 import {
   getMembership,
@@ -24,6 +23,7 @@ import {
   useListMembershipRemoveMutation,
 } from '#/state/queries/list-memberships'
 import {useSession} from '#/state/session'
+import {useTheme} from '#/alf'
 import {IS_ANDROID, IS_WEB, IS_WEB_MOBILE} from '#/env'
 import {MyLists} from '../lists/MyLists'
 import {Button} from '../util/forms/Button'
@@ -229,7 +229,7 @@ function ListItem({
       </View>
       <View>
         {isProcessing || typeof membership === 'undefined' ? (
-          <ActivityIndicator color={t.palette.primary_500} />
+          <ActivityIndicator color={t.palette.contrast_500} />
         ) : (
           <Button
             testID={`user-${handle}-addBtn`}

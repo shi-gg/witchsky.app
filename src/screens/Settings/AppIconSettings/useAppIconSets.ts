@@ -150,7 +150,7 @@ export function useAppIconSets() {
 
     return {
       defaults,
-      // core,
+      core: [] as AppIconSet[],
     }
   }, [_])
 }

@@ -5,7 +5,6 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {logger} from '#/logger'
-import {useDeviceGeolocationApi} from '#/geolocation'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {atoms as a, useBreakpoints, useTheme, web} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
@@ -20,6 +19,7 @@ import * as Toast from '#/components/Toast'
 import {Text} from '#/components/Typography'
 import {BottomSheetOutlet} from '#/../modules/bottom-sheet'
 import {IS_WEB} from '#/env'
+import {useDeviceGeolocationApi} from '#/geolocation'
 
 export function BlockedGeoOverlay() {
   const t = useTheme()

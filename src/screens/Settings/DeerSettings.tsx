@@ -131,9 +131,29 @@ import {Star_Stroke2_Corner0_Rounded as StarIcon} from '#/components/icons/Star'
 import {Verified_Stroke2_Corner2_Rounded as VerifiedIcon} from '#/components/icons/Verified'
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography'
-import {SearchProfileCard} from '../Search/components/SearchProfileCard'
 import { IS_WEB } from '#/env/index.web'
+import {SearchProfileCard} from '../Search/components/SearchProfileCard'
 type Props = NativeStackScreenProps<CommonNavigatorParams>
+
+const defaultGateValues = {
+    alt_share_icon: false,
+    debug_show_feedcontext: false,
+    debug_subscriptions: false,
+    disable_onboarding_find_contacts: false,
+    disable_settings_find_contacts: false,
+    explore_show_suggested_feeds: false,
+    feed_reply_button_open_thread: false,
+    is_bsky_team_member: false,
+    disable_live_now_beta: false,
+    old_postonboarding: false,
+    onboarding_add_video_feed: false,
+    onboarding_suggested_starterpacks: false,
+    remove_show_latest_button: false,
+    show_composer_prompt: false,
+    suggested_users_dismiss: false,
+    test_gate_1: false,
+    test_gate_2: false
+} satisfies Record<Gate, false>
 
 function ConstellationInstanceDialog({
   control,
@@ -467,19 +487,7 @@ export function DeerSettingsScreen({}: Props) {
   const showLinkInHandle = useShowLinkInHandle()
   const setShowLinkInHandle = useSetShowLinkInHandle()
 
-  const [gates, setGatesView] = useState(Object.assign({
-    alt_share_icon: false,
-    debug_show_feedcontext: false,
-    debug_subscriptions: false,
-    explore_show_suggested_feeds: false,
-    feed_reply_button_open_thread: false,
-    old_postonboarding: false,
-    onboarding_add_video_feed: false,
-    onboarding_suggested_starterpacks: false,
-    remove_show_latest_button: false,
-    test_gate_1: false,
-    test_gate_2: false,
-  } satisfies Record<Gate, false>, Object.fromEntries(useGatesCache())))
+  const [gates, setGatesView] = useState(Object.assign(defaultGateValues, Object.fromEntries(useGatesCache())))
   const dangerousSetGate = useDangerousSetGate()
   const setGate = (gate: Gate, value: boolean) => {
     dangerousSetGate(gate, value)
@@ -935,7 +943,7 @@ export function DeerSettingsScreen({}: Props) {
               label={_(msg`Reset gates`)}
               onPress={() => {
                 resetDeerGateCache()
-                setGatesView({})
+                setGatesView(defaultGateValues)
               }}
             />
           </SettingsList.Group>

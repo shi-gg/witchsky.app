@@ -17,5 +17,5 @@ export function readCustomAppViewDidUri() {
     return undefined
   }
 
-  return `${maybeDid}#bsky_appview` as `did:${string}#bsky_appview`
+  return `${maybeDid}#bsky_appview` as `did:${string}:${string}#bsky_appview`
 }
