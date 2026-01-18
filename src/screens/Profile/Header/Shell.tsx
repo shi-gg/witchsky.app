@@ -1,5 +1,5 @@
 import {memo, useCallback, useEffect, useMemo} from 'react'
-import {Pressable, View} from 'react-native'
+import {Pressable, TouchableWithoutFeedback, View} from 'react-native'
 import Animated, {
   measure,
   type MeasuredDimensions,
@@ -169,14 +169,14 @@ let ProfileHeaderShell = ({
         runOnUI(() => {
           'worklet'
           const rect = measure(aviRef)
-          runOnJS(_openLightboxAvi)(avatar, rect)
+          runOnJS(_openLightbox)(avatar, rect)
         })()
       }
     }
   }, [
     profile,
     moderation,
-    _openLightboxAvi,
+    _openLightbox,
     aviRef,
     liveStatusControl,
     live,
@@ -190,10 +190,10 @@ let ProfileHeaderShell = ({
       runOnUI(() => {
         'worklet'
         const rect = measure(bannerRef)
-        runOnJS(_openLightbox)(banner, rect, 'image')
+        runOnJS(_openLightboxBanner)(banner, rect, 'image')
       })()
     }
-  }, [profile.banner, moderation, _openLightbox, bannerRef])
+  }, [profile.banner, moderation, _openLightboxBanner, bannerRef])
 
   return (
     <View style={t.atoms.bg} pointerEvents={isIOS ? 'auto' : 'box-none'}>

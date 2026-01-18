@@ -15,13 +15,13 @@ import {logger} from '#/logger'
 import {isWeb} from '#/platform/detection'
 import {type Shadow} from '#/state/cache/types'
 import {useModalControls} from '#/state/modals'
-import {Nux, useNux, useSaveNux} from '#/state/queries/nuxs'
 import {
   useDeerVerificationEnabled,
   useDeerVerificationTrusted,
   useSetDeerVerificationTrust,
 } from '#/state/preferences/deer-verification'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
+import {Nux, useNux, useSaveNux} from '#/state/queries/nuxs'
 import {
   RQKEY as profileQueryKey,
   useProfileBlockMutationQueue,
