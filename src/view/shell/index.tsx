@@ -39,8 +39,6 @@ import {
   usePolicyUpdateContext,
 } from '#/components/PolicyUpdateOverlay'
 import {Outlet as PortalOutlet} from '#/components/Portal'
-import {useAgeAssurance} from '#/ageAssurance'
-import {NoAccessScreen} from '#/ageAssurance/components/NoAccessScreen'
 import {RedirectOverlay} from '#/ageAssurance/components/RedirectOverlay'
 import {IS_ANDROID, IS_IOS} from '#/env'
 import {RoutesContainer, TabsNavigator} from '#/Navigation'
@@ -207,7 +205,6 @@ function DrawerLayout({children}: {children: React.ReactNode}) {
 
 export function Shell() {
   const t = useTheme()
-  const aa = useAgeAssurance()
   const {currentAccount} = useSession()
   const fullyExpandedCount = useDialogFullyExpandedCountContext()
 
@@ -234,13 +231,9 @@ export function Shell() {
         <Deactivated />
       ) : (
         <>
-          {aa.state.access === aa.Access.None ? (
-            <NoAccessScreen />
-          ) : (
-            <RoutesContainer>
-              <ShellInner />
-            </RoutesContainer>
-          )}
+          <RoutesContainer>
+            <ShellInner />
+          </RoutesContainer>
 
           <RedirectOverlay />
         </>
