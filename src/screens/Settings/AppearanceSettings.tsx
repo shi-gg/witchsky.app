@@ -307,57 +307,6 @@ export function AppearanceSettingsScreen({}: Props) {
                   <Toggle.Platform />
                 </Toggle.Item>
               </SettingsList.Group>
-
-              <SettingsList.Divider />
-
-              <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
-                <SettingsList.ItemIcon icon={SparkleIcon} />
-                <SettingsList.ItemText>
-                  <Trans>Logo</Trans>
-                </SettingsList.ItemText>
-                <Toggle.Item
-                  name="kawaii_mode"
-                  label={_(msg`Enable kawaii logo`)}
-                  value={kawaiiMode}
-                  onChange={value => setKawaiiMode(value)}
-                  style={[a.w_full]}>
-                  <Toggle.LabelText style={[a.flex_1]}>
-                    <Trans>Enable kawaii logo</Trans>
-                  </Toggle.LabelText>
-                  <Toggle.Platform />
-                </Toggle.Item>
-              </SettingsList.Group>
-
-              <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
-                <SettingsList.ItemIcon icon={SquareIcon} />
-                <SettingsList.ItemText>
-                  <Trans>Shapes</Trans>
-                </SettingsList.ItemText>
-                <Toggle.Item
-                  name="enable_square_avatars"
-                  label={_(msg`Enable square avatars`)}
-                  value={enableSquareAvatars}
-                  onChange={value => setEnableSquareAvatars(value)}
-                  style={[a.w_full]}>
-                  <Toggle.LabelText style={[a.flex_1]}>
-                    <Trans>Enable square avatars</Trans>
-                  </Toggle.LabelText>
-                  <Toggle.Platform />
-                </Toggle.Item>
-
-                <Toggle.Item
-                  name="enable_square_buttons"
-                  label={_(msg`Enable square buttons`)}
-                  value={enableSquareButtons}
-                  onChange={value => setEnableSquareButtons(value)}
-                  style={[a.w_full]}>
-                  <Toggle.LabelText style={[a.flex_1]}>
-                    <Trans>Enable square buttons</Trans>
-                  </Toggle.LabelText>
-                  <Toggle.Platform />
-                </Toggle.Item>
-              </SettingsList.Group>
-
               {IS_NATIVE && IS_INTERNAL && (
                 <>
                   <SettingsList.Divider />
