@@ -10,7 +10,6 @@ import {type NavigationProp} from '#/lib/routes/types'
 import {shareText, shareUrl} from '#/lib/sharing'
 import {toShareUrl, toShareUrlBsky} from '#/lib/strings/url-helpers'
 import {logger} from '#/logger'
-import {isWeb} from '#/platform/detection'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {useShowExternalShareButtons} from '#/state/preferences/external-share-buttons'
 import {useSession} from '#/state/session'
@@ -25,6 +24,7 @@ import {PaperPlane_Stroke2_Corner0_Rounded as Send} from '#/components/icons/Pap
 import {SquareArrowTopRight_Stroke2_Corner0_Rounded as ExternalIcon} from '#/components/icons/SquareArrowTopRight'
 import * as Menu from '#/components/Menu'
 import {useAgeAssurance} from '#/ageAssurance'
+import {IS_WEB} from '#/env'
 import {useDevMode} from '#/storage/hooks/dev-mode'
 import {type ShareMenuItemsProps} from './ShareMenuItems.types'
 
@@ -81,7 +81,7 @@ let ShareMenuItems = ({
     })
   }
 
-  const canEmbed = isWeb && gtMobile && !hideInPWI
+  const canEmbed = IS_WEB && gtMobile && !hideInPWI
 
   const onShareATURI = () => {
     shareText(postUri)

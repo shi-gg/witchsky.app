@@ -11,7 +11,6 @@ import {shareUrl} from '#/lib/sharing'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {toShareUrl} from '#/lib/strings/url-helpers'
 import {logger} from '#/logger'
-import {isWeb} from '#/platform/detection'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {type FeedSourceFeedInfo} from '#/state/queries/feed'
 import {useLikeMutation, useUnlikeMutation} from '#/state/queries/like'
@@ -53,6 +52,7 @@ import {
 } from '#/components/moderation/ReportDialog'
 import {RichText} from '#/components/RichText'
 import {Text} from '#/components/Typography'
+import {IS_WEB} from '#/env'
 
 export function ProfileFeedHeaderSkeleton() {
   const t = useTheme()
@@ -194,7 +194,7 @@ export function ProfileFeedHeader({info}: {info: FeedSourceFeedInfo}) {
               style={[
                 a.justify_start,
                 {
-                  paddingVertical: isWeb ? 2 : 4,
+                  paddingVertical: IS_WEB ? 2 : 4,
                   paddingRight: 8,
                 },
               ]}
@@ -213,7 +213,7 @@ export function ProfileFeedHeader({info}: {info: FeedSourceFeedInfo}) {
                       t.atoms.bg_contrast_25,
                       {
                         opacity: 0,
-                        left: isWeb ? -2 : -4,
+                        left: IS_WEB ? -2 : -4,
                         right: 0,
                       },
                       pressed && {

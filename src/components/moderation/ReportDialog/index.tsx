@@ -8,7 +8,6 @@ import {wait} from '#/lib/async/wait'
 import {getLabelingServiceTitle} from '#/lib/moderation'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {Logger} from '#/logger'
-import {isNative} from '#/platform/detection'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useMyLabelersQuery} from '#/state/queries/preferences'
 import {CharProgress} from '#/view/com/composer/char-progress/CharProgress'
@@ -30,6 +29,7 @@ import {TimesLarge_Stroke2_Corner0_Rounded as X} from '#/components/icons/Times'
 import {createStaticClick, InlineLinkText, Link} from '#/components/Link'
 import {Loader} from '#/components/Loader'
 import {Text} from '#/components/Typography'
+import {IS_NATIVE} from '#/env'
 import {useSubmitReportMutation} from './action'
 import {
   BSKY_LABELER_ONLY_REPORT_REASONS,
@@ -214,8 +214,8 @@ function Inner(props: ReportDialogProps) {
       logger.metric(
         'reportDialog:success',
         {
-          reason: state.selectedOption?.reason!,
-          labeler: state.selectedLabeler?.creator.handle!,
+          reason: state.selectedOption?.reason ?? '',
+          labeler: state.selectedLabeler?.creator.handle ?? '',
           details: !!state.details,
         },
         {statsig: false},
@@ -256,7 +256,7 @@ function Inner(props: ReportDialogProps) {
       label={_(msg`Report dialog`)}
       ref={ref}
       style={[a.w_full, {maxWidth: 500}]}>
-      <View style={[a.gap_2xl, isNative && a.pt_md]}>
+      <View style={[a.gap_2xl, IS_NATIVE && a.pt_md]}>
         <StepOuter>
           <StepTitle
             index={1}

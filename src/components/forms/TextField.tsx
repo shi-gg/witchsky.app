@@ -11,7 +11,6 @@ import {
 
 import {HITSLOP_20} from '#/lib/constants'
 import {mergeRefs} from '#/lib/merge-refs'
-import {isWeb} from '#/platform/detection'
 import {
   android,
   applyFonts,
@@ -26,6 +25,7 @@ import {
 import {useInteractionState} from '#/components/hooks/useInteractionState'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Text} from '#/components/Typography'
+import {IS_WEB} from '#/env/index.web'
 
 const Context = createContext<{
   inputRef: React.RefObject<TextInput | null> | null
@@ -106,7 +106,7 @@ export function Root({children, isInvalid = false, style}: RootProps) {
           a.align_center,
           a.relative,
           a.w_full,
-          !(hasMultiline && isWeb) && a.px_md,
+          !(hasMultiline && IS_WEB) && a.px_md,
           style,
         ]}
         {...web({

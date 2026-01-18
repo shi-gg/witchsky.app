@@ -6,7 +6,6 @@ import {useLingui} from '@lingui/react'
 import {MAX_ALT_TEXT} from '#/lib/constants'
 import {isOverMaxGraphemeCount} from '#/lib/strings/helpers'
 import {LANGUAGES} from '#/locale/languages'
-import {isWeb} from '#/platform/detection'
 import {useLanguagePrefs} from '#/state/preferences'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {atoms as a, useTheme, web} from '#/alf'
@@ -18,6 +17,7 @@ import {PageText_Stroke2_Corner0_Rounded as PageTextIcon} from '#/components/ico
 import {TimesLarge_Stroke2_Corner0_Rounded as X} from '#/components/icons/Times'
 import {Warning_Stroke2_Corner0_Rounded as WarningIcon} from '#/components/icons/Warning'
 import {Text} from '#/components/Typography'
+import {IS_WEB} from '#/env'
 import {SubtitleFilePicker} from './SubtitleFilePicker'
 
 const MAX_NUM_CAPTIONS = 1
@@ -38,9 +38,9 @@ export function SubtitleDialogBtn(props: Props) {
   return (
     <View style={[a.flex_row, a.my_xs]}>
       <Button
-        label={isWeb ? _(msg`Captions & alt text`) : _(msg`Alt text`)}
+        label={IS_WEB ? _(msg`Captions & alt text`) : _(msg`Alt text`)}
         accessibilityHint={
-          isWeb
+          IS_WEB
             ? _(msg`Opens captions and alt text dialog`)
             : _(msg`Opens alt text dialog`)
         }
@@ -53,7 +53,11 @@ export function SubtitleDialogBtn(props: Props) {
         }}>
         <ButtonIcon icon={CCIcon} />
         <ButtonText>
-          {isWeb ? <Trans>Captions & alt text</Trans> : <Trans>Alt text</Trans>}
+          {IS_WEB ? (
+            <Trans>Captions & alt text</Trans>
+          ) : (
+            <Trans>Alt text</Trans>
+          )}
         </ButtonText>
       </Button>
       <Dialog.Outer control={control}>
@@ -135,7 +139,7 @@ function SubtitleDialogInner({
           </Text>
         )}
 
-        {isWeb && (
+        {IS_WEB && (
           <>
             <View
               style={[
@@ -183,7 +187,7 @@ function SubtitleDialogInner({
         <View style={web([a.flex_row, a.justify_end])}>
           <Button
             label={_(msg`Done`)}
-            size={isWeb ? 'small' : 'large'}
+            size={IS_WEB ? 'small' : 'large'}
             color="primary"
             variant="solid"
             onPress={() => {

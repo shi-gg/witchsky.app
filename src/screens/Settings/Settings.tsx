@@ -19,7 +19,6 @@ import {
 import {useGate} from '#/lib/statsig/statsig'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
-import {isIOS, isNative} from '#/platform/detection'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import * as persisted from '#/state/persisted'
 import {clearStorage} from '#/state/persisted'
@@ -73,6 +72,7 @@ import {
   shouldShowVerificationCheckButton,
   VerificationCheckButton,
 } from '#/components/verification/VerificationCheckButton'
+import {IS_IOS, IS_NATIVE} from '#/env'
 import {IS_INTERNAL} from '#/env'
 import {device, useStorage} from '#/storage'
 import {useActivitySubscriptionsNudged} from '#/storage/hooks/activity-subscriptions-nudged'
@@ -215,7 +215,7 @@ export function SettingsScreen({}: Props) {
               <Trans>Content and media</Trans>
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
-          {isNative &&
+          {IS_NATIVE &&
             findContactsEnabled &&
             !gate('disable_settings_find_contacts') && (
               <SettingsList.LinkItem
@@ -518,7 +518,7 @@ function DevOptions() {
           <Trans>Clear all storage data (restart after this)</Trans>
         </SettingsList.ItemText>
       </SettingsList.PressableItem>
-      {isIOS ? (
+      {IS_IOS ? (
         <SettingsList.PressableItem
           onPress={onPressApplyOta}
           label={_(msg`Apply Pull Request`)}>
@@ -527,7 +527,7 @@ function DevOptions() {
           </SettingsList.ItemText>
         </SettingsList.PressableItem>
       ) : null}
-      {isNative && isCurrentlyRunningPullRequestDeployment ? (
+      {IS_NATIVE && isCurrentlyRunningPullRequestDeployment ? (
         <SettingsList.PressableItem
           onPress={revertToEmbedded}
           label={_(msg`Unapply Pull Request`)}>

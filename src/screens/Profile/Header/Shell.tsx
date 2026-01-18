@@ -19,7 +19,6 @@ import {BACK_HITSLOP} from '#/lib/constants'
 import {useHaptics} from '#/lib/haptics'
 import {type NavigationProp} from '#/lib/routes/types'
 import {logger} from '#/logger'
-import {isIOS} from '#/platform/detection'
 import {type Shadow} from '#/state/cache/types'
 import {useLightboxControls} from '#/state/lightbox'
 import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
@@ -41,6 +40,7 @@ import {LiveIndicator} from '#/components/live/LiveIndicator'
 import {LiveStatusDialog} from '#/components/live/LiveStatusDialog'
 import {LabelsOnMe} from '#/components/moderation/LabelsOnMe'
 import {ProfileHeaderAlerts} from '#/components/moderation/ProfileHeaderAlerts'
+import {IS_IOS} from '#/env'
 import {GrowableAvatar} from './GrowableAvatar'
 import {GrowableBanner} from './GrowableBanner'
 import {StatusBarShadow} from './StatusBarShadow'
@@ -196,9 +196,9 @@ let ProfileHeaderShell = ({
   }, [profile.banner, moderation, _openLightboxBanner, bannerRef])
 
   return (
-    <View style={t.atoms.bg} pointerEvents={isIOS ? 'auto' : 'box-none'}>
+    <View style={t.atoms.bg} pointerEvents={IS_IOS ? 'auto' : 'box-none'}>
       <View
-        pointerEvents={isIOS ? 'auto' : 'box-none'}
+        pointerEvents={IS_IOS ? 'auto' : 'box-none'}
         style={[a.relative, {height: 150}]}>
         <StatusBarShadow />
         <GrowableBanner
@@ -285,7 +285,7 @@ let ProfileHeaderShell = ({
               a.px_lg,
               a.pt_xs,
               a.pb_sm,
-              isIOS ? a.pointer_events_auto : {pointerEvents: 'box-none'},
+              IS_IOS ? a.pointer_events_auto : {pointerEvents: 'box-none'},
             ]}
           />
         ) : (
@@ -295,7 +295,7 @@ let ProfileHeaderShell = ({
               a.px_lg,
               a.pt_xs,
               a.pb_sm,
-              isIOS ? a.pointer_events_auto : {pointerEvents: 'box-none'},
+              IS_IOS ? a.pointer_events_auto : {pointerEvents: 'box-none'},
             ]}
           />
         ))}

@@ -31,7 +31,6 @@ import {
   parseStarterPackUri,
 } from '#/lib/strings/starter-pack'
 import {logger} from '#/logger'
-import {isNative} from '#/platform/detection'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {useAllListMembersQuery} from '#/state/queries/list-members'
@@ -60,6 +59,7 @@ import {ListMaybePlaceholder} from '#/components/Lists'
 import {Loader} from '#/components/Loader'
 import {WizardEditListDialog} from '#/components/StarterPack/Wizard/WizardEditListDialog'
 import {Text} from '#/components/Typography'
+import {IS_NATIVE} from '#/env'
 import type * as bsky from '#/types/bsky'
 import {Provider} from './State'
 
@@ -437,7 +437,7 @@ function Footer({
         {
           paddingBottom: a.pb_lg.paddingBottom + bottomInset,
         },
-        isNative && [
+        IS_NATIVE && [
           a.border_l,
           a.border_r,
           t.atoms.shadow_md,
@@ -603,7 +603,7 @@ function Footer({
           a.w_full,
           a.align_center,
           a.gap_2xl,
-          isNative ? a.mt_sm : a.mt_md,
+          IS_NATIVE ? a.mt_sm : a.mt_md,
         ]}>
         {state.currentStep === 'Profiles' && items.length < 8 && (
           <Text

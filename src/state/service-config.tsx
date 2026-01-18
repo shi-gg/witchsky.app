@@ -85,7 +85,11 @@ export function useTrendingConfig() {
   return useContext(TrendingContext)
 }
 
-const DEFAULT_LIVE_ALLOWED_DOMAINS = ['twitch.tv', 'www.twitch.tv']
+const DEFAULT_LIVE_ALLOWED_DOMAINS = [
+  'twitch.tv',
+  'www.twitch.tv',
+  'stream.place',
+]
 export type LiveNowConfig = {
   allowedDomains: Set<string>
 }
@@ -106,7 +110,7 @@ export function useCanGoLive() {
   const gate = useGate()
   const {hasSession} = useSession()
   if (!hasSession) return false
-  return IS_DEV ? true : gate('live_now_beta')
+  return IS_DEV ? true : !gate('disable_live_now_beta')
 }
 
 export function useCheckEmailConfirmed() {

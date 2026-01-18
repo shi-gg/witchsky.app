@@ -13,7 +13,6 @@ import {getTabState, TabState} from '#/lib/routes/helpers'
 import {type NavigationProp} from '#/lib/routes/types'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {colors} from '#/lib/styles'
-import {isWeb} from '#/platform/detection'
 import {emitSoftReset} from '#/state/events'
 import {useDisableFollowersMetrics} from '#/state/preferences/disable-followers-metrics'
 import {useDisableFollowingMetrics} from '#/state/preferences/disable-following-metrics'
@@ -58,6 +57,7 @@ import {InlineLinkText} from '#/components/Link'
 import {Text} from '#/components/Typography'
 import {useSimpleVerificationState} from '#/components/verification'
 import {VerificationCheck} from '#/components/verification/VerificationCheck'
+import {IS_WEB} from '#/env'
 
 const iconWidth = 26
 
@@ -183,7 +183,7 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
     (tab: 'Home' | 'Search' | 'Messages' | 'Notifications' | 'MyProfile') => {
       const state = navigation.getState()
       setDrawerOpen(false)
-      if (isWeb) {
+      if (IS_WEB) {
         // hack because we have flat navigator for web and MyProfile does not exist on the web navigator -ansh
         if (tab === 'MyProfile') {
           navigation.navigate('Profile', {name: currentAccount!.handle})

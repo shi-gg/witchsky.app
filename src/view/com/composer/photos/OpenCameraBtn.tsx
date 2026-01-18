@@ -7,12 +7,12 @@ import {POST_IMG_MAX} from '#/lib/constants'
 import {useCameraPermission} from '#/lib/hooks/usePermissions'
 import {openCamera} from '#/lib/media/picker'
 import {logger} from '#/logger'
-import {isMobileWeb, isNative} from '#/platform/detection'
 import {type ComposerImage, createComposerImage} from '#/state/gallery'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {atoms as a, useTheme} from '#/alf'
 import {Button} from '#/components/Button'
 import {Camera_Stroke2_Corner0_Rounded as Camera} from '#/components/icons/Camera'
+import {IS_NATIVE, IS_WEB_MOBILE} from '#/env'
 
 type Props = {
   disabled?: boolean
@@ -61,7 +61,7 @@ export function OpenCameraBtn({disabled, onAdd}: Props) {
     requestMediaPermission,
   ])
 
-  const shouldShowCameraButton = isNative || isMobileWeb
+  const shouldShowCameraButton = IS_NATIVE || IS_WEB_MOBILE
   if (!shouldShowCameraButton) {
     return null
   }

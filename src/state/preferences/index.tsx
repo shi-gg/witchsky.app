@@ -51,7 +51,7 @@ export {
   useSetExternalEmbedPref,
 } from './external-embeds-prefs'
 export {useGoLinksEnabled, useSetGoLinksEnabled} from './go-links-enabled'
-export * from './hidden-posts'
+export {useHiddenPosts, useHiddenPostsApi} from './hidden-posts'
 export {
   useHideFeedsPromoTab,
   useSetHideFeedsPromoTab,

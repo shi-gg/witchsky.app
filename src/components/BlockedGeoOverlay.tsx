@@ -5,8 +5,7 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {logger} from '#/logger'
-import {isWeb} from '#/platform/detection'
-import {useDeviceGeolocationApi} from '#/state/geolocation'
+import {useDeviceGeolocationApi} from '#/geolocation'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {atoms as a, useBreakpoints, useTheme, web} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
@@ -20,6 +19,7 @@ import {Outlet as PortalOutlet} from '#/components/Portal'
 import * as Toast from '#/components/Toast'
 import {Text} from '#/components/Typography'
 import {BottomSheetOutlet} from '#/../modules/bottom-sheet'
+import {IS_WEB} from '#/env'
 
 export function BlockedGeoOverlay() {
   const t = useTheme()
@@ -70,7 +70,7 @@ export function BlockedGeoOverlay() {
         contentContainerStyle={[
           a.px_2xl,
           {
-            paddingTop: isWeb ? a.p_5xl.padding : insets.top + a.p_2xl.padding,
+            paddingTop: IS_WEB ? a.p_5xl.padding : insets.top + a.p_2xl.padding,
             paddingBottom: 100,
           },
         ]}>
@@ -117,7 +117,7 @@ export function BlockedGeoOverlay() {
             ))}
           </View>
 
-          {!isWeb && (
+          {!IS_WEB && (
             <>
               <View style={[a.pt_2xl]}>
                 <Divider />

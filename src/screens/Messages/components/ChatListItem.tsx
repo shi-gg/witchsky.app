@@ -20,7 +20,6 @@ import {
   toBskyAppUrl,
   toShortUrl,
 } from '#/lib/strings/url-helpers'
-import {isNative} from '#/platform/detection'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
@@ -47,6 +46,7 @@ import {createPortalGroup} from '#/components/Portal'
 import {Text} from '#/components/Typography'
 import {useSimpleVerificationState} from '#/components/verification'
 import {VerificationCheck} from '#/components/verification/VerificationCheck'
+import {IS_NATIVE} from '#/env'
 import type * as bsky from '#/types/bsky'
 
 export const ChatListItemPortal = createPortalGroup()
@@ -142,11 +142,10 @@ function ChatListItemReady({
 
   const {lastMessage, lastMessageSentAt, latestReportableMessage} =
     useMemo(() => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       let lastMessage = _(msg`No messages yet`)
-      // eslint-disable-next-line @typescript-eslint/no-shadow
+
       let lastMessageSentAt: string | null = null
-      // eslint-disable-next-line @typescript-eslint/no-shadow
+
       let latestReportableMessage: ChatBskyConvoDefs.MessageView | undefined
 
       if (ChatBskyConvoDefs.isMessageView(convo.lastMessage)) {
@@ -371,7 +370,7 @@ function ChatListItemReady({
                   )
             }
             accessibilityActions={
-              isNative
+              IS_NATIVE
                 ? [
                     {
                       name: 'magicTap',
@@ -385,7 +384,7 @@ function ChatListItemReady({
                 : undefined
             }
             onPress={onPress}
-            onLongPress={isNative ? onLongPress : undefined}
+            onLongPress={IS_NATIVE ? onLongPress : undefined}
             onAccessibilityAction={onLongPress}>
             {({hovered, pressed, focused}) => (
               <View
@@ -524,7 +523,7 @@ function ChatListItemReady({
               control={menuControl}
               currentScreen="list"
               showMarkAsRead={convo.unreadCount > 0}
-              hideTrigger={isNative}
+              hideTrigger={IS_NATIVE}
               blockInfo={blockInfo}
               style={[
                 a.absolute,

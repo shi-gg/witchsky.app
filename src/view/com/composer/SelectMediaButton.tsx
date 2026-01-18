@@ -11,7 +11,6 @@ import {
 } from '#/lib/hooks/usePermissions'
 import {openUnifiedPicker} from '#/lib/media/picker'
 import {extractDataUriMime} from '#/lib/media/util'
-import {isNative, isWeb} from '#/platform/detection'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {MAX_IMAGES} from '#/view/com/composer/state/composer'
 import {atoms as a, useTheme} from '#/alf'
@@ -19,6 +18,7 @@ import {Button} from '#/components/Button'
 import {useSheetWrapper} from '#/components/Dialog/sheet-wrapper'
 import {Image_Stroke2_Corner0_Rounded as ImageIcon} from '#/components/icons/Image'
 import * as toast from '#/components/Toast'
+import {IS_NATIVE, IS_WEB} from '#/env'
 
 export type SelectMediaButtonProps = {
   disabled?: boolean
@@ -92,7 +92,7 @@ const SUPPORTED_IMAGE_MIME_TYPES = (
     'image/svg+xml',
     'image/webp',
     'image/avif',
-    isNative && 'image/heic',
+    IS_NATIVE && 'image/heic',
   ] as const
 ).filter(Boolean)
 type SupportedImageMimeType = Exclude<
@@ -262,7 +262,7 @@ async function processImagePickerAssets(
        * We don't care too much about mimeType at this point on native,
        * since the `processVideo` step later on will convert to `.mp4`.
        */
-      if (isWeb && !isSupportedVideoMimeType(mimeType)) {
+      if (IS_WEB && !isSupportedVideoMimeType(mimeType)) {
         errors.add(SelectedAssetError.Unsupported)
         continue
       }
@@ -272,7 +272,7 @@ async function processImagePickerAssets(
        * to filter out large files on web. On native, we compress these anyway,
        * so we only check on web.
        */
-      if (isWeb && asset.fileSize && asset.fileSize > VIDEO_MAX_SIZE) {
+      if (IS_WEB && asset.fileSize && asset.fileSize > VIDEO_MAX_SIZE) {
         errors.add(SelectedAssetError.FileTooBig)
         continue
       }
@@ -291,7 +291,7 @@ async function processImagePickerAssets(
        * to filter out large files on web. On native, we compress GIFs as
        * videos anyway, so we only check on web.
        */
-      if (isWeb && asset.fileSize && asset.fileSize > VIDEO_MAX_SIZE) {
+      if (IS_WEB && asset.fileSize && asset.fileSize > VIDEO_MAX_SIZE) {
         errors.add(SelectedAssetError.FileTooBig)
         continue
       }
@@ -309,7 +309,7 @@ async function processImagePickerAssets(
        * base64 data-uri, so we construct it here for web only.
        */
       uri:
-        isWeb && asset.base64
+        IS_WEB && asset.base64
           ? `data:${mimeType};base64,${asset.base64}`
           : asset.uri,
     })
@@ -328,7 +328,7 @@ async function processImagePickerAssets(
       }
 
       if (supportedAssets[0].duration) {
-        if (isWeb) {
+        if (IS_WEB) {
           /*
            * Web reports duration as seconds
            */
@@ -433,7 +433,7 @@ export function SelectMediaButton({
   )
 
   const onPressSelectMedia = useCallback(async () => {
-    if (isNative) {
+    if (IS_NATIVE) {
       const [photoAccess, videoAccess] = await Promise.all([
         requestPhotoAccessIfNeeded(),
         requestVideoAccessIfNeeded(),
@@ -447,7 +447,7 @@ export function SelectMediaButton({
       }
     }
 
-    if (isNative && Keyboard.isVisible()) {
+    if (IS_NATIVE && Keyboard.isVisible()) {
       Keyboard.dismiss()
     }
 

@@ -15,7 +15,6 @@ import {
   useDangerousSetGate,
   useGatesCache,
 } from '#/lib/statsig/statsig'
-import {isWeb} from '#/platform/detection'
 import * as persisted from '#/state/persisted'
 import {useGoLinksEnabled, useSetGoLinksEnabled} from '#/state/preferences'
 import {
@@ -133,6 +132,7 @@ import {Verified_Stroke2_Corner2_Rounded as VerifiedIcon} from '#/components/ico
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography'
 import {SearchProfileCard} from '../Search/components/SearchProfileCard'
+import { IS_WEB } from '#/env/index.web'
 type Props = NativeStackScreenProps<CommonNavigatorParams>
 
 function ConstellationInstanceDialog({
@@ -188,7 +188,7 @@ function ConstellationInstanceDialog({
             )}
           />
 
-          <View style={isWeb && [a.flex_row, a.justify_end]}>
+          <View style={IS_WEB && [a.flex_row, a.justify_end]}>
             <Button
               label={_(msg`Save`)}
               size="large"
@@ -316,7 +316,7 @@ function CustomAppViewDidDialog({
             </Text>
           )}
 
-          <View style={isWeb && [a.flex_row, a.justify_end]}>
+          <View style={IS_WEB && [a.flex_row, a.justify_end]}>
             <Button
               label={_(msg`Save`)}
               size="large"

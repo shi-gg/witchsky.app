@@ -16,7 +16,6 @@ import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
 
 import {useActorStatus} from '#/lib/actor-status'
-import {isTouchDevice} from '#/lib/browser'
 import {useHaptics} from '#/lib/haptics'
 import {
   useCameraPermission,
@@ -30,7 +29,6 @@ import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {isCancelledError} from '#/lib/strings/errors'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {logger} from '#/logger'
-import {isAndroid, isNative, isWeb} from '#/platform/detection'
 import {
   type ComposerImage,
   compressImage,
@@ -59,6 +57,7 @@ import {LiveStatusDialog} from '#/components/live/LiveStatusDialog'
 import {MediaInsetBorder} from '#/components/MediaInsetBorder'
 import * as Menu from '#/components/Menu'
 import {ProfileHoverCard} from '#/components/ProfileHoverCard'
+import {IS_ANDROID, IS_NATIVE, IS_WEB, IS_WEB_TOUCH_DEVICE} from '#/env'
 import type * as bsky from '#/types/bsky'
 
 export type UserAvatarType = 'user' | 'algo' | 'list' | 'labeler'
@@ -93,7 +92,7 @@ interface PreviewableUserAvatarProps extends BaseUserAvatarProps {
   onBeforePress?: () => void
 }
 
-const BLUR_AMOUNT = isWeb ? 5 : 100
+const BLUR_AMOUNT = IS_WEB ? 5 : 100
 
 let DefaultAvatar = ({
   type,
@@ -311,7 +310,7 @@ let UserAvatar = ({
   }, [size, style])
 
   return avatar &&
-    !((moderation?.blur && isAndroid) /* android crashes with blur */) ? (
+    !((moderation?.blur && IS_ANDROID) /* android crashes with blur */) ? (
     <View style={containerStyle}>
       {usePlainRNImage ? (
         <RNImage
@@ -428,7 +427,7 @@ let EditableUserAvatar = ({
     }
 
     try {
-      if (isNative) {
+      if (IS_NATIVE) {
         onSelectNewAvatar(
           await compressIfNeeded(
             await openCropper({
@@ -500,7 +499,7 @@ let EditableUserAvatar = ({
         </Menu.Trigger>
         <Menu.Outer showCancel>
           <Menu.Group>
-            {isNative && (
+            {IS_NATIVE && (
               <Menu.Item
                 testID="changeAvatarCameraBtn"
                 label={_(msg`Upload from Camera`)}
@@ -517,7 +516,7 @@ let EditableUserAvatar = ({
               label={_(msg`Upload from Library`)}
               onPress={onOpenLibrary}>
               <Menu.ItemText>
-                {isNative ? (
+                {IS_NATIVE ? (
                   <Trans>Upload from Library</Trans>
                 ) : (
                   <Trans>Upload from Files</Trans>
@@ -607,7 +606,7 @@ let PreviewableUserAvatar = ({
     <ProfileHoverCard did={profile.did} disable={disableHoverCard}>
       {disableNavigation ? (
         avatarEl
-      ) : status.isActive && (isNative || isTouchDevice) ? (
+      ) : status.isActive && (IS_NATIVE || IS_WEB_TOUCH_DEVICE) ? (
         <>
           <Button
             label={_(

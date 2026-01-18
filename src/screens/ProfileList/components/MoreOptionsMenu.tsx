@@ -7,7 +7,6 @@ import {type NavigationProp} from '#/lib/routes/types'
 import {shareUrl} from '#/lib/sharing'
 import {toShareUrl} from '#/lib/strings/url-helpers'
 import {logger} from '#/logger'
-import {isWeb} from '#/platform/detection'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {
   useListBlockMutation,
@@ -35,6 +34,7 @@ import {
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
 import * as Toast from '#/components/Toast'
+import {IS_WEB} from '#/env'
 
 export function MoreOptionsMenu({
   list,
@@ -165,10 +165,10 @@ export function MoreOptionsMenu({
         <Menu.Outer>
           <Menu.Group>
             <Menu.Item
-              label={isWeb ? _(msg`Copy link to list`) : _(msg`Share via...`)}
+              label={IS_WEB ? _(msg`Copy link to list`) : _(msg`Share via...`)}
               onPress={onPressShare}>
               <Menu.ItemText>
-                {isWeb ? (
+                {IS_WEB ? (
                   <Trans>Copy link to list</Trans>
                 ) : (
                   <Trans>Share via...</Trans>
@@ -176,7 +176,7 @@ export function MoreOptionsMenu({
               </Menu.ItemText>
               <Menu.ItemIcon
                 position="right"
-                icon={isWeb ? ChainLink : ShareIcon}
+                icon={IS_WEB ? ChainLink : ShareIcon}
               />
             </Menu.Item>
             {savedFeedConfig && (

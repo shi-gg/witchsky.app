@@ -44,7 +44,6 @@ import {type RouteParams, type State} from '#/lib/routes/types'
 import {attachRouteToLogEvents, logEvent} from '#/lib/statsig/statsig'
 import {bskyTitle} from '#/lib/strings/headings'
 import {logger} from '#/logger'
-import {isNative, isWeb} from '#/platform/detection'
 import {useDisableVerifyEmailReminder} from '#/state/preferences/disable-verify-email-reminder'
 import {useUnreadNotifications} from '#/state/queries/notifications/unread'
 import {useSession} from '#/state/session'
@@ -140,6 +139,7 @@ import {
   EmailDialogScreenID,
   useEmailDialogControl,
 } from '#/components/dialogs/EmailDialog'
+import {IS_NATIVE, IS_WEB} from '#/env'
 import {router} from '#/routes'
 import {Referrer} from '../modules/expo-bluesky-swiss-army'
 
@@ -852,11 +852,11 @@ const LINKING = {
     // native, since the home tab and the home screen are defined as initial routes, we don't need to return a state
     // since it will be created by react-navigation.
     if (path.includes('intent/')) {
-      if (isNative) return
+      if (IS_NATIVE) return
       return buildStateObject('Flat', 'Home', params)
     }
 
-    if (isNative) {
+    if (IS_NATIVE) {
       if (name === 'Search') {
         return buildStateObject('SearchTab', 'Search', params)
       }
@@ -933,7 +933,7 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
   )
 
   async function handlePushNotificationEntry() {
-    if (!isNative) return
+    if (!IS_NATIVE) return
 
     // deep links take precedence - on android,
     // getLastNotificationResponseAsync returns a "notification"
@@ -1085,7 +1085,7 @@ function reset(): Promise<void> {
     navigationRef.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{name: isNative ? 'HomeTab' : 'Home'}],
+        routes: [{name: IS_NATIVE ? 'HomeTab' : 'Home'}],
       }),
     )
     return Promise.race([
@@ -1119,7 +1119,7 @@ function logModuleInitTime() {
     initMs,
   })
 
-  if (isWeb) {
+  if (IS_WEB) {
     const referrerInfo = Referrer.getReferrerInfo()
     if (referrerInfo && referrerInfo.hostname !== 'bsky.app') {
       logEvent('deepLink:referrerReceived', {

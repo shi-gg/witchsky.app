@@ -41,7 +41,6 @@ import {richTextToString} from '#/lib/strings/rich-text-helpers'
 import {restoreLinks} from '#/lib/strings/rich-text-manip'
 import {toShareUrl} from '#/lib/strings/url-helpers'
 import {logger} from '#/logger'
-import {isWeb} from '#/platform/detection'
 import {type Shadow} from '#/state/cache/post-shadow'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {useFeedFeedbackContext} from '#/state/feed-feedback'
@@ -102,7 +101,7 @@ import {
   useReportDialogControl,
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
-import {IS_INTERNAL} from '#/env'
+import {IS_INTERNAL, IS_WEB} from '#/env'
 import * as bsky from '#/types/bsky'
 
 let PostMenuItems = ({
@@ -611,7 +610,7 @@ let PostMenuItems = ({
     Toast.show(_(msg({message: 'Downloading video...', context: 'toast'})))
 
     let success
-    if (isWeb) success = await downloadVideoWeb({uri: uri})
+    if (IS_WEB) success = await downloadVideoWeb({uri: uri})
     else success = await saveVideoToMediaLibrary({uri: uri})
 
     if (success) Toast.show('Video downloaded', 'check')
@@ -624,7 +623,7 @@ let PostMenuItems = ({
     Toast.show(_(msg({message: 'Downloading GIF...', context: 'toast'})))
 
     let success
-    if (isWeb) success = await downloadVideoWeb({uri: gifEmbed.external.uri})
+    if (IS_WEB) success = await downloadVideoWeb({uri: gifEmbed.external.uri})
     else success = await saveVideoToMediaLibrary({uri: gifEmbed.external.uri})
 
     if (success) Toast.show('GIF downloaded', 'check')
