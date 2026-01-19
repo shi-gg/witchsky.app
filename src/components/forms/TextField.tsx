@@ -25,7 +25,7 @@ import {
 import {useInteractionState} from '#/components/hooks/useInteractionState'
 import {type Props as SVGIconProps} from '#/components/icons/common'
 import {Text} from '#/components/Typography'
-import {IS_WEB} from '#/env/index.web'
+import {IS_WEB} from '#/env'
 
 const Context = createContext<{
   inputRef: React.RefObject<TextInput | null> | null
