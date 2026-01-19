@@ -80,7 +80,7 @@ async function getDeerVerificationLinkedRecords(
         async link => {
           let service = await resolvePdsServiceUrl(link.did)
 
-          const request = `${service}/xrpc/com.atproto.repo.getRecord?repo=${did}&collection=app.bsky.graph.verification&rkey=${link.rkey}`
+          const request = `${service}/xrpc/com.atproto.repo.getRecord?repo=${link.did}&collection=app.bsky.graph.verification&rkey=${link.rkey}`
           const record = await verificationCache.getOrTryInsertWith(
             request,
             async () => {
