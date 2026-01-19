@@ -268,7 +268,13 @@ let ProfileMenu = ({
                   color="secondary"
                   size="small"
                   shape={enableSquareButtons ? 'square' : 'round'}>
-                  {statusNudgeActive && <Gradient style={[a.rounded_full]} />}
+                  {statusNudgeActive && (
+                    <Gradient
+                      style={[
+                        enableSquareButtons ? a.rounded_sm : a.rounded_full,
+                      ]}
+                    />
+                  )}
                   <ButtonIcon icon={Ellipsis} size="sm" />
                 </Button>
 
@@ -324,7 +330,9 @@ let ProfileMenu = ({
                   <Trans>Share via bsky.app...</Trans>
                 )}
               </Menu.ItemText>
-              <Menu.ItemIcon icon={IS_WEB ? ChainLinkIcon : ArrowOutOfBoxIcon} />
+              <Menu.ItemIcon
+                icon={IS_WEB ? ChainLinkIcon : ArrowOutOfBoxIcon}
+              />
             </Menu.Item>
             <Menu.Item
               testID="profileHeaderDropdownSearchBtn"

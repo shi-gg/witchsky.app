@@ -246,13 +246,13 @@ export const defaults: Schema = {
   disableFollowedByMetrics: false,
   disablePostsMetrics: false,
   hideSimilarAccountsRecomm: true,
-  enableSquareAvatars: false,
-  enableSquareButtons: false,
+  enableSquareAvatars: true,
+  enableSquareButtons: true,
   disableVerifyEmailReminder: false,
   deerVerification: {
     enabled: false,
     // https://witchsky.app/profile/did:plc:p2cp5gopk7mgjegy6wadk3ep/post/3lndyqyyr4k2k
-    // using https://bverified.vercel.app/ as a source
+    // using https://bverified.vercel.app/trusted as a source
     trusted: [
       'did:plc:z72i7hdynmk6r22z27h6tvur',
       'did:plc:b2kutgxqlltwc6lhs724cfwr',
@@ -268,6 +268,12 @@ export const defaults: Schema = {
       'did:plc:i3fhjvvkbmirhyu4aeihhrnv',
       'did:plc:fivojrvylkim4nuo3pfqcf3k',
       'did:plc:ofbkqcjzvm6gtwuufsubnkaf',
+      'did:plc:xwqgusybtrpm67tcwqdfmzvy',
+      'did:plc:oxo226vi7t2btjokm2buusoy',
+      'did:plc:r4ve5hjtfjubdwrvlxcad62e',
+      'did:plc:j4eroku3volozvv6ljsnnfec',
+      'did:plc:6q2thhy2ohzog26mmqm4pffk',
+      'did:plc:rk25gdgk3cnnmtkvlae265nz',
     ],
   },
   highQualityImages: false,
