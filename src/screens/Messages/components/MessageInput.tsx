@@ -26,7 +26,7 @@ import {
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {type EmojiPickerPosition} from '#/view/com/composer/text-input/web/EmojiPicker'
 import * as Toast from '#/view/com/util/Toast'
-import {android, atoms as a, useTheme} from '#/alf'
+import {android, atoms as a, useTheme, utils} from '#/alf'
 import {useSharedInputStyles} from '#/components/forms/TextField'
 import {PaperPlane_Stroke2_Corner0_Rounded as PaperPlane} from '#/components/icons/PaperPlane'
 import {IS_IOS, IS_WEB} from '#/env'
@@ -181,6 +181,9 @@ export function MessageInput({
             {paddingBottom: IS_IOS ? 5 : 0},
             animatedStyle,
           ]}
+          selectionColor={utils.alpha(t.palette.primary_500, 0.4)}
+          cursorColor={t.palette.primary_500}
+          selectionHandleColor={t.palette.primary_500}
           keyboardAppearance={t.scheme}
           submitBehavior="newline"
           onFocus={() => setIsFocused(true)}

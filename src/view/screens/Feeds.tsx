@@ -106,6 +106,7 @@ type FlatlistSlice =
 
 export function FeedsScreen(_props: Props) {
   const pal = usePalette('default')
+  const t = useTheme()
   const {openComposer} = useOpenComposer()
   const {isMobile} = useWebMediaQueries()
   const [query, setQuery] = React.useState('')
@@ -417,7 +418,7 @@ export function FeedsScreen(_props: Props) {
       } else if (item.type === 'popularFeedsLoadingMore') {
         return (
           <View style={s.p10}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color={t.palette.primary_500} />
           </View>
         )
       } else if (item.type === 'savedFeedsHeader') {
@@ -494,6 +495,7 @@ export function FeedsScreen(_props: Props) {
     },
     [
       _,
+      t.palette.primary_500,
       pal.border,
       pal.textLight,
       query,

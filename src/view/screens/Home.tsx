@@ -35,6 +35,7 @@ import {CustomFeedEmptyState} from '#/view/com/posts/CustomFeedEmptyState'
 import {FollowingEmptyState} from '#/view/com/posts/FollowingEmptyState'
 import {FollowingEndOfFeed} from '#/view/com/posts/FollowingEndOfFeed'
 import {NoFeedsPinned} from '#/screens/Home/NoFeedsPinned'
+import {useTheme} from '#/alf'
 import * as Layout from '#/components/Layout'
 import {IS_WEB} from '#/env'
 import {useDemoMode} from '#/storage/hooks/demo-mode'
@@ -46,6 +47,7 @@ export function HomeScreen(props: Props) {
   const {currentAccount} = useSession()
   const {data: pinnedFeedInfos, isLoading: isPinnedFeedsLoading} =
     usePinnedFeedsInfos()
+  const t = useTheme()
 
   React.useEffect(() => {
     if (IS_WEB && !currentAccount) {
@@ -91,7 +93,7 @@ export function HomeScreen(props: Props) {
     return (
       <Layout.Screen>
         <Layout.Center style={styles.loading}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color={t.palette.primary_500} />
         </Layout.Center>
       </Layout.Screen>
     )

@@ -20,6 +20,7 @@ import {
   tokens,
   useAlf,
   useTheme,
+  utils,
   web,
 } from '#/alf'
 import {useInteractionState} from '#/components/hooks/useInteractionState'
@@ -275,6 +276,9 @@ export function createInput(Component: typeof TextInput) {
         <Component
           accessibilityHint={undefined}
           hitSlop={HITSLOP_20}
+          selectionColor={utils.alpha(t.palette.primary_500, 0.4)}
+          cursorColor={t.palette.primary_500}
+          selectionHandleColor={t.palette.primary_500}
           {...rest}
           accessibilityLabel={label}
           ref={refs}

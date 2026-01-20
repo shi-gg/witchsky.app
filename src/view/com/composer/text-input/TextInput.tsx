@@ -29,7 +29,7 @@ import {
   type LinkFacetMatch,
   suggestLinkCardUri,
 } from '#/view/com/composer/text-input/text-input-util'
-import {atoms as a, useAlf} from '#/alf'
+import {atoms as a, useAlf, utils} from '#/alf'
 import {normalizeTextStyles} from '#/alf/typography'
 import {IS_ANDROID, IS_NATIVE} from '#/env'
 import {Autocomplete} from './mobile/Autocomplete'
@@ -283,6 +283,9 @@ export function TextInput({
         // Note: should be the default value, but as of v1.104
         // it switched to "none" on Android
         autoCapitalize="sentences"
+        selectionColor={utils.alpha(t.palette.primary_500, 0.4)}
+        cursorColor={t.palette.primary_500}
+        selectionHandleColor={t.palette.primary_500}
         {...props}
         style={[
           inputTextStyle,

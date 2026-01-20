@@ -24,6 +24,7 @@ import {
   native,
   useBreakpoints,
   useTheme,
+  utils,
   type ViewStyleProp,
   web,
 } from '#/alf'
@@ -664,6 +665,9 @@ function SearchInput({
         onChangeText={onChangeText}
         onFocus={onFocus}
         onBlur={onBlur}
+        selectionColor={utils.alpha(t.palette.primary_500, 0.4)}
+        cursorColor={t.palette.primary_500}
+        selectionHandleColor={t.palette.primary_500}
         style={[a.flex_1, a.py_md, a.text_md, t.atoms.text]}
         placeholderTextColor={t.palette.contrast_500}
         keyboardAppearance={t.name === 'light' ? 'light' : 'dark'}

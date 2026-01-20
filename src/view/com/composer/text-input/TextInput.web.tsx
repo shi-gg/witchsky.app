@@ -393,7 +393,15 @@ export function TextInput({
 
   return (
     <>
-      <View style={[styles.container, hasRightPadding && styles.rightPadding]}>
+      <View
+        style={[
+          styles.container,
+          hasRightPadding && styles.rightPadding,
+          {
+            // @ts-ignore
+            '--mention-color': t.palette.primary_500,
+          },
+        ]}>
         {/* @ts-ignore inputStyle is fine */}
         <EditorContent editor={editor} style={inputStyle} />
       </View>

@@ -19,7 +19,7 @@ import {useTheme} from '#/lib/ThemeContext'
 import {useModalControls} from '#/state/modals'
 import {useAgent, useSession, useSessionApi} from '#/state/session'
 import {pdsAgent} from '#/state/session/agent'
-import {atoms as a, useTheme as useNewTheme} from '#/alf'
+import {atoms as a, useTheme as useNewTheme, utils} from '#/alf'
 import {CircleInfo_Stroke2_Corner0_Rounded as CircleInfo} from '#/components/icons/CircleInfo'
 import {Text as NewText} from '#/components/Typography'
 import {IS_ANDROID, IS_WEB} from '#/env'
@@ -135,7 +135,7 @@ export function Component({}: {}) {
             ) : undefined}
             {isProcessing ? (
               <View style={[styles.btn, s.mt10]}>
-                <ActivityIndicator />
+                <ActivityIndicator color={t.palette.primary_500} />
               </View>
             ) : (
               <>
@@ -221,6 +221,9 @@ export function Component({}: {}) {
               placeholder={_(msg`Confirmation code`)}
               placeholderTextColor={pal.textLight.color}
               keyboardAppearance={theme.colorScheme}
+              selectionColor={utils.alpha(t.palette.primary_500, 0.4)}
+              cursorColor={t.palette.primary_500}
+              selectionHandleColor={t.palette.primary_500}
               value={confirmCode}
               onChangeText={setConfirmCode}
               accessibilityLabelledBy="confirmationCode"
@@ -240,6 +243,9 @@ export function Component({}: {}) {
               placeholder={_(msg`Password`)}
               placeholderTextColor={pal.textLight.color}
               keyboardAppearance={theme.colorScheme}
+              selectionColor={utils.alpha(t.palette.primary_500, 0.4)}
+              cursorColor={t.palette.primary_500}
+              selectionHandleColor={t.palette.primary_500}
               secureTextEntry
               value={password}
               onChangeText={setPassword}
@@ -254,7 +260,7 @@ export function Component({}: {}) {
             ) : undefined}
             {isProcessing ? (
               <View style={[styles.btn, s.mt10]}>
-                <ActivityIndicator />
+                <ActivityIndicator color={t.palette.primary_500} />
               </View>
             ) : (
               <>

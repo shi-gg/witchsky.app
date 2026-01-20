@@ -59,7 +59,7 @@ import {List, type ListRef} from '#/view/com/util/List'
 import {PostFeedLoadingPlaceholder} from '#/view/com/util/LoadingPlaceholder'
 import {LoadMoreRetryBtn} from '#/view/com/util/LoadMoreRetryBtn'
 import {type VideoFeedSourceContext} from '#/screens/VideoFeed/types'
-import {useBreakpoints, useLayoutBreakpoints} from '#/alf'
+import {useBreakpoints, useLayoutBreakpoints, useTheme} from '#/alf'
 import {
   AgeAssuranceDismissibleFeedBanner,
   useInternalState as useAgeAssuranceBannerState,
@@ -303,6 +303,7 @@ let PostFeed = ({
   isVideoFeed?: boolean
   useRepostCarousel?: boolean
 }): React.ReactNode => {
+  const t = useTheme()
   const {_} = useLingui()
   const queryClient = useQueryClient()
   const {currentAccount, hasSession} = useSession()
@@ -989,7 +990,7 @@ let PostFeed = ({
 
     return isFetchingNextPage ? (
       <View style={[styles.feedFooter]}>
-        <ActivityIndicator />
+        <ActivityIndicator color={t.palette.primary_500} />
         <View style={{height: offset}} />
       </View>
     ) : shouldRenderEndOfFeed ? (

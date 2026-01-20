@@ -37,7 +37,8 @@ export function Loader(props: Props) {
       ]}>
       <Icon
         {...props}
-        style={[a.absolute, a.inset_0, t.atoms.text_contrast_high, props.style]}
+        style={[a.absolute, a.inset_0, props.style]}
+        color={t.palette.primary_500}
       />
     </Animated.View>
   )
