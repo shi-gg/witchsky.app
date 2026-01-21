@@ -374,7 +374,6 @@ export type MetricEvents = {
       | 'AvatarButton'
       | 'StarterPackProfilesList'
       | 'FeedInterstitial'
-      | 'ProfileHeaderSuggestedFollows'
       | 'PostOnboardingFindFollows'
       | 'ImmersiveVideo'
       | 'ExploreSuggestedAccounts'
@@ -468,7 +467,6 @@ export type MetricEvents = {
       | 'AvatarButton'
       | 'StarterPackProfilesList'
       | 'FeedInterstitial'
-      | 'ProfileHeaderSuggestedFollows'
       | 'PostOnboardingFindFollows'
       | 'ImmersiveVideo'
       | 'ExploreSuggestedAccounts'
@@ -632,6 +630,7 @@ export type MetricEvents = {
   'live:card:open': {subject: string; from: 'post' | 'profile'}
   'live:card:watch': {subject: string}
   'live:card:openProfile': {subject: string}
+  'live:card:viewAvatar': {subject: string}
   'live:view:profile': {subject: string}
   'live:view:post': {subject: string; feed?: string}
 

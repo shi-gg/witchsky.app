@@ -266,7 +266,6 @@ let ProfileHeaderShell = ({
                     banner={profile.banner}
                     moderation={moderation.ui('banner')}
                   />
-                  {live.isActive && <LiveIndicator size="large" />}
                 </Animated.View>
               </View>
             </TouchableWithoutFeedback>
@@ -348,6 +347,17 @@ let ProfileHeaderShell = ({
             status={live}
             embed={live.embed}
             profile={profile}
+            onPressViewAvatar={() => {
+              const modui = moderation.ui('avatar')
+              const avatar = profile.avatar
+              if (avatar && !(modui.blur && modui.noOverride)) {
+                runOnUI(() => {
+                  'worklet'
+                  const rect = measure(aviRef)
+                  runOnJS(_openLightbox)(avatar, rect)
+                })()
+              }
+            }}
           />
         ))}
     </View>

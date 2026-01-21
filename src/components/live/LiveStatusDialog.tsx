@@ -32,11 +32,13 @@ export function LiveStatusDialog({
   profile,
   embed,
   status,
+  onPressViewAvatar,
 }: {
   control: Dialog.DialogControlProps
   profile: bsky.profile.AnyProfileView
   status: AppBskyActorDefs.StatusView
   embed: AppBskyEmbedExternal.View
+  onPressViewAvatar?: () => void
 }) {
   const navigation = useNavigation<NavigationProp>()
   return (
@@ -47,6 +49,7 @@ export function LiveStatusDialog({
         profile={profile}
         embed={embed}
         navigation={navigation}
+        onPressViewAvatar={onPressViewAvatar}
       />
     </Dialog.Outer>
   )
@@ -57,11 +60,13 @@ function DialogInner({
   embed,
   navigation,
   status,
+  onPressViewAvatar,
 }: {
   profile: bsky.profile.AnyProfileView
   embed: AppBskyEmbedExternal.View
   navigation: NavigationProp
   status: AppBskyActorDefs.StatusView
+  onPressViewAvatar?: () => void
 }) {
   const {_} = useLingui()
   const control = Dialog.useDialogContext()
@@ -74,6 +79,12 @@ function DialogInner({
     })
   }, [navigation, profile.handle, control])
 
+  const handlePressViewAvatar = useCallback(() => {
+    if (onPressViewAvatar) {
+      control.close(onPressViewAvatar)
+    }
+  }, [control, onPressViewAvatar])
+
   return (
     <Dialog.ScrollableInner
       label={_(msg`${sanitizeHandle(profile.handle)} is live`)}
@@ -84,6 +95,7 @@ function DialogInner({
         profile={profile}
         embed={embed}
         onPressOpenProfile={onPressOpenProfile}
+        onPressViewAvatar={handlePressViewAvatar}
       />
       <Dialog.Close />
     </Dialog.ScrollableInner>
@@ -96,12 +108,14 @@ export function LiveStatus({
   embed,
   padding = 'xl',
   onPressOpenProfile,
+  onPressViewAvatar,
 }: {
   status: AppBskyActorDefs.StatusView
   profile: bsky.profile.AnyProfileView
   embed: AppBskyEmbedExternal.View
   padding?: 'lg' | 'xl'
   onPressOpenProfile: () => void
+  onPressViewAvatar?: () => void
 }) {
   const {_} = useLingui()
   const t = useTheme()
@@ -202,21 +216,36 @@ export function LiveStatus({
               />
             </View>
             <Button
-              label={_(msg`Open profile`)}
+              label={
+                onPressViewAvatar ? _(msg`View avatar`) : _(msg`Open profile`)
+              }
               size="small"
               color="secondary"
               variant="solid"
               onPress={() => {
-                logger.metric(
-                  'live:card:openProfile',
-                  {subject: profile.did},
-                  {statsig: true},
-                )
-                unstableCacheProfileView(queryClient, profile)
-                onPressOpenProfile()
+                if (onPressViewAvatar) {
+                  logger.metric(
+                    'live:card:viewAvatar',
+                    {subject: profile.did},
+                    {statsig: true},
+                  )
+                  onPressViewAvatar()
+                } else {
+                  logger.metric(
+                    'live:card:openProfile',
+                    {subject: profile.did},
+                    {statsig: true},
+                  )
+                  unstableCacheProfileView(queryClient, profile)
+                  onPressOpenProfile()
+                }
               }}>
               <ButtonText>
-                <Trans>Open profile</Trans>
+                {onPressViewAvatar ? (
+                  <Trans>View avatar</Trans>
+                ) : (
+                  <Trans>Open profile</Trans>
+                )}
               </ButtonText>
             </Button>
           </ProfileCard.Header>
