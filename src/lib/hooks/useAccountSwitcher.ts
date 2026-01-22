@@ -6,6 +6,7 @@ import {logger} from '#/logger'
 import {type SessionAccount, useSessionApi} from '#/state/session'
 import {useLoggedOutViewControls} from '#/state/shell/logged-out'
 import * as Toast from '#/view/com/util/Toast'
+import {storeNavigationStateForAccountSwitch} from '#/Navigation'
 import {logEvent} from '../statsig/statsig'
 import {type LogEvents} from '../statsig/statsig'
 
@@ -27,6 +28,8 @@ export function useAccountSwitcher() {
       try {
         setPendingDid(account.did)
         if (account.accessJwt) {
+          // Store navigation state before switching so user stays on the same page
+          storeNavigationStateForAccountSwitch()
           await resumeSession(account, true)
           logEvent('account:loggedIn', {logContext, withPassword: false})
           Toast.show(_(msg`Signed in as @${account.handle}`))

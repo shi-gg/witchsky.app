@@ -38,9 +38,10 @@ import {
   type MessagesTabNavigatorParams,
   type MyProfileTabNavigatorParams,
   type NotificationsTabNavigatorParams,
+  type RouteParams,
   type SearchTabNavigatorParams,
+  type State,
 } from '#/lib/routes/types'
-import {type RouteParams, type State} from '#/lib/routes/types'
 import {attachRouteToLogEvents, logEvent} from '#/lib/statsig/statsig'
 import {bskyTitle} from '#/lib/strings/headings'
 import {logger} from '#/logger'
@@ -144,6 +145,24 @@ import {router} from '#/routes'
 import {Referrer} from '../modules/expo-bluesky-swiss-army'
 
 const navigationRef = createNavigationContainerRef<AllNavigatorParams>()
+
+/**
+ * Stores the navigation state before account switch on native.
+ * This allows the user to stay on the same page when switching accounts.
+ */
+let storedNavigationStateForAccountSwitch: State | undefined
+
+export function storeNavigationStateForAccountSwitch() {
+  if (IS_NATIVE && navigationRef.isReady()) {
+    storedNavigationStateForAccountSwitch = navigationRef.getRootState()
+  }
+}
+
+function consumeStoredNavigationState(): State | undefined {
+  const state = storedNavigationStateForAccountSwitch
+  storedNavigationStateForAccountSwitch = undefined
+  return state
+}
 
 const HomeTab = createNativeStackNavigatorWithAuth<HomeTabNavigatorParams>()
 const SearchTab = createNativeStackNavigatorWithAuth<SearchTabNavigatorParams>()
@@ -899,6 +918,9 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
 
   const disableVerifyEmailReminder = useDisableVerifyEmailReminder()
 
+  // Consume stored navigation state from account switch (native only)
+  const initialState = IS_NATIVE ? consumeStoredNavigationState() : undefined
+
   /**
    * Handle navigation to a conversation, or prepares for account switch.
    *
@@ -1005,6 +1027,7 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
         ref={navigationRef}
         linking={LINKING}
         theme={theme}
+        initialState={initialState}
         onStateChange={() => {
           logger.metric(
             'router:navigate',
