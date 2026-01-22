@@ -15,7 +15,6 @@ import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {enforceLen} from '#/lib/strings/helpers'
 import {useAgent} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import type * as bsky from '#/types/bsky'
 
 export const createStarterPackList = async ({
@@ -45,7 +44,7 @@ export const createStarterPackList = async ({
     },
   )
   if (!list) throw new Error('List creation failed')
-  await pdsAgent(agent).com.atproto.repo.applyWrites({
+  await agent.com.atproto.repo.applyWrites({
     repo: agent.session!.did,
     writes: profiles.map(p => createListItem({did: p.did, listUri: list.uri})),
   })

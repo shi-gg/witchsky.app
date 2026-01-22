@@ -1,7 +1,6 @@
 import {useMutation} from '@tanstack/react-query'
 
 import {useAgent, useSession} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 
 export function useConfirmEmail({
   onSuccess,
@@ -16,7 +15,7 @@ export function useConfirmEmail({
         throw new Error('No email found for the current account')
       }
 
-      await pdsAgent(agent).com.atproto.server.confirmEmail({
+      await agent.com.atproto.server.confirmEmail({
         email: currentAccount.email.trim(),
         token: token.trim(),
       })

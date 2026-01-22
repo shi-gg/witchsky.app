@@ -8,7 +8,6 @@ import {cleanError, isNetworkError} from '#/lib/strings/errors'
 import {checkAndFormatResetCode} from '#/lib/strings/password'
 import {logger} from '#/logger'
 import {useAgent, useSession} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import {ErrorMessage} from '#/view/com/util/error/ErrorMessage'
 import {android, atoms as a, web} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
@@ -85,7 +84,7 @@ function Inner() {
     setError('')
     setIsProcessing(true)
     try {
-      await pdsAgent(agent).com.atproto.server.requestPasswordReset({
+      await agent.com.atproto.server.requestPasswordReset({
         email: currentAccount.email,
       })
       setStage(Stages.ChangePassword)
@@ -129,7 +128,7 @@ function Inner() {
     setError('')
     setIsProcessing(true)
     try {
-      await pdsAgent(agent).com.atproto.server.resetPassword({
+      await agent.com.atproto.server.resetPassword({
         token: formattedCode,
         password: newPassword,
       })

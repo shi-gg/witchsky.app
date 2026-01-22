@@ -20,8 +20,7 @@ import {
   type ThreadViewPreferences,
   type UsePreferencesQueryResponse,
 } from '#/state/queries/preferences/types'
-import {useBlankPrefAuthedAgent as useAgent} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
+import {useAgent} from '#/state/session'
 import {saveLabelers} from '#/state/session/agent-config'
 import {useAgeAssurance} from '#/ageAssurance'
 import {makeAgeRestrictedModerationPrefs} from '#/ageAssurance/util'
@@ -46,7 +45,7 @@ export function usePreferencesQuery() {
       if (!agent.did) {
         return DEFAULT_LOGGED_OUT_PREFERENCES
       } else {
-        const res = await pdsAgent(agent).getPreferences()
+        const res = await agent.getPreferences()
 
         // save to local storage to ensure there are labels on initial requests
         saveLabelers(
@@ -101,7 +100,7 @@ export function useClearPreferencesMutation() {
 
   return useMutation({
     mutationFn: async () => {
-      await pdsAgent(agent).app.bsky.actor.putPreferences({preferences: []})
+      await agent.app.bsky.actor.putPreferences({preferences: []})
       // triggers a refetch
       await queryClient.invalidateQueries({
         queryKey: preferencesQueryKey,

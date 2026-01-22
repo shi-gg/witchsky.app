@@ -27,7 +27,6 @@ import {invalidateActorStarterPacksQuery} from '#/state/queries/actor-starter-pa
 import {STALE} from '#/state/queries/index'
 import {invalidateListMembersQuery} from '#/state/queries/list-members'
 import {useAgent} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import * as bsky from '#/types/bsky'
 
 const RQKEY_ROOT = 'starter-pack'
@@ -204,7 +203,7 @@ export function useEditStarterPackMutation({
       if (removedItems.length !== 0) {
         const chunks = chunk(removedItems, 50)
         for (const chunk of chunks) {
-          await pdsAgent(agent).com.atproto.repo.applyWrites({
+          await agent.com.atproto.repo.applyWrites({
             repo: agent.session!.did,
             writes: chunk.map(i => ({
               $type: 'com.atproto.repo.applyWrites#delete',
@@ -221,7 +220,7 @@ export function useEditStarterPackMutation({
       if (addedProfiles.length > 0) {
         const chunks = chunk(addedProfiles, 50)
         for (const chunk of chunks) {
-          await pdsAgent(agent).com.atproto.repo.applyWrites({
+          await agent.com.atproto.repo.applyWrites({
             repo: agent.session!.did,
             writes: chunk.map(p => ({
               $type: 'com.atproto.repo.applyWrites#create',
@@ -238,7 +237,7 @@ export function useEditStarterPackMutation({
       }
 
       const rkey = parseStarterPackUri(currentStarterPack.uri)!.rkey
-      await pdsAgent(agent).com.atproto.repo.putRecord({
+      await agent.com.atproto.repo.putRecord({
         repo: agent.session!.did,
         collection: 'app.bsky.graph.starterpack',
         rkey,

@@ -1,7 +1,6 @@
 import {useMutation} from '@tanstack/react-query'
 
 import {useAgent} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import {useRequestEmailUpdate} from '#/components/dialogs/EmailDialog/data/useRequestEmailUpdate'
 
 async function updateEmailAndRefreshSession(
@@ -9,10 +8,7 @@ async function updateEmailAndRefreshSession(
   email: string,
   token?: string,
 ) {
-  await pdsAgent(agent).com.atproto.server.updateEmail({
-    email: email.trim(),
-    token,
-  })
+  await agent.com.atproto.server.updateEmail({email: email.trim(), token})
   await agent.resumeSession(agent.session!)
 }
 

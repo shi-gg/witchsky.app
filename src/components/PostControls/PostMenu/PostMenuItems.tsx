@@ -17,7 +17,6 @@ import {
   type AppBskyFeedThreadgate,
   AtUri,
   type BlobRef,
-  isDid,
   type RichText as RichTextAPI,
 } from '@atproto/api'
 import {msg} from '@lingui/macro'
@@ -44,8 +43,11 @@ import {logger} from '#/logger'
 import {type Shadow} from '#/state/cache/post-shadow'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {useFeedFeedbackContext} from '#/state/feed-feedback'
-import {useLanguagePrefs} from '#/state/preferences'
-import {useHiddenPosts, useHiddenPostsApi} from '#/state/preferences'
+import {
+  useHiddenPosts,
+  useHiddenPostsApi,
+  useLanguagePrefs,
+} from '#/state/preferences'
 import {usePinnedPostMutation} from '#/state/queries/pinned-post'
 import {
   usePostDeleteMutation,
@@ -58,11 +60,11 @@ import {
   useProfileMuteMutationQueue,
 } from '#/state/queries/profile'
 import {resolvePdsServiceUrl} from '#/state/queries/resolve-identity'
-import {useToggleReplyVisibilityMutation} from '#/state/queries/threadgate'
 import {
   InvalidInteractionSettingsError,
   MAX_HIDDEN_REPLIES,
   MaxHiddenRepliesError,
+  useToggleReplyVisibilityMutation,
 } from '#/state/queries/threadgate'
 import {useRequireAuth, useSession} from '#/state/session'
 import {useMergedThreadgateHiddenReplies} from '#/state/threadgate-hidden-replies'
@@ -84,14 +86,18 @@ import {
 import {Eye_Stroke2_Corner0_Rounded as Eye} from '#/components/icons/Eye'
 import {EyeSlash_Stroke2_Corner0_Rounded as EyeSlash} from '#/components/icons/EyeSlash'
 import {Filter_Stroke2_Corner0_Rounded as Filter} from '#/components/icons/Filter'
-import {Mute_Stroke2_Corner0_Rounded as MuteIcon} from '#/components/icons/Mute'
-import {Mute_Stroke2_Corner0_Rounded as Mute} from '#/components/icons/Mute'
+import {
+  Mute_Stroke2_Corner0_Rounded as Mute,
+  Mute_Stroke2_Corner0_Rounded as MuteIcon,
+} from '#/components/icons/Mute'
 import {Pencil_Stroke2_Corner0_Rounded as Pen} from '#/components/icons/Pencil'
 import {PersonX_Stroke2_Corner0_Rounded as PersonX} from '#/components/icons/Person'
 import {Pin_Stroke2_Corner0_Rounded as PinIcon} from '#/components/icons/Pin'
 import {SettingsGear2_Stroke2_Corner0_Rounded as Gear} from '#/components/icons/SettingsGear2'
-import {SpeakerVolumeFull_Stroke2_Corner0_Rounded as UnmuteIcon} from '#/components/icons/Speaker'
-import {SpeakerVolumeFull_Stroke2_Corner0_Rounded as Unmute} from '#/components/icons/Speaker'
+import {
+  SpeakerVolumeFull_Stroke2_Corner0_Rounded as Unmute,
+  SpeakerVolumeFull_Stroke2_Corner0_Rounded as UnmuteIcon,
+} from '#/components/icons/Speaker'
 import {Trash_Stroke2_Corner0_Rounded as Trash} from '#/components/icons/Trash'
 import {Warning_Stroke2_Corner0_Rounded as Warning} from '#/components/icons/Warning'
 import {Loader} from '#/components/Loader'
@@ -603,8 +609,8 @@ let PostMenuItems = ({
     if (!videoEmbed) return
     const did = post.author.did
     const cid = videoEmbed.cid
-    if (!isDid(did)) return
-    const pdsUrl = await resolvePdsServiceUrl(did as `did:${string}:${string}`)
+    if (!did.startsWith('did:')) return
+    const pdsUrl = await resolvePdsServiceUrl(did as `did:${string}`)
     const uri = `${pdsUrl}/xrpc/com.atproto.sync.getBlob?did=${did}&cid=${cid}`
 
     Toast.show(_(msg({message: 'Downloading video...', context: 'toast'})))

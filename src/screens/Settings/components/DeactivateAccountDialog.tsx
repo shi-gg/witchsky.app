@@ -5,7 +5,6 @@ import {useLingui} from '@lingui/react'
 
 import {logger} from '#/logger'
 import {useAgent, useSessionApi} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import {atoms as a, useBreakpoints, useTheme} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import {type DialogOuterProps} from '#/components/Dialog'
@@ -43,7 +42,7 @@ function DeactivateAccountDialogInner({
   const handleDeactivate = React.useCallback(async () => {
     try {
       setPending(true)
-      await pdsAgent(agent).com.atproto.server.deactivateAccount({})
+      await agent.com.atproto.server.deactivateAccount({})
       control.close(() => {
         logoutCurrentAccount('Deactivated')
       })

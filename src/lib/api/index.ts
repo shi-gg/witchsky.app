@@ -23,7 +23,11 @@ import {CID} from 'multiformats/cid'
 import * as Hasher from 'multiformats/hashes/hasher'
 
 import {isNetworkError} from '#/lib/strings/errors'
-import {parseMarkdownLinks,shortenLinks, stripInvalidMentions} from '#/lib/strings/rich-text-manip'
+import {
+  parseMarkdownLinks,
+  shortenLinks,
+  stripInvalidMentions,
+} from '#/lib/strings/rich-text-manip'
 import {logger} from '#/logger'
 import {compressImage} from '#/state/gallery'
 import {
@@ -34,7 +38,6 @@ import {
   createThreadgateRecord,
   threadgateAllowUISettingToAllowRecordValue,
 } from '#/state/queries/threadgate'
-import {pdsAgent} from '#/state/session/agent'
 import {
   type EmbedDraft,
   type PostDraft,
@@ -173,7 +176,7 @@ export async function post(
   }
 
   try {
-    await pdsAgent(agent).com.atproto.repo.applyWrites({
+    await agent.com.atproto.repo.applyWrites({
       repo: agent.assertDid,
       writes: writes,
       validate: true,
@@ -370,11 +373,15 @@ async function resolveMedia(
 
     const width = Math.round(
       videoDraft.asset?.width ||
-      ('redraftDimensions' in videoDraft ? videoDraft.redraftDimensions.width : 1000)
+        ('redraftDimensions' in videoDraft
+          ? videoDraft.redraftDimensions.width
+          : 1000),
     )
     const height = Math.round(
       videoDraft.asset?.height ||
-      ('redraftDimensions' in videoDraft ? videoDraft.redraftDimensions.height : 1000)
+        ('redraftDimensions' in videoDraft
+          ? videoDraft.redraftDimensions.height
+          : 1000),
     )
 
     // aspect ratio values must be >0 - better to leave as unset otherwise

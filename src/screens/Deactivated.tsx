@@ -13,7 +13,6 @@ import {
   useSession,
   useSessionApi,
 } from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import {useLoggedOutViewControls} from '#/state/shell/logged-out'
 import {Logo} from '#/view/icons/Logo'
 import {atoms as a, useTheme} from '#/alf'
@@ -70,7 +69,7 @@ export function Deactivated() {
   const handleActivate = React.useCallback(async () => {
     try {
       setPending(true)
-      await pdsAgent(agent).com.atproto.server.activateAccount()
+      await agent.com.atproto.server.activateAccount()
       await queryClient.resetQueries()
       await agent.resumeSession(agent.session!)
     } catch (e: any) {

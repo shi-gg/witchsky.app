@@ -4,7 +4,6 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {useAgent, useSession} from '#/state/session'
-import {pdsAgent} from '#/state/session/agent'
 import {atoms as a, useBreakpoints, useTheme} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
@@ -52,7 +51,7 @@ function Inner({}: {control: DialogControlProps}) {
 
   const onPressResendEmail = async () => {
     setSending(true)
-    await pdsAgent(agent).com.atproto.server.requestEmailConfirmation()
+    await agent.com.atproto.server.requestEmailConfirmation()
     setSending(false)
     setStatus('resent')
   }

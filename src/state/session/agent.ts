@@ -15,7 +15,6 @@ import {type FetchHandlerOptions} from '@atproto/xrpc'
 
 import {networkRetry} from '#/lib/async/retry'
 import {
-  APPVIEW_DID_PROXY,
   BLUESKY_PROXY_HEADER,
   BSKY_SERVICE,
   DISCOVER_SAVED_FEED,
@@ -34,7 +33,6 @@ import {
   setCreatedAtForDid,
 } from '#/ageAssurance/data'
 import {emitNetworkConfirmed, emitNetworkLost} from '../events'
-import {readCustomAppViewDidUri} from '../preferences/custom-appview-did'
 import {addSessionErrorLog} from './logging'
 import {
   configureModerationForAccount,
@@ -49,9 +47,7 @@ export function createPublicAgent() {
   configureModerationForGuest() // Side effect but only relevant for tests
 
   const agent = new BskyAppAgent({service: PUBLIC_BSKY_SERVICE})
-  const proxyDid =
-    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
-  agent.configureProxy(proxyDid)
+  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
   return agent
 }
 
@@ -92,9 +88,7 @@ export async function createAgentAndResume(
   // after session is attached
   const aa = prefetchAgeAssuranceData({agent})
 
-  const proxyDid =
-    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
-  agent.configureProxy(proxyDid)
+  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
 
   return agent.prepare({
     resolvers: [gates, moderation, aa],
@@ -133,9 +127,7 @@ export async function createAgentAndLogin(
   const moderation = configureModerationForAccount(agent, account)
   const aa = prefetchAgeAssuranceData({agent})
 
-  const proxyDid =
-    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
-  agent.configureProxy(proxyDid)
+  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
 
   return agent.prepare({
     resolvers: [gates, moderation, aa],
@@ -242,7 +234,7 @@ export async function createAgentAndCreateAccount(
         }),
         getAge(birthDate) < 18 &&
           networkRetry(3, () => {
-            return pdsAgent(agent).com.atproto.repo.putRecord({
+            return agent.com.atproto.repo.putRecord({
               repo: account.did,
               collection: 'chat.bsky.actor.declaration',
               rkey: 'self',
@@ -307,9 +299,7 @@ export async function createAgentAndCreateAccount(
     logger.error(e, {message: `session: failed snoozeEmailConfirmationPrompt`})
   }
 
-  const proxyDid =
-    readCustomAppViewDidUri() || BLUESKY_PROXY_HEADER.get() || APPVIEW_DID_PROXY
-  agent.configureProxy(proxyDid)
+  agent.configureProxy(BLUESKY_PROXY_HEADER.get())
 
   return agent.prepare({
     resolvers: [gates, moderation, aa],
@@ -342,7 +332,7 @@ export function agentToSessionAccount(
     accessJwt: agent.session.accessJwt,
     signupQueued: isSignupQueued(agent.session.accessJwt),
     active: agent.session.active,
-    status: agent.session.status as SessionAccount['status'],
+    status: agent.session.status,
     pdsUrl: agent.pdsUrl?.toString(),
     isSelfHosted: !agent.serviceUrl.toString().startsWith(BSKY_SERVICE),
   }
@@ -415,10 +405,6 @@ class BskyAppAgent extends BskyAgent {
         }
       },
     })
-    const proxyDid = readCustomAppViewDidUri() || APPVIEW_DID_PROXY
-    if (proxyDid) {
-      this.configureProxy(proxyDid)
-    }
   }
 
   async prepare({
@@ -451,12 +437,6 @@ class BskyAppAgent extends BskyAgent {
     this.sessionManager.session = undefined
     this.persistSessionHandler = undefined
   }
-
-  cloneWithoutProxy(): BskyAgent {
-    const cloned = new BskyAgent({service: this.serviceUrl.toString()})
-    cloned.sessionManager.session = this.sessionManager.session
-    return cloned
-  }
 }
 
 /**
@@ -465,7 +445,10 @@ class BskyAppAgent extends BskyAgent {
  * other PDS-specific operations like preferences.
  */
 export function pdsAgent<T extends BaseAgent>(agent: T): T {
-  if ('cloneWithoutProxy' in agent && typeof agent.cloneWithoutProxy === 'function') {
+  if (
+    'cloneWithoutProxy' in agent &&
+    typeof agent.cloneWithoutProxy === 'function'
+  ) {
     return agent.cloneWithoutProxy() as T
   }
   const clone = agent.clone() as T
