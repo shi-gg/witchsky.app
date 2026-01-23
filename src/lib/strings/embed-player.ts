@@ -1,5 +1,7 @@
 import {Dimensions} from 'react-native'
+import {isDid} from '@atproto/api'
 
+import {isValidHandle} from '#/lib/strings/handles'
 import {IS_WEB, IS_WEB_SAFARI} from '#/env'
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window')
@@ -11,7 +13,7 @@ const IFRAME_HOST = IS_WEB
     : 'https://witchsky.app'
   : __DEV__ && !process.env.JEST_WORKER_ID
     ? 'http://localhost:8100'
-    : 'https://witchsky.app'
+    : 'https://bsky.app'
 
 export const embedPlayerSources = [
   'youtube',
@@ -464,12 +466,26 @@ export function parseEmbedPlayerFromUrl(
   }
 
   if (urlp.hostname === 'stream.place') {
-    return {
-      type: 'streamplace_stream',
-      source: 'streamplace',
-      playerUri: `https://stream.place/embed${urlp.pathname}`,
+    if (isValidStreamPlaceUrl(urlp)) {
+      return {
+        type: 'streamplace_stream',
+        source: 'streamplace',
+        playerUri: `https://stream.place/embed${urlp.pathname}`,
+      }
     }
   }
+}
+
+function isValidStreamPlaceUrl(urlp: URL): boolean {
+  // stream.place URLs should have a path like /did:plc:xxx/... or /handle.bsky.social/...
+  const pathParts = urlp.pathname.split('/').filter(Boolean)
+  if (pathParts.length === 0) {
+    return false
+  }
+
+  // The first part of the path should be either a valid DID or a valid handle
+  const identifier = pathParts[0]
+  return isDid(identifier) || isValidHandle(identifier)
 }
 
 export function getPlayerAspect({

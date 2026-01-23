@@ -7,6 +7,10 @@ const VALIDATE_REGEX =
 
 export const MAX_SERVICE_HANDLE_LENGTH = 18
 
+export function isValidHandle(handle: string): boolean {
+  return VALIDATE_REGEX.test(handle)
+}
+
 export function makeValidHandle(str: string): string {
   if (str.length > 20) {
     str = str.slice(0, 20)
