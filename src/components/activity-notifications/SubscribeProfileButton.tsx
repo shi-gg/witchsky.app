@@ -57,7 +57,7 @@ export function SubscribeProfileButton({
   const wrappedOnPress = requireEmailVerification(onPress, {
     instructions: [
       <Trans key="message">
-        Before you can get notifications for {name}'s skeets, you must first
+        Before you can get notifications for {name}'s posts, you must first
         verify your email.
       </Trans>,
     ],
@@ -84,16 +84,16 @@ export function SubscribeProfileButton({
             accessibilityRole="button"
             testID="dmBtn"
             size="small"
-            color={tooltipVisible ? 'primary_subtle' : 'secondary'}
-            shape={enableSquareButtons ? 'square' : 'round'}
-            label={_(msg`Get notified when ${name} skeets`)}
+            color="secondary"
+            shape="round"
+            label={_(msg`Get notified when ${name} posts`)}
             onPress={wrappedOnPress}>
             <ButtonIcon icon={Icon} size="md" />
           </Button>
         </Tooltip.Target>
         <Tooltip.TextBubble>
           <Text>
-            <Trans>Get notified about new skeets</Trans>
+            <Trans>Get notified about new posts</Trans>
           </Text>
         </Tooltip.TextBubble>
       </Tooltip.Outer>

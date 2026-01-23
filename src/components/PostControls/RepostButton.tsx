@@ -142,15 +142,15 @@ let RepostButtonDialogInner = ({
   const onPressClose = useCallback(() => control.close(), [control])
 
   return (
-    <Dialog.ScrollableInner label={_(msg`Reskeet or quote skeet`)}>
+    <Dialog.ScrollableInner label={_(msg`Repost or quote post`)}>
       <View style={a.gap_xl}>
         <View style={a.gap_xs}>
           <Button
             style={[a.justify_start, a.px_md, a.gap_sm]}
             label={
               isReposted
-                ? _(msg`Remove reskeet`)
-                : _(msg({message: `Reskeet`, context: 'action'}))
+                ? _(msg`Remove repost`)
+                : _(msg({message: `Repost`, context: 'action'}))
             }
             onPress={onPressRepost}
             size="large"
@@ -159,9 +159,9 @@ let RepostButtonDialogInner = ({
             <RepostIcon size="lg" fill={t.palette.primary_500} />
             <Text style={[a.font_semi_bold, a.text_xl]}>
               {isReposted ? (
-                <Trans>Remove reskeet</Trans>
+                <Trans>Remove repost</Trans>
               ) : (
-                <Trans context="action">Reskeet</Trans>
+                <Trans context="action">Repost</Trans>
               )}
             </Text>
           </Button>
@@ -171,8 +171,8 @@ let RepostButtonDialogInner = ({
             style={[a.justify_start, a.px_md, a.gap_sm]}
             label={
               embeddingDisabled
-                ? _(msg`Quote skeets disabled`)
-                : _(msg`Quote skeet`)
+                ? _(msg`Quote posts disabled`)
+                : _(msg`Quote post`)
             }
             onPress={onPressQuote}
             size="large"
@@ -193,15 +193,15 @@ let RepostButtonDialogInner = ({
                 embeddingDisabled && t.atoms.text_contrast_low,
               ]}>
               {embeddingDisabled ? (
-                <Trans>Quote skeets disabled</Trans>
+                <Trans>Quote posts disabled</Trans>
               ) : (
-                <Trans>Quote skeet</Trans>
+                <Trans>Quote post</Trans>
               )}
             </Text>
           </Button>
         </View>
         <Button
-          label={_(msg`Cancel quote skeet`)}
+          label={_(msg`Cancel quote post`)}
           onPress={onPressClose}
           size="large"
           color="secondary">

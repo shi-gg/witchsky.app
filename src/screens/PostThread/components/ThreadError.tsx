@@ -23,13 +23,13 @@ export function ThreadError({
   const cleanError = useCleanError()
 
   const {title, message} = useMemo(() => {
-    let title = _(msg`Error loading skeet`)
+    let title = _(msg`Error loading post`)
     let message = _(msg`Something went wrong. Please try again in a moment.`)
 
     const {raw, clean} = cleanError(error)
 
     if (error.message.startsWith('Post not found')) {
-      title = _(msg`Skeet not found`)
+      title = _(msg`Post not found`)
       message = clean || raw || message
     }
 

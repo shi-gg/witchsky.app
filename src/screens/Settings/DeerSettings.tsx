@@ -487,14 +487,14 @@ export function DeerSettingsScreen({}: Props) {
             <Toggle.Item
               name="external_share_buttons"
               label={_(
-                msg`Show "Open original skeet" and "Open skeet in PDSls" buttons`,
+                msg`Show "Open original post" and "Open post in PDSls" buttons`,
               )}
               value={showExternalShareButtons}
               onChange={value => setShowExternalShareButtons(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
                 <Trans>
-                  Show "Open original skeet" and "Open skeet in PDSls" buttons
+                  Show "Open original post" and "Open post in PDSls" buttons
                 </Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
@@ -580,7 +580,28 @@ export function DeerSettingsScreen({}: Props) {
             <SettingsList.ItemText>
               <Trans>Tweaks</Trans>
             </SettingsList.ItemText>
-
+            <Toggle.Item
+              name="repost_carousel"
+              label={_(msg`Combine reposts into a horizontal carousel`)}
+              value={repostCarouselEnabled}
+              onChange={value => setRepostCarouselEnabled(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Combine reposts into a horizontal carousel</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+            <Toggle.Item
+              name="no_discover_fallback"
+              label={_(msg`Do not fall back to discover feed`)}
+              value={noDiscoverFallback}
+              onChange={value => setNoDiscoverFallback(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Do not fall back to discover feed</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
             <Toggle.Item
               name="show_link_in_handle"
               label={_(
@@ -599,12 +620,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="repost_carousel"
-              label={_(msg`Combine reskeets into a horizontal carousel`)}
+              label={_(msg`Combine reposts into a horizontal carousel`)}
               value={repostCarouselEnabled}
               onChange={value => setRepostCarouselEnabled(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Combine reskeets into a horizontal carousel</Trans>
+                <Trans>Combine reposts into a horizontal carousel</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -655,19 +676,19 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_via_repost_notification"
-              label={_(msg`Disable "via reskeet" notifications`)}
+              label={_(msg`Disable via repost notifications`)}
               value={disableViaRepostNotification}
               onChange={value => setDisableViaRepostNotification(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable "via reskeet" notifications</Trans>
+                <Trans>Disable via repost notifications</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
             <Admonition type="info" style={[a.flex_1]}>
               <Trans>
                 Forcefully disables the notifications other people receive when
-                you like/reskeet a skeet someone else has reskeeted for privacy.
+                you like/repost a post someone else has reposted for privacy.
               </Trans>
             </Admonition>
 
@@ -825,12 +846,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_reposts_metrics"
-              label={_(msg`Disable reskeet metrics`)}
+              label={_(msg`Disable Reposts Metrics`)}
               value={disableRepostsMetrics}
               onChange={value => setDisableRepostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable reskeet metrics</Trans>
+                <Trans>Disable Reposts Metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -909,12 +930,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_posts_metrics"
-              label={_(msg`Disable skeets metrics`)}
+              label={_(msg`Disable posts metrics`)}
               value={disablePostsMetrics}
               onChange={value => setDisablePostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable skeets metrics</Trans>
+                <Trans>Disable posts metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>

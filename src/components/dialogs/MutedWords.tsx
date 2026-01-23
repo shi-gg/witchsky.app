@@ -119,9 +119,9 @@ function MutedWordsInner() {
         </Text>
         <Text style={[a.pb_lg, a.leading_snug, t.atoms.text_contrast_medium]}>
           <Trans>
-            Skeets can be muted based on their text, their tags, or both. We
-            recommend avoiding common words that appear in many skeets, since it
-            can result in no skeets being shown.
+            Posts can be muted based on their text, their tags, or both. We
+            recommend avoiding common words that appear in many posts, since it
+            can result in no posts being shown.
           </Trans>
         </Text>
 
@@ -261,7 +261,7 @@ function MutedWordsInner() {
 
             <View style={[a.flex_row, a.align_center, a.gap_sm, a.flex_wrap]}>
               <Toggle.Item
-                label={_(msg`Mute this word in skeet text and tags`)}
+                label={_(msg`Mute this word in post text and tags`)}
                 name="content"
                 style={[a.flex_1]}>
                 <TargetToggle>

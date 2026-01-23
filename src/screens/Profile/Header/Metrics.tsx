@@ -37,45 +37,35 @@ export function ProfileHeaderMetrics({
   const disablePostsMetrics = useDisablePostsMetrics()
 
   return (
-    <>
-      {disableFollowersMetrics && disableFollowingMetrics && disablePostsMetrics ? ( null ) :
-        <View
-          style={[a.flex_row, a.gap_sm, a.align_center]}
-          pointerEvents="box-none">
-          {!disableFollowersMetrics ? (
-            <InlineLinkText
-              testID="profileHeaderFollowersButton"
-              style={[a.flex_row, t.atoms.text]}
-              to={makeProfileLink(profile, 'followers')}
-              label={`${profile.followersCount || 0} ${pluralizedFollowers}`}>
-              <Text style={[a.font_semi_bold, a.text_md]}>{followers} </Text>
-              <Text style={[t.atoms.text_contrast_medium, a.text_md]}>
-                {pluralizedFollowers}
-              </Text>
-            </InlineLinkText>
-          ) : null}
-          {!disableFollowingMetrics ? (
-            <InlineLinkText
-              testID="profileHeaderFollowsButton"
-              style={[a.flex_row, t.atoms.text]}
-              to={makeProfileLink(profile, 'follows')}
-              label={_(msg`${profile.followsCount || 0} following`)}>
-              <Text style={[a.font_semi_bold, a.text_md]}>{following} </Text>
-              <Text style={[t.atoms.text_contrast_medium, a.text_md]}>
-                {pluralizedFollowings}
-              </Text>
-            </InlineLinkText>
-          ) : null}
-          {!disablePostsMetrics ? (
-            <Text style={[a.font_semi_bold, t.atoms.text, a.text_md]}>
-              {formatCount(i18n, profile.postsCount || 0)}{' '}
-              <Text style={[t.atoms.text_contrast_medium, a.font_normal, a.text_md]}>
-                {plural(profile.postsCount || 0, {one: 'skeet', other: 'skeets'})}
-              </Text>
-            </Text>
-          ) : null}
-        </View>
-      }
-    </>
+    <View
+      style={[a.flex_row, a.gap_sm, a.align_center]}
+      pointerEvents="box-none">
+      <InlineLinkText
+        testID="profileHeaderFollowersButton"
+        style={[a.flex_row, t.atoms.text]}
+        to={makeProfileLink(profile, 'followers')}
+        label={`${profile.followersCount || 0} ${pluralizedFollowers}`}>
+        <Text style={[a.font_semi_bold, a.text_md]}>{followers} </Text>
+        <Text style={[t.atoms.text_contrast_medium, a.text_md]}>
+          {pluralizedFollowers}
+        </Text>
+      </InlineLinkText>
+      <InlineLinkText
+        testID="profileHeaderFollowsButton"
+        style={[a.flex_row, t.atoms.text]}
+        to={makeProfileLink(profile, 'follows')}
+        label={_(msg`${profile.followsCount || 0} following`)}>
+        <Text style={[a.font_semi_bold, a.text_md]}>{following} </Text>
+        <Text style={[t.atoms.text_contrast_medium, a.text_md]}>
+          {pluralizedFollowings}
+        </Text>
+      </InlineLinkText>
+      <Text style={[a.font_semi_bold, t.atoms.text, a.text_md]}>
+        {formatCount(i18n, profile.postsCount || 0)}{' '}
+        <Text style={[t.atoms.text_contrast_medium, a.font_normal, a.text_md]}>
+          {plural(profile.postsCount || 0, {one: 'post', other: 'posts'})}
+        </Text>
+      </Text>
+    </View>
   )
 }

@@ -218,7 +218,7 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="ModerationInteractionSettings"
         getComponent={() => ModerationInteractionSettings}
         options={{
-          title: title(msg`Skeet Interaction Settings`),
+          title: title(msg`Post Interaction Settings`),
           requireAuth: true,
         }}
       />
@@ -277,35 +277,35 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="ProfileSearch"
         getComponent={() => ProfileSearchScreen}
         options={({route}) => ({
-          title: title(msg`Search @${route.params.name}'s skeets`),
+          title: title(msg`Search @${route.params.name}'s posts`),
         })}
       />
       <Stack.Screen
         name="PostThread"
         getComponent={() => PostThreadScreen}
         options={({route}) => ({
-          title: title(msg`Skeet by @${route.params.name}`),
+          title: title(msg`Post by @${route.params.name}`),
         })}
       />
       <Stack.Screen
         name="PostLikedBy"
         getComponent={() => PostLikedByScreen}
         options={({route}) => ({
-          title: title(msg`Skeet by @${route.params.name}`),
+          title: title(msg`Post by @${route.params.name}`),
         })}
       />
       <Stack.Screen
         name="PostRepostedBy"
         getComponent={() => PostRepostedByScreen}
         options={({route}) => ({
-          title: title(msg`Skeet by @${route.params.name}`),
+          title: title(msg`Post by @${route.params.name}`),
         })}
       />
       <Stack.Screen
         name="PostQuotes"
         getComponent={() => PostQuotesScreen}
         options={({route}) => ({
-          title: title(msg`Skeet by @${route.params.name}`),
+          title: title(msg`Post by @${route.params.name}`),
         })}
       />
       <Stack.Screen
@@ -496,7 +496,7 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="RepostNotificationSettings"
         getComponent={() => RepostNotificationSettingsScreen}
         options={{
-          title: title(msg`Reskeet notifications`),
+          title: title(msg`Repost notifications`),
           requireAuth: true,
         }}
       />
@@ -512,7 +512,7 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="LikesOnRepostsNotificationSettings"
         getComponent={() => LikesOnRepostsNotificationSettingsScreen}
         options={{
-          title: title(msg`Likes of your reskeets notifications`),
+          title: title(msg`Likes of your reposts notifications`),
           requireAuth: true,
         }}
       />
@@ -520,7 +520,7 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="RepostsOnRepostsNotificationSettings"
         getComponent={() => RepostsOnRepostsNotificationSettingsScreen}
         options={{
-          title: title(msg`Reskeets of your reskeets notifications`),
+          title: title(msg`Reposts of your reposts notifications`),
           requireAuth: true,
         }}
       />
@@ -644,7 +644,7 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="Bookmarks"
         getComponent={() => BookmarksScreen}
         options={{
-          title: title(msg`Saved Skeets`),
+          title: title(msg`Saved Posts`),
           requireAuth: true,
         }}
       />

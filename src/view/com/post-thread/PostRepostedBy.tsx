@@ -87,9 +87,9 @@ export function PostRepostedBy({uri}: {uri: string}) {
         isLoading={isLoadingUri || isLoadingRepostedBy}
         isError={isError}
         emptyType="results"
-        emptyTitle={_(msg`No reskeets yet`)}
+        emptyTitle={_(msg`No reposts yet`)}
         emptyMessage={_(
-          msg`Nobody has reskeeted this yet. Maybe you should be the first!`,
+          msg`Nobody has reposted this yet. Maybe you should be the first!`,
         )}
         errorMessage={cleanError(resolveError || error)}
         sideBorders={false}

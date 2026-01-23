@@ -11031,7 +11031,7 @@ msgstr ""
 #: src/view/com/composer/Composer.tsx:859
 #: src/view/com/feeds/ComposerPrompt.tsx:191
 msgid "What's up?"
-msgstr ""
+msgstr "Post yo shit! 🗣️"
 
 #: src/components/dialogs/nuxs/InitialVerificationAnnouncement.tsx:147
 msgid "When you tap on a check, you’ll see which organizations have granted verification."

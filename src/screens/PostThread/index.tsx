@@ -525,7 +525,7 @@ export function PostThread({uri}: {uri: string}) {
         <Layout.Header.BackButton />
         <Layout.Header.Content>
           <Layout.Header.TitleText>
-            <Trans context="description">Skeet</Trans>
+            <Trans context="description">Post</Trans>
           </Layout.Header.TitleText>
         </Layout.Header.Content>
         <Layout.Header.Slot>

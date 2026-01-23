@@ -33,13 +33,13 @@ export function ChatEmptyPill() {
 
   const prompts = React.useMemo(() => {
     return [
-      _(msg`Say hi!`),
+      _(msg`Say hello!`),
       _(msg`Share your favorite feed!`),
-      _(msg`Say something funny!`),
+      _(msg`Tell a joke!`),
       _(msg`Share a fun fact!`),
       _(msg`Share a cool story!`),
       _(msg`Send a neat website!`),
-      _(msg`Clip 🐴 clop 🐴 #horsefacts`),
+      _(msg`Clip 🐴 clop 🐴`),
     ]
   }, [_])
 

@@ -205,7 +205,7 @@ let PostMenuItems = ({
   const onDeletePost = () => {
     deletePostMutate({uri: postUri}).then(
       () => {
-        Toast.show(_(msg({message: 'Skeet deleted', context: 'toast'})))
+        Toast.show(_(msg({message: 'Post deleted', context: 'toast'})))
 
         const route = getCurrentRoute(navigation.getState())
         if (route.name === 'PostThread') {
@@ -225,7 +225,7 @@ let PostMenuItems = ({
       },
       e => {
         logger.error('Failed to delete post', {message: e})
-        Toast.show(_(msg`Failed to delete skeet, please try again`), 'xmark')
+        Toast.show(_(msg`Failed to delete post, please try again`), 'xmark')
       },
     )
   }
@@ -503,8 +503,8 @@ let PostMenuItems = ({
       })
       Toast.show(
         isDetach
-          ? _(msg`Quote skeet was successfully detached`)
-          : _(msg`Quote skeet was re-attached`),
+          ? _(msg`Quote post was successfully detached`)
+          : _(msg`Quote post was re-attached`),
       )
     } catch (e: any) {
       Toast.show(
@@ -694,9 +694,9 @@ let PostMenuItems = ({
     <>
       <Prompt.Basic
         control={redraftPromptControl}
-        title={_(msg`Redraft this skeet?`)}
+        title={_(msg`Redraft this post?`)}
         description={_(
-          msg`This will delete the original skeet and open the composer with its content.`,
+          msg`This will delete the original post and open the composer with its content.`,
         )}
         onConfirm={onConfirmRedraft}
         confirmButtonCta={_(msg`Redraft`)}
@@ -782,16 +782,16 @@ let PostMenuItems = ({
                 testID="postDropdownCopyTextBtn"
                 label={_(msg`Copy post text`)}
                 onPress={onCopyPostText}>
-                <Menu.ItemText>{_(msg`Copy skeet text`)}</Menu.ItemText>
+                <Menu.ItemText>{_(msg`Copy post text`)}</Menu.ItemText>
                 <Menu.ItemIcon icon={ClipboardIcon} position="right" />
               </Menu.Item>
             </>
           ) : (
             <Menu.Item
               testID="postDropdownSignInBtn"
-              label={_(msg`Sign in to view skeet`)}
+              label={_(msg`Sign in to view post`)}
               onPress={onSignIn}>
-              <Menu.ItemText>{_(msg`Sign in to view skeet`)}</Menu.ItemText>
+              <Menu.ItemText>{_(msg`Sign in to view post`)}</Menu.ItemText>
               <Menu.ItemIcon icon={Eye} position="right" />
             </Menu.Item>
           )}
@@ -874,13 +874,13 @@ let PostMenuItems = ({
                     label={
                       isReply
                         ? _(msg`Hide reply for me`)
-                        : _(msg`Hide skeet for me`)
+                        : _(msg`Hide post for me`)
                     }
                     onPress={() => hidePromptControl.open()}>
                     <Menu.ItemText>
                       {isReply
                         ? _(msg`Hide reply for me`)
-                        : _(msg`Hide skeet for me`)}
+                        : _(msg`Hide post for me`)}
                     </Menu.ItemText>
                     <Menu.ItemIcon icon={EyeSlash} position="right" />
                   </Menu.Item>
@@ -982,9 +982,9 @@ let PostMenuItems = ({
 
                   <Menu.Item
                     testID="postDropdownReportBtn"
-                    label={_(msg`Report skeet`)}
+                    label={_(msg`Report post`)}
                     onPress={() => reportDialogControl.open()}>
-                    <Menu.ItemText>{_(msg`Report skeet`)}</Menu.ItemText>
+                    <Menu.ItemText>{_(msg`Report post`)}</Menu.ItemText>
                     <Menu.ItemIcon icon={Warning} position="right" />
                   </Menu.Item>
                 </>
@@ -1015,7 +1015,7 @@ let PostMenuItems = ({
                     testID="postDropdownDeleteBtn"
                     label={_(msg`Delete post`)}
                     onPress={() => deletePromptControl.open()}>
-                    <Menu.ItemText>{_(msg`Delete skeet`)}</Menu.ItemText>
+                    <Menu.ItemText>{_(msg`Delete post`)}</Menu.ItemText>
                     <Menu.ItemIcon icon={Trash} position="right" />
                   </Menu.Item>
                 </>
@@ -1027,9 +1027,9 @@ let PostMenuItems = ({
 
       <Prompt.Basic
         control={deletePromptControl}
-        title={_(msg`Delete this skeet?`)}
+        title={_(msg`Delete this post?`)}
         description={_(
-          msg`If you remove this skeet, you won't be able to recover it.`,
+          msg`If you remove this post, you won't be able to recover it.`,
         )}
         onConfirm={onDeletePost}
         confirmButtonCta={_(msg`Delete`)}
@@ -1038,9 +1038,9 @@ let PostMenuItems = ({
 
       <Prompt.Basic
         control={hidePromptControl}
-        title={isReply ? _(msg`Hide this reply?`) : _(msg`Hide this skeet?`)}
+        title={isReply ? _(msg`Hide this reply?`) : _(msg`Hide this post?`)}
         description={_(
-          msg`This skeet will be hidden from feeds and threads. This cannot be undone.`,
+          msg`This post will be hidden from feeds and threads. This cannot be undone.`,
         )}
         onConfirm={onHidePost}
         confirmButtonCta={_(msg`Hide`)}
@@ -1063,9 +1063,9 @@ let PostMenuItems = ({
 
       <Prompt.Basic
         control={quotePostDetachConfirmControl}
-        title={_(msg`Detach quote skeet?`)}
+        title={_(msg`Detach quote post?`)}
         description={_(
-          msg`This will remove your skeet from this quote skeet for all users, and replace it with a placeholder.`,
+          msg`This will remove your post from this quote post for all users, and replace it with a placeholder.`,
         )}
         onConfirm={onToggleQuotePostAttachment}
         confirmButtonCta={_(msg`Yes, detach`)}

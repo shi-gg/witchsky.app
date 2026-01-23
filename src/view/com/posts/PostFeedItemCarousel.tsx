@@ -63,7 +63,7 @@ export function PostFeedItemCarousel({items}: {items: FeedPostSlice[]}) {
         ]}>
         <Text style={[a.text_sm, a.font_bold, t.atoms.text_contrast_medium]}>
           {items.length}{' '}
-          <Plural value={items.length} one="reskeet" other="reskeets" />
+          <Plural value={items.length} one="repost" other="reposts" />
         </Text>
         <View style={[a.gap_md, a.flex_row, a.align_end]}>
           <Button

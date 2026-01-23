@@ -104,17 +104,17 @@ export function useModerationCauseDescription(
     if (cause.type === 'mute-word') {
       return {
         icon: EyeSlash,
-        name: _(msg`Skeet Hidden by Muted Word`),
+        name: _(msg`Post Hidden by Muted Word`),
         description: _(
-          msg`You've chosen to hide a word or tag within this skeet.`,
+          msg`You've chosen to hide a word or tag within this post.`,
         ),
       }
     }
     if (cause.type === 'hidden') {
       return {
         icon: EyeSlash,
-        name: _(msg`Skeet Hidden by You`),
-        description: _(msg`You have hidden this skeet.`),
+        name: _(msg`Post Hidden by You`),
+        description: _(msg`You have hidden this post`),
       }
     }
     if (cause.type === 'reply-hidden') {

@@ -64,7 +64,7 @@ export const BookmarkButton = memo(function BookmarkButton({
         <toast.Outer>
           <toast.Icon />
           <toast.Text>
-            <Trans>Skeet saved</Trans>
+            <Trans>Post saved</Trans>
           </toast.Text>
           {!disableUndo && (
             <toast.Action
@@ -104,7 +104,7 @@ export const BookmarkButton = memo(function BookmarkButton({
         <toast.Outer>
           <toast.Icon icon={TrashIcon} />
           <toast.Text>
-            <Trans>Removed from saved skeets</Trans>
+            <Trans>Removed from saved posts</Trans>
           </toast.Text>
           {!disableUndo && (
             <toast.Action
@@ -138,8 +138,8 @@ export const BookmarkButton = memo(function BookmarkButton({
       big={big}
       label={
         isBookmarked
-          ? _(msg`Remove from saved skeets`)
-          : _(msg`Add to saved skeets`)
+          ? _(msg`Remove from saved posts`)
+          : _(msg`Add to saved posts`)
       }
       onPress={onHandlePress}
       hitSlop={hitSlop}>

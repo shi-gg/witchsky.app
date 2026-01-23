@@ -27,7 +27,7 @@ export const PostQuotesScreen = ({route}: Props) => {
   const {data: resolvedDid} = useResolveDidQuery(name)
   const {data: profile} = useProfileQuery({did: resolvedDid})
 
-  useSetTitle(profile ? _(msg`Skeet by @${profile.handle}`) : undefined)
+  useSetTitle(profile ? _(msg`Post by @${profile.handle}`) : undefined)
 
   let quoteCount
   if (post) {

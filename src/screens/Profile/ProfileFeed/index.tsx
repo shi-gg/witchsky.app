@@ -228,7 +228,7 @@ export function ProfileFeedScreenInner({
       {(isScrolledDown || hasNew) && (
         <LoadLatestBtn
           onPress={onScrollToTop}
-          label={_(msg`Load new skeets`)}
+          label={_(msg`Load new posts`)}
           showIndicator={hasNew}
         />
       )}

@@ -58,7 +58,7 @@ export function BookmarksScreen({}: Props) {
         <Layout.Header.BackButton />
         <Layout.Header.Content>
           <Layout.Header.TitleText>
-            <Trans>Saved Skeets</Trans>
+            <Trans>Saved Posts</Trans>
           </Layout.Header.TitleText>
         </Layout.Header.Content>
         <Layout.Header.Slot />
@@ -216,7 +216,7 @@ function BookmarkNotFound({
   const remove = async () => {
     try {
       await bookmark({action: 'delete', uri: post.uri})
-      toast.show(_(msg`Removed from saved skeets`), {
+      toast.show(_(msg`Removed from saved posts`), {
         type: 'info',
       })
     } catch (e: any) {
@@ -254,11 +254,11 @@ function BookmarkNotFound({
             a.italic,
             t.atoms.text_contrast_medium,
           ]}>
-          <Trans>This skeet was deleted by its author</Trans>
+          <Trans>This post was deleted by its author</Trans>
         </Text>
       </View>
       <Button
-        label={_(msg`Remove from saved skeets`)}
+        label={_(msg`Remove from saved posts`)}
         size="tiny"
         color="secondary"
         onPress={remove}>
