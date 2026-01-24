@@ -8,12 +8,12 @@ import {FocusGuards, FocusScope} from 'radix-ui/internal'
 import {logger} from '#/logger'
 import {useLoggedOutViewControls} from '#/state/shell/logged-out'
 import {Logo} from '#/view/icons/Logo'
-import {atoms as a, flatten, useBreakpoints, web} from '#/alf'
+import {atoms as a, flatten, useBreakpoints, web, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import {TimesLarge_Stroke2_Corner0_Rounded as XIcon} from '#/components/icons/Times'
 import {Text} from '#/components/Typography'
 
-const welcomeModalBg = require('../../assets/images/welcome-modal-bg.jpg') // TODO: Xan: Change background to something cuter
+const welcomeModalBg = require('../../assets/images/welcome-modal-bg.webp')
 
 interface WelcomeModalProps {
   control: {
@@ -29,6 +29,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
   const {gtMobile} = useBreakpoints()
   const [isExiting, setIsExiting] = useState(false)
   const [signInLinkHovered, setSignInLinkHovered] = useState(false)
+  const t = useTheme()
 
   const fadeOutAndClose = (callback?: () => void) => {
     setIsExiting(true)
@@ -84,7 +85,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
               maxHeight: 600,
               width: '90%',
               height: '90%',
-              backgroundColor: '#716066',
+              backgroundColor: '#c0cdec',
             },
             a.rounded_lg,
             a.overflow_hidden,
@@ -110,7 +111,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                       a.text_2xl,
                       a.font_semi_bold,
                       a.user_select_none,
-                      {color: '#ff9696ff', letterSpacing: -0.5},
+                      {color: 'rgb(42, 40, 40)', letterSpacing: -0.5},
                     ]}>
                     Witchsky
                   </Text>
@@ -129,10 +130,10 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     gtMobile ? a.text_4xl : a.text_3xl,
                     a.font_semi_bold,
                     a.text_center,
-                    {color: '#583535ff'},
+                    {color: 'rgb(55, 45, 45)'},
                     web({
                       backgroundImage:
-                        'linear-gradient(180deg, #ffd8d8ff 0%, #eca8a8ff 83.65%, rgba(233, 165, 165, 0.47) 100%)',
+                        'linear-gradient(180deg, rgb(87, 77, 77) 0%, rgb(95, 68, 68) 83.65%, rgba(107, 68, 68, 0.47) 100%)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
@@ -157,7 +158,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     color="primary"
                     style={{
                       width: 200,
-                      backgroundColor: '#BB6868',
+                      backgroundColor: t.palette.primary_500,
                     }}>
                     <ButtonText>
                       <Trans>Create account</Trans>
@@ -173,7 +174,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     hoverStyle={[a.bg_transparent]}>
                     {({hovered}) => (
                       <ButtonText
-                        style={[hovered && [a.underline], {color: '#ff9191'}]}>
+                        style={[hovered && [a.underline], {color: t.palette.primary_500}]}>
                         <Trans>Explore the app</Trans>
                       </ButtonText>
                     )}
@@ -184,7 +185,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     style={[
                       a.text_md,
                       a.text_center,
-                      {color: '#ffe3e3ff', lineHeight: 24},
+                      {color: 'rgb(58, 50, 50)', lineHeight: 24},
                     ]}>
                     <Trans>Already have an account?</Trans>{' '}
                     <Pressable
@@ -197,7 +198,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                         style={[
                           a.font_medium,
                           {
-                            color: '#ff9191',
+                            color: t.palette.primary_500,
                             fontSize: undefined,
                           },
                           signInLinkHovered && a.underline,
@@ -233,7 +234,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                 <XIcon
                   size="md"
                   style={{
-                    color: '#ffe3e3ff',
+                    color: 'rgb(77, 47, 47)',
                     opacity: hovered || pressed || focused ? 1 : 0.7,
                   }}
                 />

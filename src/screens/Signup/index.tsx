@@ -128,7 +128,7 @@ export function Signup({
         <LoggedOutLayout
           leadin=""
           title={_(msg`Create Account`)}
-          description={_(msg`Welcome to the ATmosphere!`)}
+          description={_(msg`Welcome to the Atmosphere!`)}
           scrollable>
           <View testID="createAccount" style={a.flex_1}>
             {showStarterPackCard &&
@@ -182,7 +182,7 @@ export function Signup({
                     </Text>
                     <Text style={[a.text_3xl, a.font_semi_bold]}>
                       {state.activeStep === SignupStep.INFO ? (
-                        <Trans>The ATmosphere ✨</Trans>
+                        <Trans>The Atmosphere ✨</Trans>
                       ) : state.activeStep === SignupStep.HANDLE ? (
                         <Trans>Choose your username</Trans>
                       ) : (

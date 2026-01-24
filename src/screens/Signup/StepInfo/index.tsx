@@ -201,9 +201,9 @@ export function StepInfo({
                 Witchsky is part of the{' '}
                 {
                   <InlineLinkText
-                    label={_(msg`ATmosphere`)}
+                    label={_(msg`Atmosphere`)}
                     to="https://atproto.com/">
-                    <Trans>ATmosphere</Trans>
+                    <Trans>Atmosphere</Trans>
                   </InlineLinkText>
                 }
                 —the network of apps, services, and accounts built on the AT
@@ -219,15 +219,15 @@ export function StepInfo({
               <Button
                 testID="signInButton"
                 onPress={onPressSignIn}
-                label={_(msg`Sign in with ATmosphere`)}
+                label={_(msg`Sign in with an Atmosphere account`)}
                 accessibilityHint={_(
-                  msg`Opens flow to sign in to your existing ATmosphere account`,
+                  msg`Opens flow to sign in to your existing Atmosphere account`,
                 )}
                 size="large"
                 variant="solid"
                 color="primary">
                 <ButtonText>
-                  <Trans>Sign in with ATmosphere</Trans>
+                  <Trans>Sign in with an Atmosphere account</Trans>
                 </ButtonText>
               </Button>
             </View>
