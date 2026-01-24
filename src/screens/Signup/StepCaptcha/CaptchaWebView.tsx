@@ -5,6 +5,8 @@ import {type ShouldStartLoadRequest} from 'react-native-webview/lib/WebViewTypes
 import {type SignupState} from '#/screens/Signup/state'
 
 const ALLOWED_HOSTS = [
+  'witchsky.app',
+  'witchsky.social',
   'bsky.social',
   'bsky.app',
   'staging.bsky.app',
@@ -49,7 +51,7 @@ export function CaptchaWebView({
     return state?.serviceUrl &&
       new URL(state?.serviceUrl).host === 'staging.bsky.dev'
       ? 'app.staging.bsky.dev'
-      : 'bsky.app'
+      : 'witchsky.app'
   }, [state?.serviceUrl])
 
   const wasSuccessful = useRef(false)
