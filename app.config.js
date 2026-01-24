@@ -19,6 +19,7 @@ module.exports = function (_config) {
 
   const ASSOCIATED_DOMAINS = [
     'applinks:witchsky.app',
+    'applinks:bsky.app',
     // When testing local services, enter an ngrok (et al) domain here. It must use a standard HTTP/HTTPS port.
     ...(IS_DEV || IS_TESTFLIGHT ? [] : []),
   ]

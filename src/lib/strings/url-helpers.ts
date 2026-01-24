@@ -10,7 +10,7 @@ import {logger} from '#/logger'
 export const BSKY_APP_HOST = 'https://witchsky.app'
 const BSKY_TRUSTED_HOSTS = [
   'witchsky\\.app',
-  'witchsky\\.app',
+  'witchsky\\.social',
   'bsky\\.app',
   'bsky\\.social',
   'blueskyweb\\.xyz',
@@ -105,11 +105,11 @@ export function toBskyAppUrl(url: string): string {
 
 export function isBskyAppUrl(url: string): boolean {
   return (
+    (url.startsWith('https://witchsky.app/') &&
+      !url.startsWith('https://witchsky.app/about')) ||
     url.startsWith('https://bsky.app/') ||
     (url.startsWith('https://deer.social/') &&
-      !url.startsWith('https://deer.social/about')) ||
-    (url.startsWith('https://witchsky.app/') &&
-      !url.startsWith('https://witchsky.app/about'))
+      !url.startsWith('https://deer.social/about'))
   )
 }
 
@@ -119,7 +119,7 @@ export function isRelativeUrl(url: string): boolean {
 
 export function isBskyRSSUrl(url: string): boolean {
   return (
-    (url.startsWith('https://bsky.app/') || isRelativeUrl(url)) &&
+    (isBskyAppUrl(url) || isRelativeUrl(url)) &&
     /\/rss\/?$/.test(url)
   )
 }
