@@ -22,7 +22,6 @@ import {
   type CommonNavigatorParams,
   type NavigationProp,
 } from '#/lib/routes/types'
-import {logEvent} from '#/lib/statsig/statsig'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {enforceLen} from '#/lib/strings/helpers'
@@ -59,6 +58,7 @@ import {ListMaybePlaceholder} from '#/components/Lists'
 import {Loader} from '#/components/Loader'
 import {WizardEditListDialog} from '#/components/StarterPack/Wizard/WizardEditListDialog'
 import {Text} from '#/components/Typography'
+import {useAnalytics} from '#/analytics'
 import {IS_NATIVE} from '#/env'
 import type * as bsky from '#/types/bsky'
 import {Provider} from './State'
@@ -168,6 +168,7 @@ function WizardInner({
   onSuccess?: () => void
 }) {
   const navigation = useNavigation<NavigationProp>()
+  const ax = useAnalytics()
   const {_} = useLingui()
   const setMinimalShellMode = useSetMinimalShellMode()
   const [state, dispatch] = useWizardState()
@@ -223,7 +224,7 @@ function WizardInner({
 
   const onSuccessCreate = (data: {uri: string; cid: string}) => {
     const rkey = new AtUri(data.uri).rkey
-    logEvent('starterPack:create', {
+    ax.metric('starterPack:create', {
       setName: state.name != null,
       setDescription: state.description != null,
       profilesCount: state.profiles.length,
@@ -237,7 +238,7 @@ function WizardInner({
       onSuccess?.()
     } else {
       navigation.replace('StarterPack', {
-        name: profile!.handle,
+        name: profile.handle,
         rkey,
         new: true,
       })

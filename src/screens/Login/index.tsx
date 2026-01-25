@@ -1,4 +1,4 @@
-import {useCallback,useEffect, useMemo, useRef, useState} from 'react'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {KeyboardAvoidingView} from 'react-native'
 import Animated, {FadeIn, LayoutAnimationConfig} from 'react-native-reanimated'
 import {type Did} from '@atproto/api'
@@ -7,7 +7,6 @@ import {useLingui} from '@lingui/react'
 import debounce from 'lodash.debounce'
 
 import {DEFAULT_SERVICE} from '#/lib/constants'
-import {logEvent} from '#/lib/statsig/statsig'
 import {logger} from '#/logger'
 import {resolvePdsServiceUrl} from '#/state/queries/resolve-identity'
 import {useServiceQuery} from '#/state/queries/service'
@@ -20,6 +19,7 @@ import {PasswordUpdatedForm} from '#/screens/Login/PasswordUpdatedForm'
 import {SetNewPasswordForm} from '#/screens/Login/SetNewPasswordForm'
 import {atoms as a, native} from '#/alf'
 import {ScreenTransition} from '#/components/ScreenTransition'
+import {useAnalytics} from '#/analytics'
 import {ChooseAccountForm} from './ChooseAccountForm'
 
 enum Forms {
@@ -69,6 +69,7 @@ export const Login = ({onPressBack}: {onPressBack: () => void}) => {
     'Forward' | 'Backward'
   >('Forward')
 
+  const ax = useAnalytics()
   const {
     data: serviceDescription,
     error: serviceError,
@@ -101,7 +102,7 @@ export const Login = ({onPressBack}: {onPressBack: () => void}) => {
       logger.warn(`Failed to fetch service description for ${serviceUrl}`, {
         error: String(serviceError),
       })
-      logEvent('signin:hostingProviderFailedResolution', {})
+      ax.metric('signin:hostingProviderFailedResolution', {})
     } else {
       setError('')
     }
@@ -135,7 +136,9 @@ export const Login = ({onPressBack}: {onPressBack: () => void}) => {
           setServiceUrl(pdsUrl)
         }
       } catch (err) {
-        logger.error(`Service auto-resolution failed: ${err}`)
+        logger.error(
+          `Service auto-resolution failed: ${err instanceof Error ? err.message : String(err)}`,
+        )
       } finally {
         setIsResolvingService(false)
       }
@@ -150,19 +153,19 @@ export const Login = ({onPressBack}: {onPressBack: () => void}) => {
 
   const onPressForgotPassword = () => {
     gotoForm(Forms.ForgotPassword)
-    logEvent('signin:forgotPasswordPressed', {})
+    ax.metric('signin:forgotPasswordPressed', {})
   }
 
   const handlePressBack = () => {
     onPressBack()
     setScreenTransitionDirection('Backward')
-    logEvent('signin:backPressed', {
+    ax.metric('signin:backPressed', {
       failedAttemptsCount: failedAttemptCountRef.current,
     })
   }
 
   const onAttemptSuccess = () => {
-    logEvent('signin:success', {
+    ax.metric('signin:success', {
       isUsingCustomProvider: serviceUrl !== DEFAULT_SERVICE,
       timeTakenSeconds: Math.round((Date.now() - startTimeRef.current) / 1000),
       failedAttemptsCount: failedAttemptCountRef.current,

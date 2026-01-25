@@ -7,12 +7,6 @@ import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
 import {usePalette} from '#/lib/hooks/usePalette'
 import {type CommonNavigatorParams} from '#/lib/routes/types'
-import {type Gate} from '#/lib/statsig/gates'
-import {
-  resetDeerGateCache,
-  useDangerousSetGate,
-  useGatesCache,
-} from '#/lib/statsig/statsig'
 import * as persisted from '#/state/persisted'
 import {useGoLinksEnabled, useSetGoLinksEnabled} from '#/state/preferences'
 import {
@@ -119,7 +113,7 @@ import * as Toggle from '#/components/forms/Toggle'
 import {Atom_Stroke2_Corner0_Rounded as DeerIcon} from '#/components/icons/Atom'
 import {ChainLink_Stroke2_Corner0_Rounded as ChainLinkIcon} from '#/components/icons/ChainLink'
 import {Eye_Stroke2_Corner0_Rounded as VisibilityIcon} from '#/components/icons/Eye'
-import {Lab_Stroke2_Corner0_Rounded as BeakerIcon} from '#/components/icons/Lab'
+import {Lab_Stroke2_Corner0_Rounded as _BeakerIcon} from '#/components/icons/Lab'
 import {PaintRoller_Stroke2_Corner2_Rounded as PaintRollerIcon} from '#/components/icons/PaintRoller'
 import {RaisingHand4Finger_Stroke2_Corner0_Rounded as RaisingHandIcon} from '#/components/icons/RaisingHand'
 import {Star_Stroke2_Corner0_Rounded as StarIcon} from '#/components/icons/Star'
@@ -130,26 +124,6 @@ import {IS_WEB} from '#/env'
 import {SearchProfileCard} from '../Search/components/SearchProfileCard'
 
 type Props = NativeStackScreenProps<CommonNavigatorParams>
-
-const defaultGateValues = {
-  alt_share_icon: false,
-  debug_show_feedcontext: false,
-  debug_subscriptions: false,
-  disable_onboarding_find_contacts: false,
-  disable_settings_find_contacts: false,
-  explore_show_suggested_feeds: false,
-  feed_reply_button_open_thread: false,
-  is_bsky_team_member: false,
-  disable_live_now_beta: false,
-  old_postonboarding: false,
-  onboarding_add_video_feed: false,
-  onboarding_suggested_starterpacks: false,
-  remove_show_latest_button: false,
-  show_composer_prompt: false,
-  suggested_users_dismiss: false,
-  test_gate_1: false,
-  test_gate_2: false,
-} satisfies Record<Gate, false>
 
 function ConstellationInstanceDialog({
   control,
@@ -352,18 +326,6 @@ export function DeerSettingsScreen({}: Props) {
 
   const showLinkInHandle = useShowLinkInHandle()
   const setShowLinkInHandle = useSetShowLinkInHandle()
-
-  const [gates, setGatesView] = useState(
-    Object.assign(defaultGateValues, Object.fromEntries(useGatesCache())),
-  )
-  const dangerousSetGate = useDangerousSetGate()
-  const setGate = (gate: Gate, value: boolean) => {
-    dangerousSetGate(gate, value)
-    setGatesView({
-      ...gates,
-      [gate]: value,
-    })
-  }
 
   return (
     <Layout.Screen>
@@ -767,32 +729,6 @@ export function DeerSettingsScreen({}: Props) {
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
-          </SettingsList.Group>
-
-          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
-            <SettingsList.ItemIcon icon={BeakerIcon} />
-            <SettingsList.ItemText>
-              <Trans>Gates</Trans>
-            </SettingsList.ItemText>
-            {Object.entries(gates).map(([gate, status]) => (
-              <Toggle.Item
-                key={gate}
-                name={gate}
-                label={gate}
-                value={status}
-                onChange={value => setGate(gate as Gate, value)}
-                style={[a.w_full]}>
-                <Toggle.LabelText style={[a.flex_1]}>{gate}</Toggle.LabelText>
-                <Toggle.Platform />
-              </Toggle.Item>
-            ))}
-            <SettingsList.BadgeButton
-              label={_(msg`Reset gates`)}
-              onPress={() => {
-                resetDeerGateCache()
-                setGatesView(defaultGateValues)
-              }}
-            />
           </SettingsList.Group>
 
           <SettingsList.Item>

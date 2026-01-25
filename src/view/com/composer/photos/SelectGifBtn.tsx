@@ -3,13 +3,13 @@ import {Keyboard} from 'react-native'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
-import {logEvent} from '#/lib/statsig/statsig'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {type Gif} from '#/state/queries/tenor'
 import {atoms as a, useTheme} from '#/alf'
 import {Button} from '#/components/Button'
 import {GifSelectDialog} from '#/components/dialogs/GifSelect'
 import {GifSquare_Stroke2_Corner0_Rounded as GifIcon} from '#/components/icons/Gif'
+import {useAnalytics} from '#/analytics'
 
 type Props = {
   onClose?: () => void
@@ -18,6 +18,7 @@ type Props = {
 }
 
 export function SelectGifBtn({onClose, onSelectGif, disabled}: Props) {
+  const ax = useAnalytics()
   const {_} = useLingui()
   const ref = useRef<{open: () => void}>(null)
   const t = useTheme()
@@ -25,10 +26,10 @@ export function SelectGifBtn({onClose, onSelectGif, disabled}: Props) {
   const enableSquareButtons = useEnableSquareButtons()
 
   const onPressSelectGif = useCallback(async () => {
-    logEvent('composer:gif:open', {})
+    ax.metric('composer:gif:open', {})
     Keyboard.dismiss()
     ref.current?.open()
-  }, [])
+  }, [ax])
 
   return (
     <>

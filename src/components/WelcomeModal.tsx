@@ -5,13 +5,13 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {FocusGuards, FocusScope} from 'radix-ui/internal'
 
-import {logger} from '#/logger'
 import {useLoggedOutViewControls} from '#/state/shell/logged-out'
 import {Logo} from '#/view/icons/Logo'
-import {atoms as a, flatten, useBreakpoints, web, useTheme} from '#/alf'
+import {atoms as a, flatten, useBreakpoints, useTheme, web} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import {TimesLarge_Stroke2_Corner0_Rounded as XIcon} from '#/components/icons/Times'
 import {Text} from '#/components/Typography'
+import {useAnalytics} from '#/analytics'
 
 const welcomeModalBg = require('../../assets/images/welcome-modal-bg.webp')
 
@@ -25,6 +25,7 @@ interface WelcomeModalProps {
 
 export function WelcomeModal({control}: WelcomeModalProps) {
   const {_} = useLingui()
+  const ax = useAnalytics()
   const {requestSwitchToAccount} = useLoggedOutViewControls()
   const {gtMobile} = useBreakpoints()
   const [isExiting, setIsExiting] = useState(false)
@@ -41,23 +42,24 @@ export function WelcomeModal({control}: WelcomeModalProps) {
 
   useEffect(() => {
     if (control.isOpen) {
-      logger.metric('welcomeModal:presented', {})
+      ax.metric('welcomeModal:presented', {})
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [control.isOpen])
 
   const onPressCreateAccount = () => {
-    logger.metric('welcomeModal:signupClicked', {})
+    ax.metric('welcomeModal:signupClicked', {})
     control.close()
     requestSwitchToAccount({requestedAccount: 'new'})
   }
 
   const onPressExplore = () => {
-    logger.metric('welcomeModal:exploreClicked', {})
+    ax.metric('welcomeModal:exploreClicked', {})
     fadeOutAndClose()
   }
 
   const onPressSignIn = () => {
-    logger.metric('welcomeModal:signinClicked', {})
+    ax.metric('welcomeModal:signinClicked', {})
     control.close()
     requestSwitchToAccount({requestedAccount: 'existing'})
   }
@@ -174,7 +176,10 @@ export function WelcomeModal({control}: WelcomeModalProps) {
                     hoverStyle={[a.bg_transparent]}>
                     {({hovered}) => (
                       <ButtonText
-                        style={[hovered && [a.underline], {color: t.palette.primary_500}]}>
+                        style={[
+                          hovered && [a.underline],
+                          {color: t.palette.primary_500},
+                        ]}>
                         <Trans>Explore the app</Trans>
                       </ButtonText>
                     )}
@@ -223,7 +228,7 @@ export function WelcomeModal({control}: WelcomeModalProps) {
               ]}
               hoverStyle={[a.bg_transparent]}
               onPress={() => {
-                logger.metric('welcomeModal:dismissed', {})
+                ax.metric('welcomeModal:dismissed', {})
                 fadeOutAndClose()
               }}
               color="secondary"

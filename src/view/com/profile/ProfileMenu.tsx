@@ -11,7 +11,6 @@ import {makeProfileLink} from '#/lib/routes/links'
 import {type NavigationProp} from '#/lib/routes/types'
 import {shareText, shareUrl} from '#/lib/sharing'
 import {toShareUrl, toShareUrlBsky} from '#/lib/strings/url-helpers'
-import {logger} from '#/logger'
 import {type Shadow} from '#/state/cache/types'
 import {useModalControls} from '#/state/modals'
 import {
@@ -66,6 +65,7 @@ import * as Prompt from '#/components/Prompt'
 import {useFullVerificationState} from '#/components/verification'
 import {VerificationCreatePrompt} from '#/components/verification/VerificationCreatePrompt'
 import {VerificationRemovePrompt} from '#/components/verification/VerificationRemovePrompt'
+import {useAnalytics} from '#/analytics'
 import {IS_WEB} from '#/env'
 import {Dot} from '#/features/nuxs/components/Dot'
 import {Gradient} from '#/features/nuxs/components/Gradient'
@@ -77,6 +77,7 @@ let ProfileMenu = ({
   profile: Shadow<AppBskyActorDefs.ProfileViewDetailed>
 }): React.ReactNode => {
   const t = useTheme()
+  const ax = useAnalytics()
   const {_} = useLingui()
   const {currentAccount, hasSession} = useSession()
   const {openModal} = useModalControls()
@@ -132,7 +133,7 @@ let ProfileMenu = ({
   }, [queryClient, profile.did])
 
   const onPressAddToStarterPacks = React.useCallback(() => {
-    logger.metric('profile:addToStarterPack', {})
+    ax.metric('profile:addToStarterPack', {})
     addToStarterPacksDialogControl.open()
   }, [addToStarterPacksDialogControl])
 
@@ -162,7 +163,7 @@ let ProfileMenu = ({
         Toast.show(_(msg({message: 'Account unmuted', context: 'toast'})))
       } catch (e: any) {
         if (e?.name !== 'AbortError') {
-          logger.error('Failed to unmute account', {message: e})
+          ax.logger.error('Failed to unmute account', {message: e})
           Toast.show(_(msg`There was an issue! ${e.toString()}`), 'xmark')
         }
       }
@@ -172,12 +173,12 @@ let ProfileMenu = ({
         Toast.show(_(msg({message: 'Account muted', context: 'toast'})))
       } catch (e: any) {
         if (e?.name !== 'AbortError') {
-          logger.error('Failed to mute account', {message: e})
+          ax.logger.error('Failed to mute account', {message: e})
           Toast.show(_(msg`There was an issue! ${e.toString()}`), 'xmark')
         }
       }
     }
-  }, [profile.viewer?.muted, queueUnmute, _, queueMute])
+  }, [ax, profile.viewer?.muted, queueUnmute, _, queueMute])
 
   const blockAccount = React.useCallback(async () => {
     if (profile.viewer?.blocking) {
@@ -186,7 +187,7 @@ let ProfileMenu = ({
         Toast.show(_(msg({message: 'Account unblocked', context: 'toast'})))
       } catch (e: any) {
         if (e?.name !== 'AbortError') {
-          logger.error('Failed to unblock account', {message: e})
+          ax.logger.error('Failed to unblock account', {message: e})
           Toast.show(_(msg`There was an issue! ${e.toString()}`), 'xmark')
         }
       }
@@ -196,12 +197,12 @@ let ProfileMenu = ({
         Toast.show(_(msg({message: 'Account blocked', context: 'toast'})))
       } catch (e: any) {
         if (e?.name !== 'AbortError') {
-          logger.error('Failed to block account', {message: e})
+          ax.logger.error('Failed to block account', {message: e})
           Toast.show(_(msg`There was an issue! ${e.toString()}`), 'xmark')
         }
       }
     }
-  }, [profile.viewer?.blocking, _, queueUnblock, queueBlock])
+  }, [ax, profile.viewer?.blocking, _, queueUnblock, queueBlock])
 
   const onPressFollowAccount = React.useCallback(async () => {
     try {
@@ -209,11 +210,11 @@ let ProfileMenu = ({
       Toast.show(_(msg({message: 'Account followed', context: 'toast'})))
     } catch (e: any) {
       if (e?.name !== 'AbortError') {
-        logger.error('Failed to follow account', {message: e})
+        ax.logger.error('Failed to follow account', {message: e})
         Toast.show(_(msg`There was an issue! ${e.toString()}`), 'xmark')
       }
     }
-  }, [_, queueFollow])
+  }, [_, ax, queueFollow])
 
   const onPressUnfollowAccount = React.useCallback(async () => {
     try {
@@ -221,11 +222,11 @@ let ProfileMenu = ({
       Toast.show(_(msg({message: 'Account unfollowed', context: 'toast'})))
     } catch (e: any) {
       if (e?.name !== 'AbortError') {
-        logger.error('Failed to unfollow account', {message: e})
+        ax.logger.error('Failed to unfollow account', {message: e})
         Toast.show(_(msg`There was an issue! ${e.toString()}`), 'xmark')
       }
     }
-  }, [_, queueUnfollow])
+  }, [_, ax, queueUnfollow])
 
   const onPressReportAccount = React.useCallback(() => {
     reportDialogControl.open()

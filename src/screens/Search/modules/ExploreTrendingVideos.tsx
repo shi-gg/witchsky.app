@@ -8,7 +8,6 @@ import {useQueryClient} from '@tanstack/react-query'
 
 import {VIDEO_FEED_URI} from '#/lib/constants'
 import {makeCustomFeedLink} from '#/lib/routes/links'
-import {logger} from '#/logger'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {RQKEY, usePostFeedQuery} from '#/state/queries/post-feed'
 import {BlockDrawerGesture} from '#/view/shell/BlockDrawerGesture'
@@ -21,6 +20,7 @@ import {
   CompactVideoPostCard,
   CompactVideoPostCardPlaceholder,
 } from '#/components/VideoPostCard'
+import {useAnalytics} from '#/analytics'
 
 const CARD_WIDTH = 100
 
@@ -152,6 +152,7 @@ function VideoCards({
 }) {
   const t = useTheme()
   const {_} = useLingui()
+  const ax = useAnalytics()
   const enableSquareButtons = useEnableSquareButtons()
   const items = useMemo(() => {
     return data.pages
@@ -179,11 +180,7 @@ function VideoCards({
               sourceInterstitial: 'explore',
             }}
             onInteract={() => {
-              logger.metric(
-                'videoCard:click',
-                {context: 'interstitial:explore'},
-                {statsig: true},
-              )
+              ax.metric('videoCard:click', {context: 'interstitial:explore'})
             }}
           />
         </View>

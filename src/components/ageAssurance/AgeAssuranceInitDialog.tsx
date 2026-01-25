@@ -19,8 +19,7 @@ import {useSession} from '#/state/session'
 import {atoms as a, web} from '#/alf'
 import {Admonition} from '#/components/Admonition'
 import {AgeAssuranceBadge} from '#/components/ageAssurance/AgeAssuranceBadge'
-import {urls} from '#/components/ageAssurance/const'
-import {KWS_SUPPORTED_LANGS} from '#/components/ageAssurance/const'
+import {KWS_SUPPORTED_LANGS, urls} from '#/components/ageAssurance/const'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
 import {Divider} from '#/components/Divider'
@@ -30,9 +29,9 @@ import {LanguageSelect} from '#/components/LanguageSelect'
 import {SimpleInlineLinkText} from '#/components/Link'
 import {Loader} from '#/components/Loader'
 import {Text} from '#/components/Typography'
-import {logger} from '#/ageAssurance'
 import {useAgeAssurance} from '#/ageAssurance'
 import {useBeginAgeAssurance} from '#/ageAssurance/useBeginAgeAssurance'
+import {useAnalytics} from '#/analytics'
 
 export {useDialogControl} from '#/components/Dialog/context'
 
@@ -64,6 +63,7 @@ export function AgeAssuranceInitDialog({
 
 function Inner() {
   const {_} = useLingui()
+  const ax = useAnalytics()
   const {currentAccount} = useSession()
   const langPrefs = useLanguagePrefs()
   const cleanError = useCleanError()
@@ -116,7 +116,7 @@ function Inner() {
   const onSubmit = async () => {
     setLanguageError(false)
 
-    logger.metric('ageAssurance:initDialogSubmit', {})
+    ax.metric('ageAssurance:initDialogSubmit', {})
 
     try {
       const {status} = runEmailValidation()
@@ -134,18 +134,18 @@ function Inner() {
 
       setSuccess(true)
     } catch (e) {
-      let errorMessage: React.ReactNode = _(
+      let error: React.ReactNode = _(
         msg`Something went wrong, please try again`,
       )
 
       if (e instanceof XRPCError) {
         if (e.error === 'InvalidEmail') {
-          errorMessage = _(
+          error = _(
             msg`Please enter a valid, non-temporary email address. You may need to access this email in the future.`,
           )
-          logger.metric('ageAssurance:initDialogError', {code: 'InvalidEmail'})
+          ax.metric('ageAssurance:initDialogError', {code: 'InvalidEmail'})
         } else if (e.error === 'DidTooLong') {
-          errorMessage = (
+          error = (
             <>
               <Trans>
                 We're having issues initializing the age assurance process for
@@ -159,17 +159,17 @@ function Inner() {
               </Trans>
             </>
           )
-          logger.metric('ageAssurance:initDialogError', {code: 'DidTooLong'})
+          ax.metric('ageAssurance:initDialogError', {code: 'DidTooLong'})
         } else {
-          logger.metric('ageAssurance:initDialogError', {code: 'other'})
+          ax.metric('ageAssurance:initDialogError', {code: 'other'})
         }
       } else {
         const {clean, raw} = cleanError(e)
-        errorMessage = clean || raw || errorMessage
-        logger.metric('ageAssurance:initDialogError', {code: 'other'})
+        error = clean || raw || error
+        ax.metric('ageAssurance:initDialogError', {code: 'other'})
       }
 
-      setError(errorMessage)
+      setError(error)
     }
   }
 

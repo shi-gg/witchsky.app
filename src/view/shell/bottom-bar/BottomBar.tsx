@@ -18,9 +18,7 @@ import {useNavigationTabState} from '#/lib/hooks/useNavigationTabState'
 import {usePalette} from '#/lib/hooks/usePalette'
 import {clamp} from '#/lib/numbers'
 import {getTabState, TabState} from '#/lib/routes/helpers'
-import {useGate} from '#/lib/statsig/statsig'
 import {emitSoftReset} from '#/state/events'
-import {useHomeBadge} from '#/state/home-badge'
 import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useUnreadMessageCount} from '#/state/queries/messages/list-conversations'
@@ -45,8 +43,10 @@ import {
   HomeOpen_Filled_Corner0_Rounded as HomeFilled,
   HomeOpen_Stoke2_Corner0_Rounded as Home,
 } from '#/components/icons/HomeOpen'
-import {MagnifyingGlass_Filled_Stroke2_Corner0_Rounded as MagnifyingGlassFilled} from '#/components/icons/MagnifyingGlass'
-import {MagnifyingGlass_Stroke2_Corner0_Rounded as MagnifyingGlass} from '#/components/icons/MagnifyingGlass'
+import {
+  MagnifyingGlass_Filled_Stroke2_Corner0_Rounded as MagnifyingGlassFilled,
+  MagnifyingGlass_Stroke2_Corner0_Rounded as MagnifyingGlass,
+} from '#/components/icons/MagnifyingGlass'
 import {
   Message_Stroke2_Corner0_Rounded as Message,
   Message_Stroke2_Corner0_Rounded_Filled as MessageFilled,
@@ -74,8 +74,6 @@ export function BottomBar({navigation}: BottomTabBarProps) {
   const dedupe = useDedupe()
   const accountSwitchControl = useDialogControl()
   const playHaptic = useHaptics()
-  const hasHomeBadge = useHomeBadge()
-  const gate = useGate()
   const hideBorder = useHideBottomBarBorder()
   const iconWidth = 28
 
@@ -176,7 +174,6 @@ export function BottomBar({navigation}: BottomTabBarProps) {
                   />
                 )
               }
-              hasNew={hasHomeBadge && gate('remove_show_latest_button')}
               onPress={onPressHome}
               accessibilityRole="tab"
               accessibilityLabel={_(msg`Home`)}

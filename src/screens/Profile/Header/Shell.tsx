@@ -18,7 +18,6 @@ import {useActorStatus} from '#/lib/actor-status'
 import {BACK_HITSLOP} from '#/lib/constants'
 import {useHaptics} from '#/lib/haptics'
 import {type NavigationProp} from '#/lib/routes/types'
-import {logger} from '#/logger'
 import {type Shadow} from '#/state/cache/types'
 import {useLightboxControls} from '#/state/lightbox'
 import {useEnableSquareAvatars} from '#/state/preferences/enable-square-avatars'
@@ -40,6 +39,7 @@ import {LiveIndicator} from '#/components/live/LiveIndicator'
 import {LiveStatusDialog} from '#/components/live/LiveStatusDialog'
 import {LabelsOnMe} from '#/components/moderation/LabelsOnMe'
 import {ProfileHeaderAlerts} from '#/components/moderation/ProfileHeaderAlerts'
+import {useAnalytics} from '#/analytics'
 import {IS_IOS} from '#/env'
 import {GrowableAvatar} from './GrowableAvatar'
 import {GrowableBanner} from './GrowableBanner'
@@ -60,6 +60,7 @@ let ProfileHeaderShell = ({
   isPlaceholderProfile,
 }: React.PropsWithChildren<Props>): React.ReactNode => {
   const t = useTheme()
+  const ax = useAnalytics()
   const {currentAccount} = useSession()
   const {_} = useLingui()
   const {openLightbox} = useLightboxControls()
@@ -145,22 +146,14 @@ let ProfileHeaderShell = ({
 
   useEffect(() => {
     if (live.isActive) {
-      logger.metric(
-        'live:view:profile',
-        {subject: profile.did},
-        {statsig: true},
-      )
+      ax.metric('live:view:profile', {subject: profile.did})
     }
-  }, [live.isActive, profile.did])
+  }, [ax, live.isActive, profile.did])
 
   const onPressAvi = useCallback(() => {
     if (live.isActive) {
       playHaptic('Light')
-      logger.metric(
-        'live:card:open',
-        {subject: profile.did, from: 'profile'},
-        {statsig: true},
-      )
+      ax.metric('live:card:open', {subject: profile.did, from: 'profile'})
       liveStatusControl.open()
     } else {
       const modui = moderation.ui('avatar')
@@ -174,6 +167,7 @@ let ProfileHeaderShell = ({
       }
     }
   }, [
+    ax,
     profile,
     moderation,
     _openLightbox,

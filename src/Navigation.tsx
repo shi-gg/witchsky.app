@@ -28,7 +28,7 @@ import {
   storePayloadForAccountSwitch,
 } from '#/lib/hooks/useNotificationHandler'
 import {useWebScrollRestoration} from '#/lib/hooks/useWebScrollRestoration'
-import {logger as notyLogger} from '#/lib/notifications/util'
+import {useCallOnce} from '#/lib/once'
 import {buildStateObject} from '#/lib/routes/helpers'
 import {
   type AllNavigatorParams,
@@ -42,9 +42,7 @@ import {
   type SearchTabNavigatorParams,
   type State,
 } from '#/lib/routes/types'
-import {attachRouteToLogEvents, logEvent} from '#/lib/statsig/statsig'
 import {bskyTitle} from '#/lib/strings/headings'
-import {logger} from '#/logger'
 import {useDisableVerifyEmailReminder} from '#/state/preferences/disable-verify-email-reminder'
 import {useUnreadNotifications} from '#/state/queries/notifications/unread'
 import {useSession} from '#/state/session'
@@ -140,6 +138,8 @@ import {
   EmailDialogScreenID,
   useEmailDialogControl,
 } from '#/components/dialogs/EmailDialog'
+import {useAnalytics} from '#/analytics'
+import {setNavigationMetadata} from '#/analytics/metadata'
 import {IS_NATIVE, IS_WEB} from '#/env'
 import {router} from '#/routes'
 import {Referrer} from '../modules/expo-bluesky-swiss-army'
@@ -844,7 +844,13 @@ const FlatNavigator = ({
 const LINKING = {
   // TODO figure out what we are going to use
   // note: `bluesky://` and `witchsky://` is what is used in app.config.js
-  prefixes: ['bsky://', 'bluesky://', 'witchsky://', 'https://bsky.app', 'https://witchsky.app'],
+  prefixes: [
+    'bsky://',
+    'bluesky://',
+    'witchsky://',
+    'https://bsky.app',
+    'https://witchsky.app',
+  ],
 
   getPathFromState(state: State) {
     // find the current node in the navigation tree
@@ -908,11 +914,13 @@ const LINKING = {
 let lastHandledNotificationDateDedupe: number | undefined
 
 function RoutesContainer({children}: React.PropsWithChildren<{}>) {
+  const ax = useAnalytics()
+  const notyLogger = ax.logger.useChild(ax.logger.Context.Notifications)
   const theme = useColorSchemeStyle(DefaultTheme, DarkTheme)
   const {currentAccount, accounts} = useSession()
   const {onPressSwitchAccount} = useAccountSwitcher()
   const {setShowLoggedOut} = useLoggedOutViewControls()
-  const prevLoggedRouteName = useRef<string | undefined>(undefined)
+  const previousScreen = useRef<string | undefined>(undefined)
   const emailDialogControl = useEmailDialogControl()
   const closeAllActiveElements = useCloseAllActiveElements()
 
@@ -979,11 +987,10 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
       const payload = getNotificationPayload(response.notification)
 
       if (payload) {
-        notyLogger.metric(
-          'notifications:openApp',
-          {reason: payload.reason, causedBoot: true},
-          {statsig: false},
-        )
+        ax.metric('notifications:openApp', {
+          reason: payload.reason,
+          causedBoot: true,
+        })
 
         if (payload.reason === 'chat-message') {
           handleChatMessage(payload)
@@ -1007,8 +1014,18 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
     }
   }
 
-  function onReady() {
-    prevLoggedRouteName.current = getCurrentRouteName()
+  const onNavigationReady = useCallOnce(() => {
+    const currentScreen = getCurrentRouteName()
+    setNavigationMetadata({
+      previousScreen: currentScreen,
+      currentScreen,
+    })
+    previousScreen.current = currentScreen
+
+    handlePushNotificationEntry()
+
+    ax.metric('router:navigate', {})
+
     if (
       currentAccount &&
       shouldRequestEmailConfirmation(currentAccount) &&
@@ -1019,40 +1036,52 @@ function RoutesContainer({children}: React.PropsWithChildren<{}>) {
       })
       snoozeEmailConfirmationPrompt()
     }
-  }
+
+    ax.metric('init', {
+      initMs: Math.round(
+        // @ts-ignore Emitted by Metro in the bundle prelude
+        performance.now() - global.__BUNDLE_START_TIME__,
+      ),
+    })
+
+    if (IS_WEB) {
+      const referrerInfo = Referrer.getReferrerInfo()
+      if (referrerInfo && referrerInfo.hostname !== 'bsky.app') {
+        ax.metric('deepLink:referrerReceived', {
+          to: window.location.href,
+          referrer: referrerInfo?.referrer,
+          hostname: referrerInfo?.hostname,
+        })
+      }
+    }
+  })
 
   return (
-    <>
-      <NavigationContainer
-        ref={navigationRef}
-        linking={LINKING}
-        theme={theme}
-        initialState={initialState}
-        onStateChange={() => {
-          logger.metric(
-            'router:navigate',
-            {from: prevLoggedRouteName.current},
-            {statsig: false},
-          )
-          prevLoggedRouteName.current = getCurrentRouteName()
-        }}
-        onReady={() => {
-          attachRouteToLogEvents(getCurrentRouteName)
-          logModuleInitTime()
-          onReady()
-          logger.metric('router:navigate', {}, {statsig: false})
-          handlePushNotificationEntry()
-        }}
-        // WARNING: Implicit navigation to nested navigators is depreciated in React Navigation 7.x
-        // However, there's a fair amount of places we do that, especially in when popping to the top of stacks.
-        // See BottomBar.tsx for an example of how to handle nested navigators in the tabs correctly.
-        // I'm scared of missing a spot (esp. with push notifications etc) so let's enable this legacy behaviour for now.
-        // We will need to confirm we handle nested navigators correctly by the time we migrate to React Navigation 8.x
-        // -sfn
-        navigationInChildEnabled>
-        {children}
-      </NavigationContainer>
-    </>
+    <NavigationContainer
+      ref={navigationRef}
+      linking={LINKING}
+      theme={theme}
+      initialState={initialState}
+      onStateChange={() => {
+        const currentScreen = getCurrentRouteName()
+        // do this before metric
+        setNavigationMetadata({
+          previousScreen: previousScreen.current,
+          currentScreen,
+        })
+        ax.metric('router:navigate', {from: previousScreen.current})
+        previousScreen.current = currentScreen
+      }}
+      onReady={onNavigationReady}
+      // WARNING: Implicit navigation to nested navigators is depreciated in React Navigation 7.x
+      // However, there's a fair amount of places we do that, especially in when popping to the top of stacks.
+      // See BottomBar.tsx for an example of how to handle nested navigators in the tabs correctly.
+      // I'm scared of missing a spot (esp. with push notifications etc) so let's enable this legacy behaviour for now.
+      // We will need to confirm we handle nested navigators correctly by the time we migrate to React Navigation 8.x
+      // -sfn
+      navigationInChildEnabled>
+      {children}
+    </NavigationContainer>
   )
 }
 
@@ -1123,44 +1152,6 @@ function reset(): Promise<void> {
     ])
   } else {
     return Promise.resolve()
-  }
-}
-
-let didInit = false
-function logModuleInitTime() {
-  if (didInit) {
-    return
-  }
-  didInit = true
-
-  const initMs = Math.round(
-    // @ts-ignore Emitted by Metro in the bundle prelude
-    performance.now() - global.__BUNDLE_START_TIME__,
-  )
-  console.log(`Time to first paint: ${initMs} ms`)
-  logEvent('init', {
-    initMs,
-  })
-
-  if (IS_WEB) {
-    const referrerInfo = Referrer.getReferrerInfo()
-    if (referrerInfo && referrerInfo.hostname !== 'bsky.app' && referrerInfo.hostname !== 'witchsky.app') {
-      logEvent('deepLink:referrerReceived', {
-        to: window.location.href,
-        referrer: referrerInfo?.referrer,
-        hostname: referrerInfo?.hostname,
-      })
-    }
-  }
-
-  if (__DEV__) {
-    // This log is noisy, so keep false committed
-    const shouldLog = false
-    // Relies on our patch to polyfill.js in metro-runtime
-    const initLogs = (global as any).__INIT_LOGS__
-    if (shouldLog && Array.isArray(initLogs)) {
-      console.log(initLogs.join('\n'))
-    }
   }
 }
 

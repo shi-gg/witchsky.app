@@ -14,7 +14,6 @@ import {useLingui} from '@lingui/react'
 import {MAX_LABELERS} from '#/lib/constants'
 import {useHaptics} from '#/lib/haptics'
 import {isAppLabeler} from '#/lib/moderation'
-import {logger} from '#/logger'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {type Shadow} from '#/state/cache/types'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
@@ -35,6 +34,7 @@ import * as Prompt from '#/components/Prompt'
 import {RichText} from '#/components/RichText'
 import * as Toast from '#/components/Toast'
 import {Text} from '#/components/Typography'
+import {useAnalytics} from '#/analytics'
 import {IS_IOS} from '#/env'
 import {ProfileHeaderDisplayName} from './DisplayName'
 import {EditProfileDialog} from './EditProfileDialog'
@@ -62,6 +62,7 @@ let ProfileHeaderLabeler = ({
   const profile: Shadow<AppBskyActorDefs.ProfileViewDetailed> =
     useProfileShadow(profileUnshadowed)
   const t = useTheme()
+  const ax = useAnalytics()
   const {_} = useLingui()
   const {currentAccount, hasSession} = useSession()
   const playHaptic = useHaptics()
@@ -102,9 +103,9 @@ let ProfileHeaderLabeler = ({
         ),
         {type: 'error'},
       )
-      logger.error(`Failed to toggle labeler like`, {message: e.message})
+      ax.logger.error(`Failed to toggle labeler like`, {message: e.message})
     }
-  }, [labeler, playHaptic, likeUri, unlikeMod, likeMod, _])
+  }, [ax, labeler, playHaptic, likeUri, unlikeMod, likeMod, _])
 
   return (
     <ProfileHeaderShell
@@ -236,8 +237,9 @@ export function HeaderLabelerButtons({
   /** disable the subscribe button */
   minimal?: boolean
 }) {
-  const {_} = useLingui()
   const t = useTheme()
+  const ax = useAnalytics()
+  const {_} = useLingui()
   const {currentAccount} = useSession()
   const requireAuth = useRequireAuth()
   const playHaptic = useHaptics()
@@ -267,12 +269,11 @@ export function HeaderLabelerButtons({
           subscribe,
         })
 
-        logger.metric(
+        ax.metric(
           subscribe
             ? 'moderation:subscribedToLabeler'
             : 'moderation:unsubscribedFromLabeler',
           {},
-          {statsig: true},
         )
       } catch (e: any) {
         reset()
@@ -280,7 +281,7 @@ export function HeaderLabelerButtons({
           cantSubscribePrompt.open()
           return
         }
-        logger.error(`Failed to subscribe to labeler`, {message: e.message})
+        ax.logger.error(`Failed to subscribe to labeler`, {message: e.message})
       }
     })
   return (

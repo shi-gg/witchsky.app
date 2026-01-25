@@ -40,6 +40,7 @@ import {
 } from '#/components/PolicyUpdateOverlay'
 import {Outlet as PortalOutlet} from '#/components/Portal'
 import {RedirectOverlay} from '#/ageAssurance/components/RedirectOverlay'
+import {PassiveAnalytics} from '#/analytics/PassiveAnalytics'
 import {IS_ANDROID, IS_IOS} from '#/env'
 import {RoutesContainer, TabsNavigator} from '#/Navigation'
 import {BottomSheetOutlet} from '../../../modules/bottom-sheet'
@@ -238,6 +239,8 @@ export function Shell() {
           <RedirectOverlay />
         </>
       )}
+
+      <PassiveAnalytics />
     </View>
   )
 }

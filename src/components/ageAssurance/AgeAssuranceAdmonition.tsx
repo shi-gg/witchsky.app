@@ -11,7 +11,7 @@ import {ShieldCheck_Stroke2_Corner0_Rounded as Shield} from '#/components/icons/
 import {InlineLinkText} from '#/components/Link'
 import {Text} from '#/components/Typography'
 import {useAgeAssurance} from '#/ageAssurance'
-import {logger} from '#/ageAssurance'
+import {useAnalytics} from '#/analytics'
 
 export function AgeAssuranceAdmonition({
   children,
@@ -42,6 +42,7 @@ function Inner({
   const t = useTheme()
   const {_} = useLingui()
   const enableSquareButtons = useEnableSquareButtons()
+  const ax = useAnalytics()
 
   return (
     <>
@@ -94,7 +95,7 @@ function Inner({
                   to={'/settings/account'}
                   style={[a.text_sm, a.leading_snug, a.font_semi_bold]}
                   onPress={() => {
-                    logger.metric('ageAssurance:navigateToSettings', {})
+                    ax.metric('ageAssurance:navigateToSettings', {})
                   }}>
                   account settings.
                 </InlineLinkText>

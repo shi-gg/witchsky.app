@@ -2,7 +2,6 @@ import {type AppBskyActorGetProfile} from '@atproto/api'
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 import {until} from '#/lib/async/until'
-import {logger} from '#/logger'
 import {useConstellationInstance} from '#/state/preferences/constellation-instance'
 import {
   useDeerVerificationEnabled,
@@ -10,6 +9,7 @@ import {
 } from '#/state/preferences/deer-verification'
 import {useUpdateProfileVerificationCache} from '#/state/queries/verification/useUpdateProfileVerificationCache'
 import {useAgent, useSession} from '#/state/session'
+import {useAnalytics} from '#/analytics'
 import type * as bsky from '#/types/bsky'
 import {asUri, asyncGenFind, type ConstellationLink} from '../constellation'
 import {
@@ -18,6 +18,7 @@ import {
 } from '../deer-verification'
 
 export function useVerificationCreateMutation() {
+  const ax = useAnalytics()
   const agent = useAgent()
   const {currentAccount} = useSession()
   const updateProfileVerificationCache = useUpdateProfileVerificationCache()
@@ -83,7 +84,7 @@ export function useVerificationCreateMutation() {
       }
     },
     async onSuccess(_, {profile}) {
-      logger.metric('verification:create', {}, {statsig: true})
+      ax.metric('verification:create', {})
       await updateProfileVerificationCache({profile})
       qc.invalidateQueries({
         queryKey: DEER_VERIFICATION_RQKEY(profile.did, deerVerificationTrusted),

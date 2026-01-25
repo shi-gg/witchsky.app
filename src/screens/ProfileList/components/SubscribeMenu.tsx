@@ -2,7 +2,6 @@ import {type AppBskyGraphDefs} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
-import {logger} from '#/logger'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useListBlockMutation, useListMuteMutation} from '#/state/queries/list'
 import {atoms as a} from '#/alf'
@@ -13,9 +12,11 @@ import {Loader} from '#/components/Loader'
 import * as Menu from '#/components/Menu'
 import * as Prompt from '#/components/Prompt'
 import * as Toast from '#/components/Toast'
+import {useAnalytics} from '#/analytics'
 
 export function SubscribeMenu({list}: {list: AppBskyGraphDefs.ListView}) {
   const {_} = useLingui()
+  const ax = useAnalytics()
   const subscribeMutePromptControl = Prompt.usePromptControl()
   const subscribeBlockPromptControl = Prompt.usePromptControl()
 
@@ -32,11 +33,7 @@ export function SubscribeMenu({list}: {list: AppBskyGraphDefs.ListView}) {
     try {
       await muteList({uri: list.uri, mute: true})
       Toast.show(_(msg({message: 'List muted', context: 'toast'})))
-      logger.metric(
-        'moderation:subscribedToList',
-        {listType: 'mute'},
-        {statsig: true},
-      )
+      ax.metric('moderation:subscribedToList', {listType: 'mute'})
     } catch {
       Toast.show(
         _(
@@ -51,11 +48,7 @@ export function SubscribeMenu({list}: {list: AppBskyGraphDefs.ListView}) {
     try {
       await blockList({uri: list.uri, block: true})
       Toast.show(_(msg({message: 'List blocked', context: 'toast'})))
-      logger.metric(
-        'moderation:subscribedToList',
-        {listType: 'block'},
-        {statsig: true},
-      )
+      ax.metric('moderation:subscribedToList', {listType: 'block'})
     } catch {
       Toast.show(
         _(

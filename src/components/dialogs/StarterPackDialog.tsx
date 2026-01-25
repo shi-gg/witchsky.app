@@ -11,7 +11,6 @@ import {useQueryClient} from '@tanstack/react-query'
 
 import {useRequireEmailVerification} from '#/lib/hooks/useRequireEmailVerification'
 import {type NavigationProp} from '#/lib/routes/types'
-import {logger} from '#/logger'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {
   invalidateActorStarterPacksWithMembershipQuery,
@@ -32,6 +31,7 @@ import {StarterPack} from '#/components/icons/StarterPack'
 import {TimesLarge_Stroke2_Corner0_Rounded as XIcon} from '#/components/icons/Times'
 import {Loader} from '#/components/Loader'
 import {Text} from '#/components/Typography'
+import {useAnalytics} from '#/analytics'
 import {IS_WEB} from '#/env'
 import * as bsky from '#/types/bsky'
 
@@ -247,8 +247,9 @@ function StarterPackItem({
   starterPackWithMembership: StarterPackWithMembership
   targetDid: string
 }) {
-  const {_} = useLingui()
   const t = useTheme()
+  const ax = useAnalytics()
+  const {_} = useLingui()
   const queryClient = useQueryClient()
 
   const starterPack = starterPackWithMembership.starterPack
@@ -307,7 +308,7 @@ function StarterPackItem({
         listUri: listUri,
         actorDid: targetDid,
       })
-      logger.metric('starterPack:addUser', {starterPack: starterPackUri})
+      ax.metric('starterPack:addUser', {starterPack: starterPackUri})
     } else {
       if (!starterPackWithMembership.listItem?.uri) {
         console.error('Cannot remove: missing membership URI')
@@ -319,7 +320,7 @@ function StarterPackItem({
         actorDid: targetDid,
         membershipUri: starterPackWithMembership.listItem.uri,
       })
-      logger.metric('starterPack:removeUser', {starterPack: starterPackUri})
+      ax.metric('starterPack:removeUser', {starterPack: starterPackUri})
     }
   }
 

@@ -19,6 +19,7 @@ import {Newspaper_Stroke2_Corner2_Rounded as NewspaperIcon} from '#/components/i
 import {Wrench_Stroke2_Corner2_Rounded as WrenchIcon} from '#/components/icons/Wrench'
 import * as Layout from '#/components/Layout'
 import {Loader} from '#/components/Loader'
+import {getDeviceId} from '#/analytics/identifiers'
 import {IS_ANDROID, IS_IOS, IS_NATIVE} from '#/env'
 import * as env from '#/env'
 import {useDemoMode} from '#/storage/hooks/demo-mode'
@@ -30,7 +31,6 @@ export function AboutSettingsScreen({}: Props) {
   const {_, i18n} = useLingui()
   const [devModeEnabled, setDevModeEnabled] = useDevMode()
   const [demoModeEnabled, setDemoModeEnabled] = useDemoMode()
-  const stableID = `DEER_SOCIAL_OOPS`
 
   const {mutate: onClearImageCache, isPending: isClearingImageCache} =
     useMutation({
@@ -144,7 +144,7 @@ export function AboutSettingsScreen({}: Props) {
             }}
             onPress={() => {
               setStringAsync(
-                `Build version: ${env.APP_VERSION}; Bundle info: ${env.APP_METADATA}; Bundle date: ${env.BUNDLE_DATE}; Platform: ${Platform.OS}; Platform version: ${Platform.Version}; Anonymous ID: ${stableID}`,
+                `Build version: ${env.APP_VERSION}; Bundle info: ${env.APP_METADATA}; Bundle date: ${env.BUNDLE_DATE}; Platform: ${Platform.OS}; Platform version: ${Platform.Version}; Device ID: ${getDeviceId() ?? 'N/A'}`,
               )
               Toast.show(_(msg`Copied build version to clipboard`))
             }}>

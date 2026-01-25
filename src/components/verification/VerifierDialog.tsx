@@ -5,7 +5,6 @@ import {useLingui} from '@lingui/react'
 
 import {urls} from '#/lib/constants'
 import {getUserDisplayName} from '#/lib/getUserDisplayName'
-import {logger} from '#/logger'
 import {useDeerVerificationEnabled} from '#/state/preferences/deer-verification'
 import {useSession} from '#/state/session'
 import {atoms as a, useBreakpoints, useTheme} from '#/alf'
@@ -15,6 +14,7 @@ import {VerifierCheck} from '#/components/icons/VerifierCheck'
 import {Link} from '#/components/Link'
 import {Text} from '#/components/Typography'
 import {type FullVerificationState} from '#/components/verification'
+import {useAnalytics} from '#/analytics'
 import type * as bsky from '#/types/bsky'
 
 export {useDialogControl} from '#/components/Dialog'
@@ -50,6 +50,7 @@ function Inner({
   verificationState: FullVerificationState
 }) {
   const t = useTheme()
+  const ax = useAnalytics()
   const {_} = useLingui()
   const {gtMobile} = useBreakpoints()
   const {currentAccount} = useSession()
@@ -131,13 +132,9 @@ function Inner({
             color="primary"
             style={[a.justify_center]}
             onPress={() => {
-              logger.metric(
-                'verification:learn-more',
-                {
-                  location: 'verifierDialog',
-                },
-                {statsig: true},
-              )
+              ax.metric('verification:learn-more', {
+                location: 'verifierDialog',
+              })
             }}>
             <ButtonText>
               <Trans context="english-only-resource">Learn more</Trans>

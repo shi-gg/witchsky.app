@@ -9,7 +9,6 @@ import {makeProfileLink} from '#/lib/routes/links'
 import {type NavigationProp} from '#/lib/routes/types'
 import {shareText, shareUrl} from '#/lib/sharing'
 import {toShareUrl, toShareUrlBsky} from '#/lib/strings/url-helpers'
-import {logger} from '#/logger'
 import {useProfileShadow} from '#/state/cache/profile-shadow'
 import {useShowExternalShareButtons} from '#/state/preferences/external-share-buttons'
 import {useSession} from '#/state/session'
@@ -24,6 +23,7 @@ import {PaperPlane_Stroke2_Corner0_Rounded as Send} from '#/components/icons/Pap
 import {SquareArrowTopRight_Stroke2_Corner0_Rounded as ExternalIcon} from '#/components/icons/SquareArrowTopRight'
 import * as Menu from '#/components/Menu'
 import {useAgeAssurance} from '#/ageAssurance'
+import {useAnalytics} from '#/analytics'
 import {IS_WEB} from '#/env'
 import {useDevMode} from '#/storage/hooks/dev-mode'
 import {type ShareMenuItemsProps} from './ShareMenuItems.types'
@@ -34,6 +34,7 @@ let ShareMenuItems = ({
   timestamp,
   onShare: onShareProp,
 }: ShareMenuItemsProps): React.ReactNode => {
+  const ax = useAnalytics()
   const {hasSession} = useSession()
   const {gtMobile} = useBreakpoints()
   const {_} = useLingui()
@@ -60,21 +61,21 @@ let ShareMenuItems = ({
   }, [postAuthor])
 
   const onCopyLink = () => {
-    logger.metric('share:press:copyLink', {}, {statsig: true})
+    ax.metric('share:press:copyLink', {})
     const url = toShareUrl(href)
     shareUrl(url)
     onShareProp()
   }
 
   const onCopyLinkBsky = () => {
-    logger.metric('share:press:copyLink', {}, {statsig: true})
+    ax.metric('share:press:copyLink', {})
     const url = toShareUrlBsky(href)
     shareUrl(url)
     onShareProp()
   }
 
   const onSelectChatToShareTo = (conversation: string) => {
-    logger.metric('share:press:dmSelected', {}, {statsig: true})
+    ax.metric('share:press:dmSelected', {})
     navigation.navigate('MessagesConversation', {
       conversation,
       embed: postUri,
@@ -98,7 +99,9 @@ let ShareMenuItems = ({
     post.record.fediverseId) as string | undefined
 
   const onOpenOriginalPost = () => {
-    originalPostUrl && openLink(originalPostUrl, true)
+    if (originalPostUrl) {
+      openLink(originalPostUrl, true)
+    }
   }
 
   const onOpenPostInPdsls = () => {
@@ -162,7 +165,7 @@ let ShareMenuItems = ({
             testID="postDropdownSendViaDMBtn"
             label={_(msg`Send via direct message`)}
             onPress={() => {
-              logger.metric('share:press:openDmSearch', {}, {statsig: true})
+              ax.metric('share:press:openDmSearch', {})
               sendViaChatControl.open()
             }}>
             <Menu.ItemText>
@@ -177,7 +180,7 @@ let ShareMenuItems = ({
             testID="postDropdownEmbedBtn"
             label={_(msg`Embed post`)}
             onPress={() => {
-              logger.metric('share:press:embed', {}, {statsig: true})
+              ax.metric('share:press:embed', {})
               embedPostControl.open()
             }}>
             <Menu.ItemText>{_(msg`Embed skeet`)}</Menu.ItemText>

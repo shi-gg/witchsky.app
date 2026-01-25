@@ -7,11 +7,9 @@ import {useQueryClient} from '@tanstack/react-query'
 
 import {VIDEO_FEED_URI} from '#/lib/constants'
 import {makeCustomFeedLink} from '#/lib/routes/links'
-import {logEvent} from '#/lib/statsig/statsig'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {useTrendingSettingsApi} from '#/state/preferences/trending'
-import {usePostFeedQuery} from '#/state/queries/post-feed'
-import {RQKEY} from '#/state/queries/post-feed'
+import {RQKEY, usePostFeedQuery} from '#/state/queries/post-feed'
 import {BlockDrawerGesture} from '#/view/shell/BlockDrawerGesture'
 import {atoms as a, useGutters, useTheme} from '#/alf'
 import {Button, ButtonIcon} from '#/components/Button'
@@ -24,6 +22,7 @@ import {
   CompactVideoPostCard,
   CompactVideoPostCardPlaceholder,
 } from '#/components/VideoPostCard'
+import {useAnalytics} from '#/analytics'
 
 const CARD_WIDTH = 108
 
@@ -37,6 +36,7 @@ const FEED_PARAMS: {
 export function TrendingVideos() {
   const t = useTheme()
   const {_} = useLingui()
+  const ax = useAnalytics()
   const gutters = useGutters([0, 'base'])
   const {data, isLoading, error} = usePostFeedQuery(FEED_DESC, FEED_PARAMS)
 
@@ -58,8 +58,8 @@ export function TrendingVideos() {
 
   const onConfirmHide = useCallback(() => {
     setTrendingVideoDisabled(true)
-    logEvent('trendingVideos:hide', {context: 'interstitial:discover'})
-  }, [setTrendingVideoDisabled])
+    ax.metric('trendingVideos:hide', {context: 'interstitial:discover'})
+  }, [ax, setTrendingVideoDisabled])
 
   if (error) {
     return null
@@ -148,6 +148,7 @@ function VideoCards({
 }: {
   data: Exclude<ReturnType<typeof usePostFeedQuery>['data'], undefined>
 }) {
+  const ax = useAnalytics()
   const items = useMemo(() => {
     return data.pages
       .flatMap(page => page.slices)
@@ -170,7 +171,7 @@ function VideoCards({
               sourceInterstitial: 'discover',
             }}
             onInteract={() => {
-              logEvent('videoCard:click', {
+              ax.metric('videoCard:click', {
                 context: 'interstitial:discover',
               })
             }}

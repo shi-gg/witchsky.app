@@ -1,11 +1,9 @@
 import {useCallback, useImperativeHandle, useRef, useState} from 'react'
-import {View} from 'react-native'
-import {useWindowDimensions} from 'react-native'
+import {useWindowDimensions, View} from 'react-native'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {BSKY_SERVICE} from '#/lib/constants'
-import {logger} from '#/logger'
 import * as persisted from '#/state/persisted'
 import {useSession} from '#/state/session'
 import {atoms as a, platform, useBreakpoints, useTheme, web} from '#/alf'
@@ -16,6 +14,7 @@ import * as TextField from '#/components/forms/TextField'
 import {Globe_Stroke2_Corner0_Rounded as Globe} from '#/components/icons/Globe'
 import {InlineLinkText} from '#/components/Link'
 import {Text} from '#/components/Typography'
+import {useAnalytics} from '#/analytics'
 
 export function ServerInputDialog({
   control,
@@ -24,6 +23,7 @@ export function ServerInputDialog({
   control: Dialog.DialogOuterProps['control']
   onSelect: (url: string) => void
 }) {
+  const ax = useAnalytics()
   const {height} = useWindowDimensions()
   const formRef = useRef<DialogInnerRef>(null)
 
@@ -38,10 +38,10 @@ export function ServerInputDialog({
         setPreviousCustomAddress(result)
       }
     }
-    logger.metric('signin:hostingProviderPressed', {
-      hostingProviderDidChange: false, // stubbed for PDS auto-resolution
+    ax.metric('signin:hostingProviderPressed', {
+      hostingProviderDidChange: result !== BSKY_SERVICE,
     })
-  }, [onSelect])
+  }, [ax, onSelect])
 
   return (
     <Dialog.Outer

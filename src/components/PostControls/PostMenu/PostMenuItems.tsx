@@ -35,7 +35,6 @@ import {
   type CommonNavigatorParams,
   type NavigationProp,
 } from '#/lib/routes/types'
-import {logEvent, useGate} from '#/lib/statsig/statsig'
 import {richTextToString} from '#/lib/strings/rich-text-helpers'
 import {restoreLinks} from '#/lib/strings/rich-text-manip'
 import {toShareUrl} from '#/lib/strings/url-helpers'
@@ -107,6 +106,7 @@ import {
   useReportDialogControl,
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
+import {useAnalytics} from '#/analytics'
 import {IS_INTERNAL, IS_WEB} from '#/env'
 import * as bsky from '#/types/bsky'
 
@@ -136,6 +136,7 @@ let PostMenuItems = ({
 }): React.ReactNode => {
   const {hasSession, currentAccount} = useSession()
   const {_} = useLingui()
+  const ax = useAnalytics()
   const langPrefs = useLanguagePrefs()
   const {mutateAsync: deletePostMutate} = usePostDeleteMutation()
   const {mutateAsync: pinPostMutate, isPending: isPinPending} =
@@ -382,7 +383,7 @@ let PostMenuItems = ({
     try {
       if (isThreadMuted) {
         unmuteThread()
-        logger.metric('post:unmute', {
+        ax.metric('post:unmute', {
           uri: postUri,
           authorDid: postAuthor.did,
           logContext,
@@ -391,7 +392,7 @@ let PostMenuItems = ({
         Toast.show(_(msg`You will now receive notifications for this thread`))
       } else {
         muteThread()
-        logger.metric('post:mute', {
+        ax.metric('post:mute', {
           uri: postUri,
           authorDid: postAuthor.did,
           logContext,
@@ -428,21 +429,17 @@ let PostMenuItems = ({
         AppBskyFeedPost.isRecord,
       )
     ) {
-      logger.metric(
-        'translate',
-        {
-          sourceLanguages: post.record.langs ?? [],
-          targetLanguage: langPrefs.primaryLanguage,
-          textLength: post.record.text.length,
-        },
-        {statsig: false},
-      )
+      ax.metric('translate', {
+        sourceLanguages: post.record.langs ?? [],
+        targetLanguage: langPrefs.primaryLanguage,
+        textLength: post.record.text.length,
+      })
     }
   }
 
   const onHidePost = () => {
     hidePost({uri: postUri})
-    logEvent('thread:click:hideReplyForMe', {})
+    ax.metric('thread:click:hideReplyForMe', {})
   }
 
   const hideInPWI = !!postAuthor.labels?.find(
@@ -456,7 +453,7 @@ let PostMenuItems = ({
       feedContext: postFeedContext,
       reqId: postReqId,
     })
-    logger.metric('post:showMore', {
+    ax.metric('post:showMore', {
       uri: postUri,
       authorDid: postAuthor.did,
       logContext,
@@ -474,7 +471,7 @@ let PostMenuItems = ({
       feedContext: postFeedContext,
       reqId: postReqId,
     })
-    logger.metric('post:showLess', {
+    ax.metric('post:showLess', {
       uri: postUri,
       authorDid: postAuthor.did,
       logContext,
@@ -538,7 +535,7 @@ let PostMenuItems = ({
 
       // Log metric only when hiding (not when showing)
       if (isHide) {
-        logEvent('thread:click:hideReplyForEveryone', {})
+        ax.metric('thread:click:hideReplyForEveryone', {})
       }
 
       Toast.show(
@@ -575,7 +572,7 @@ let PostMenuItems = ({
   }
 
   const onPressPin = () => {
-    logEvent(isPinned ? 'post:unpin' : 'post:pin', {})
+    ax.metric(isPinned ? 'post:unpin' : 'post:pin', {})
     pinPostMutate({
       postUri,
       postCid,
@@ -688,11 +685,10 @@ let PostMenuItems = ({
 
   const onSignIn = () => requireSignIn(() => {})
 
-  const gate = useGate()
   const isDiscoverDebugUser =
     IS_INTERNAL ||
     DISCOVER_DEBUG_DIDS[currentAccount?.did || ''] ||
-    gate('debug_show_feedcontext')
+    ax.features.enabled(ax.features.DebugFeedContext)
 
   return (
     <>

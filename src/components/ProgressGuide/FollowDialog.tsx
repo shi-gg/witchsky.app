@@ -10,8 +10,6 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {popularInterests, useInterestsDisplayNames} from '#/lib/interests'
-import {logEvent} from '#/lib/statsig/statsig'
-import {logger} from '#/logger'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {useActorSearch} from '#/state/queries/actor-search'
 import {usePreferencesQuery} from '#/state/queries/preferences'
@@ -37,6 +35,7 @@ import {TimesLarge_Stroke2_Corner0_Rounded as X} from '#/components/icons/Times'
 import {boostInterests, InterestTabs} from '#/components/InterestTabs'
 import * as ProfileCard from '#/components/ProfileCard'
 import {Text} from '#/components/Typography'
+import {useAnalytics} from '#/analytics'
 import {IS_WEB} from '#/env'
 import type * as bsky from '#/types/bsky'
 import {ProgressGuideTask} from './Task'
@@ -68,6 +67,7 @@ export function FollowDialog({
   guide: Follow10ProgressGuide
   showArrow?: boolean
 }) {
+  const ax = useAnalytics()
   const {_} = useLingui()
   const control = Dialog.useDialogControl()
   const {gtPhone} = useBreakpoints()
@@ -79,7 +79,7 @@ export function FollowDialog({
         label={_(msg`Find people to follow`)}
         onPress={() => {
           control.open()
-          logEvent('progressGuide:followDialog:open', {})
+          ax.metric('progressGuide:followDialog:open', {})
         }}
         size={gtPhone ? 'small' : 'large'}
         color="primary">
@@ -119,6 +119,7 @@ let lastSearchText = ''
 
 function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
   const {_} = useLingui()
+  const ax = useAnalytics()
   const interestsDisplayNames = useInterestsDisplayNames()
   const {data: preferences} = usePreferencesQuery()
   const personalizedInterests = preferences?.interests?.tags
@@ -272,17 +273,13 @@ function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
             const position = itemsRef.current.findIndex(
               i => i.type === 'profile' && i.profile.did === item.profile.did,
             )
-            logger.metric(
-              'suggestedUser:seen',
-              {
-                logContext: 'ProgressGuide',
-                recId: undefined,
-                position: position !== -1 ? position : 0,
-                suggestedDid: item.profile.did,
-                category: selectedInterestRef.current,
-              },
-              {statsig: true},
-            )
+            ax.metric('suggestedUser:seen', {
+              logContext: 'ProgressGuide',
+              recId: undefined,
+              position: position !== -1 ? position : 0,
+              suggestedDid: item.profile.did,
+              category: selectedInterestRef.current,
+            })
           }
         }
       }
