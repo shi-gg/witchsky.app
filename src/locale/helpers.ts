@@ -127,8 +127,15 @@ export function isPostInLanguage(
   return bcp47Match.basicFilter(lang, targetLangs).length > 0
 }
 
+// we cant hook into functions like this, so we will make other translator functions n swap between em
 export function getTranslatorLink(text: string, lang: string): string {
   return `https://translate.google.com/?sl=auto&tl=${lang}&text=${encodeURIComponent(
+    text,
+  )}`
+}
+
+export function getTranslatorLinkKagi(text: string, lang: string): string {
+  return `https://translate.kagi.com/?from=auto&to=${lang}&text=${encodeURIComponent(
     text,
   )}`
 }

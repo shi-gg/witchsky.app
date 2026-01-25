@@ -171,6 +171,8 @@ const schema = z.object({
 
   showExternalShareButtons: z.boolean().optional(),
 
+  translationServicePreference: z.enum(['google', 'kagi']),
+
   /** @deprecated */
   mutedThreads: z.array(z.string()),
   trendingDisabled: z.boolean().optional(),
@@ -279,6 +281,7 @@ export const defaults: Schema = {
   highQualityImages: false,
   hideUnreplyablePosts: false,
   showExternalShareButtons: false,
+  translationServicePreference: 'google',
 }
 
 export function tryParse(rawData: string): Schema | undefined {

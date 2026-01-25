@@ -103,6 +103,10 @@ import {
   useSetShowLinkInHandle,
   useShowLinkInHandle,
 } from '#/state/preferences/show-link-in-handle.tsx'
+import {
+  useSetTranslationServicePreference,
+  useTranslationServicePreference,
+} from '#/state/preferences/translation-service-preference'
 import {useProfilesQuery} from '#/state/queries/profile'
 import * as SettingsList from '#/screens/Settings/components/SettingsList'
 import {atoms as a, useBreakpoints} from '#/alf'
@@ -113,6 +117,7 @@ import * as Toggle from '#/components/forms/Toggle'
 import {Atom_Stroke2_Corner0_Rounded as DeerIcon} from '#/components/icons/Atom'
 import {ChainLink_Stroke2_Corner0_Rounded as ChainLinkIcon} from '#/components/icons/ChainLink'
 import {Eye_Stroke2_Corner0_Rounded as VisibilityIcon} from '#/components/icons/Eye'
+import {Earth_Stroke2_Corner2_Rounded as EarthIcon} from '#/components/icons/Globe'
 import {Lab_Stroke2_Corner0_Rounded as _BeakerIcon} from '#/components/icons/Lab'
 import {PaintRoller_Stroke2_Corner2_Rounded as PaintRollerIcon} from '#/components/icons/PaintRoller'
 import {RaisingHand4Finger_Stroke2_Corner0_Rounded as RaisingHandIcon} from '#/components/icons/RaisingHand'
@@ -326,6 +331,9 @@ export function DeerSettingsScreen({}: Props) {
 
   const showLinkInHandle = useShowLinkInHandle()
   const setShowLinkInHandle = useSetShowLinkInHandle()
+
+  const translationServicePreference = useTranslationServicePreference()
+  const setTranslationServicePreference = useSetTranslationServicePreference()
 
   return (
     <Layout.Screen>
@@ -614,6 +622,41 @@ export function DeerSettingsScreen({}: Props) {
                 access to features locked behind email verification.
               </Trans>
             </Admonition>
+          </SettingsList.Group>
+
+          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+            <SettingsList.ItemIcon icon={EarthIcon} />
+            <SettingsList.ItemText>
+              <Trans>Translation Engine</Trans>
+            </SettingsList.ItemText>
+
+            <Admonition type="info" style={[a.flex_1]}>
+              <Trans>Choose the engine to use when translating posts.</Trans>
+            </Admonition>
+
+            <Toggle.Item
+              name="service_google"
+              label={_(msg`Use Google Translate`)}
+              value={translationServicePreference === 'google'}
+              onChange={() => setTranslationServicePreference('google')}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Use Google Translate</Trans>
+              </Toggle.LabelText>
+              <Toggle.Radio />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="service_kagi"
+              label={_(msg`Use Kagi Translate`)}
+              value={translationServicePreference === 'kagi'}
+              onChange={() => setTranslationServicePreference('kagi')}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Use Kagi Translate</Trans>
+              </Toggle.LabelText>
+              <Toggle.Radio />
+            </Toggle.Item>
           </SettingsList.Group>
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>

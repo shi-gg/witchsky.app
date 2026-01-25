@@ -1,17 +1,29 @@
 import {useCallback} from 'react'
 import * as IntentLauncher from 'expo-intent-launcher'
 
-import {getTranslatorLink} from '#/locale/helpers'
+import {getTranslatorLink, getTranslatorLinkKagi} from '#/locale/helpers'
+import {useTranslationServicePreference} from '#/state/preferences/translation-service-preference'
 import {IS_ANDROID} from '#/env'
 import {useOpenLink} from './useOpenLink'
 
 export function useTranslate() {
   const openLink = useOpenLink()
 
+  const translationServicePreference = useTranslationServicePreference()
+
   return useCallback(
     async (text: string, language: string) => {
-      const translateUrl = getTranslatorLink(text, language)
-      if (IS_ANDROID) {
+      let translateUrl
+
+      // if ur curious why this isnt a switch case, good question, for some reason making this a switch case breaks the functionality
+      // it is a mystery https://www.youtube.com/watch?v=fq3abPnEEGE
+      if (translationServicePreference == 'kagi') {
+        translateUrl = getTranslatorLinkKagi(text, language)
+      } else {
+        translateUrl = getTranslatorLink(text, language)
+      }
+
+      if (IS_ANDROID && translationServicePreference == 'google') {
         try {
           // use getApplicationIconAsync to determine if the translate app is installed
           if (
@@ -49,6 +61,6 @@ export function useTranslate() {
         await openLink(translateUrl)
       }
     },
-    [openLink],
+    [openLink, translationServicePreference],
   )
 }

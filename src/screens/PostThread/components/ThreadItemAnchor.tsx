@@ -17,7 +17,11 @@ import {makeProfileLink} from '#/lib/routes/links'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
 import {niceDate} from '#/lib/strings/time'
-import {getTranslatorLink, isPostInLanguage} from '#/locale/helpers'
+import {
+  getTranslatorLink,
+  getTranslatorLinkKagi,
+  isPostInLanguage,
+} from '#/locale/helpers'
 import {
   POST_TOMBSTONE,
   type Shadow,
@@ -31,6 +35,7 @@ import {useDisableQuotesMetrics} from '#/state/preferences/disable-quotes-metric
 import {useDisableRepostsMetrics} from '#/state/preferences/disable-reposts-metrics'
 import {useDisableSavesMetrics} from '#/state/preferences/disable-saves-metrics'
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
+import {useTranslationServicePreference} from '#/state/preferences/translation-service-preference'
 import {type ThreadItem} from '#/state/queries/usePostThread/types'
 import {useSession} from '#/state/session'
 import {type OnPostSuccessData} from '#/state/shell/composer'
@@ -566,6 +571,8 @@ function ExpandedPostDetails({
   const isRootPost = !('reply' in post.record)
   const langPrefs = useLanguagePrefs()
 
+  const translationServicePreference = useTranslationServicePreference()
+
   const needsTranslation = useMemo(
     () =>
       Boolean(
@@ -617,10 +624,22 @@ function ExpandedPostDetails({
             <InlineLinkText
               // overridden to open an intent on android, but keep
               // as anchor tag for accessibility
-              to={getTranslatorLink(
-                post.record.text,
-                langPrefs.primaryLanguage,
-              )}
+              to={
+                // in case u want to expand this to allow other services to be u would do this after the kagi one
+                // : translationServicePreference === "insert service name"
+                // ? getTranslatorLink(post.record.text, langPrefs.primaryLanguage, "insert service name")
+                // atm i cant really think of another service that lets u easily do this so its only kagi for now
+                // the default itll use if its not any of the checks is google!!
+                translationServicePreference === 'kagi'
+                  ? getTranslatorLinkKagi(
+                      post.record.text,
+                      langPrefs.primaryLanguage,
+                    )
+                  : getTranslatorLink(
+                      post.record.text,
+                      langPrefs.primaryLanguage,
+                    )
+              }
               label={_(msg`Translate`)}
               style={[a.text_sm]}
               onPress={onTranslatePress}>

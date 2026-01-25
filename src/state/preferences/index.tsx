@@ -37,6 +37,7 @@ import {Provider as NoDiscoverProvider} from './no-discover-fallback'
 import {Provider as RepostCarouselProvider} from './repost-carousel-enabled'
 import {Provider as ShowLinkInHandleProvider} from './show-link-in-handle'
 import {Provider as SubtitlesProvider} from './subtitles'
+import {Provider as TranslationServicePreferenceProvider} from './translation-service-preference'
 import {Provider as TrendingSettingsProvider} from './trending'
 import {Provider as UsedStarterPacksProvider} from './used-starter-packs'
 
@@ -59,6 +60,10 @@ export {
 export {useLabelDefinitions} from './label-defs'
 export {useLanguagePrefs, useLanguagePrefsApi} from './languages'
 export {useSetSubtitlesEnabled, useSubtitlesEnabled} from './subtitles'
+export {
+  useSetTranslationServicePreference,
+  useTranslationServicePreference,
+} from './translation-service-preference'
 
 export function Provider({children}: React.PropsWithChildren<{}>) {
   return (
@@ -66,17 +71,17 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
       <AltTextRequiredProvider>
         <ExternalShareButtonsProvider>
           <GoLinksProvider>
-          <NoAppLabelersProvider>
+            <NoAppLabelersProvider>
               <DirectFetchRecordsProvider>
                 <ConstellationProvider>
-                <ConstellationInstanceProvider>
-                  <DeerVerificationProvider>
-                    <NoDiscoverProvider>
-                      <ShowLinkInHandleProvider>
+                  <ConstellationInstanceProvider>
+                    <DeerVerificationProvider>
+                      <NoDiscoverProvider>
+                        <ShowLinkInHandleProvider>
                           <LargeAltBadgeProvider>
                             <ExternalEmbedsProvider>
                               <HiddenPostsProvider>
-                              <HighQualityImagesProvider>
+                                <HighQualityImagesProvider>
                                   <InAppBrowserProvider>
                                     <DisableHapticsProvider>
                                       <AutoplayProvider>
@@ -84,59 +89,63 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                           <SubtitlesProvider>
                                             <TrendingSettingsProvider>
                                               <RepostCarouselProvider>
-                                              <KawaiiProvider>
-                                                <HideFeedsPromoTabProvider>
-                                                  <DisableViaRepostNotificationProvider>
-                                                    <DisableLikesMetricsProvider>
-                                                      <DisableRepostsMetricsProvider>
-                                                        <DisableQuotesMetricsProvider>
-                                                          <DisableSavesMetricsProvider>
-                                                            <DisableReplyMetricsProvider>
-                                                              <DisableFollowersMetricsProvider>
-                                                                <DisableFollowingMetricsProvider>
-                                                                  <DisableFollowedByMetricsProvider>
-                                                                    <DisablePostsMetricsProvider>
-                                                                      <HideSimilarAccountsRecommProvider>
-                                                                        <HideUnreplyablePostsProvider>
-                                                                          <EnableSquareAvatarsProvider>
-                                                                            <EnableSquareButtonsProvider>
-                                                                              <DisableVerifyEmailReminderProvider>
-                                                                                {children}
-                                                                              </DisableVerifyEmailReminderProvider>
-                                                                            </EnableSquareButtonsProvider>
-                                                                          </EnableSquareAvatarsProvider>
-                                                                        </HideUnreplyablePostsProvider>
-                                                                      </HideSimilarAccountsRecommProvider>
-                                                                    </DisablePostsMetricsProvider>
-                                                                  </DisableFollowedByMetricsProvider>
-                                                                </DisableFollowingMetricsProvider>
-                                                              </DisableFollowersMetricsProvider>
-                                                            </DisableReplyMetricsProvider>
-                                                          </DisableSavesMetricsProvider>
-                                                        </DisableQuotesMetricsProvider>
-                                                      </DisableRepostsMetricsProvider>
-                                                    </DisableLikesMetricsProvider>
-                                                  </DisableViaRepostNotificationProvider>
-                                                </HideFeedsPromoTabProvider>
-                                              </KawaiiProvider>
-                                            </RepostCarouselProvider>
+                                                <KawaiiProvider>
+                                                  <HideFeedsPromoTabProvider>
+                                                    <DisableViaRepostNotificationProvider>
+                                                      <DisableLikesMetricsProvider>
+                                                        <DisableRepostsMetricsProvider>
+                                                          <DisableQuotesMetricsProvider>
+                                                            <DisableSavesMetricsProvider>
+                                                              <DisableReplyMetricsProvider>
+                                                                <DisableFollowersMetricsProvider>
+                                                                  <DisableFollowingMetricsProvider>
+                                                                    <DisableFollowedByMetricsProvider>
+                                                                      <DisablePostsMetricsProvider>
+                                                                        <HideSimilarAccountsRecommProvider>
+                                                                          <HideUnreplyablePostsProvider>
+                                                                            <EnableSquareAvatarsProvider>
+                                                                              <EnableSquareButtonsProvider>
+                                                                                <DisableVerifyEmailReminderProvider>
+                                                                                  <TranslationServicePreferenceProvider>
+                                                                                    {
+                                                                                      children
+                                                                                    }
+                                                                                  </TranslationServicePreferenceProvider>
+                                                                                </DisableVerifyEmailReminderProvider>
+                                                                              </EnableSquareButtonsProvider>
+                                                                            </EnableSquareAvatarsProvider>
+                                                                          </HideUnreplyablePostsProvider>
+                                                                        </HideSimilarAccountsRecommProvider>
+                                                                      </DisablePostsMetricsProvider>
+                                                                    </DisableFollowedByMetricsProvider>
+                                                                  </DisableFollowingMetricsProvider>
+                                                                </DisableFollowersMetricsProvider>
+                                                              </DisableReplyMetricsProvider>
+                                                            </DisableSavesMetricsProvider>
+                                                          </DisableQuotesMetricsProvider>
+                                                        </DisableRepostsMetricsProvider>
+                                                      </DisableLikesMetricsProvider>
+                                                    </DisableViaRepostNotificationProvider>
+                                                  </HideFeedsPromoTabProvider>
+                                                </KawaiiProvider>
+                                              </RepostCarouselProvider>
                                             </TrendingSettingsProvider>
                                           </SubtitlesProvider>
                                         </UsedStarterPacksProvider>
                                       </AutoplayProvider>
                                     </DisableHapticsProvider>
                                   </InAppBrowserProvider>
-                              </HighQualityImagesProvider>
+                                </HighQualityImagesProvider>
                               </HiddenPostsProvider>
                             </ExternalEmbedsProvider>
                           </LargeAltBadgeProvider>
-                      </ShowLinkInHandleProvider>
-                    </NoDiscoverProvider>
-                  </DeerVerificationProvider>
-                </ConstellationInstanceProvider>
+                        </ShowLinkInHandleProvider>
+                      </NoDiscoverProvider>
+                    </DeerVerificationProvider>
+                  </ConstellationInstanceProvider>
                 </ConstellationProvider>
               </DirectFetchRecordsProvider>
-          </NoAppLabelersProvider>
+            </NoAppLabelersProvider>
           </GoLinksProvider>
         </ExternalShareButtonsProvider>
       </AltTextRequiredProvider>
