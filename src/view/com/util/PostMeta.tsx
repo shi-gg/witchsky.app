@@ -111,7 +111,7 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
                   a.pl_2xs,
                   a.self_center,
                   {
-                    marginTop: platform({web: 0, ios: 0, android: -1}),
+                    marginTop: platform({web: 1, ios: 0, android: -1}),
                   },
                 ]}>
                 <VerificationCheck
@@ -131,7 +131,7 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
               style={[
                 a.text_md,
                 t.atoms.text_contrast_medium,
-                a.leading_tight,
+                {lineHeight:1.17},
                 {flexShrink: 10},
               ]}>
               {NON_BREAKING_SPACE + sanitizeHandle(handle, '@')}
