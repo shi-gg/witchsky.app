@@ -23,6 +23,10 @@ import {
   useSetDirectFetchRecords,
 } from '#/state/preferences/direct-fetch-records'
 import {
+  useDisableComposerPrompt,
+  useSetDisableComposerPrompt,
+} from '#/state/preferences/disable-composer-prompt'
+import {
   useDisableFollowedByMetrics,
   useSetDisableFollowedByMetrics,
 } from '#/state/preferences/disable-followed-by-metrics'
@@ -281,6 +285,9 @@ export function DeerSettingsScreen({}: Props) {
 
   const disableViaRepostNotification = useDisableViaRepostNotification()
   const setDisableViaRepostNotification = useSetDisableViaRepostNotification()
+
+  const disableComposerPrompt = useDisableComposerPrompt()
+  const setDisableComposerPrompt = useSetDisableComposerPrompt()
 
   const disableLikesMetrics = useDisableLikesMetrics()
   const setDisableLikesMetrics = useSetDisableLikesMetrics()
@@ -603,6 +610,18 @@ export function DeerSettingsScreen({}: Props) {
                 postgates or other restrictions). Does not affect thread views.
               </Trans>
             </Admonition>
+
+            <Toggle.Item
+              name="disable_composer_prompt"
+              label={_(msg`Disable composer prompt`)}
+              value={disableComposerPrompt}
+              onChange={value => setDisableComposerPrompt(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Disable composer prompt</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
 
             <Toggle.Item
               name="disable_verify_email_reminder"

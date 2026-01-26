@@ -6,6 +6,7 @@ import {Provider as ConstellationProvider} from './constellation-enabled'
 import {Provider as ConstellationInstanceProvider} from './constellation-instance'
 import {Provider as DeerVerificationProvider} from './deer-verification'
 import {Provider as DirectFetchRecordsProvider} from './direct-fetch-records'
+import {Provider as DisableComposerPromptProvider} from './disable-composer-prompt'
 import {Provider as DisableFollowedByMetricsProvider} from './disable-followed-by-metrics'
 import {Provider as DisableFollowersMetricsProvider} from './disable-followers-metrics'
 import {Provider as DisableFollowingMetricsProvider} from './disable-following-metrics'
@@ -46,6 +47,10 @@ export {
   useSetRequireAltTextEnabled,
 } from './alt-text-required'
 export {useAutoplayDisabled, useSetAutoplayDisabled} from './autoplay'
+export {
+  useDisableComposerPrompt,
+  useSetDisableComposerPrompt,
+} from './disable-composer-prompt'
 export {useHapticsDisabled, useSetHapticsDisabled} from './disable-haptics'
 export {
   useExternalEmbedsPrefs,
@@ -107,9 +112,11 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                                               <EnableSquareButtonsProvider>
                                                                                 <DisableVerifyEmailReminderProvider>
                                                                                   <TranslationServicePreferenceProvider>
-                                                                                    {
-                                                                                      children
-                                                                                    }
+                                                                                    <DisableComposerPromptProvider>
+                                                                                      {
+                                                                                        children
+                                                                                      }
+                                                                                    </DisableComposerPromptProvider>
                                                                                   </TranslationServicePreferenceProvider>
                                                                                 </DisableVerifyEmailReminderProvider>
                                                                               </EnableSquareButtonsProvider>

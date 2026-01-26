@@ -36,6 +36,7 @@ import {logger} from '#/logger'
 import {usePostAuthorShadowFilter} from '#/state/cache/profile-shadow'
 import {listenPostCreated} from '#/state/events'
 import {useFeedFeedbackContext} from '#/state/feed-feedback'
+import {useDisableComposerPrompt} from '#/state/preferences/disable-composer-prompt'
 import {useHideUnreplyablePosts} from '#/state/preferences/hide-unreplyable-posts'
 import {useRepostCarouselEnabled} from '#/state/preferences/repost-carousel-enabled'
 import {useTrendingSettings} from '#/state/preferences/trending'
@@ -441,6 +442,7 @@ let PostFeed = ({
 
   const repostCarouselEnabled = useRepostCarouselEnabled()
   const hideUnreplyablePosts = useHideUnreplyablePosts()
+  const disableComposerPrompt = useDisableComposerPrompt()
 
   if (feedType === 'following') {
     useRepostCarousel = repostCarouselEnabled
@@ -624,6 +626,7 @@ let PostFeed = ({
                     // Show composer prompt for Discover and Following feeds
                     if (
                       hasSession &&
+                      !disableComposerPrompt &&
                       (feedUriOrActorDid === DISCOVER_FEED_URI ||
                         feed === 'following')
                     ) {
@@ -648,7 +651,7 @@ let PostFeed = ({
                 } else if (feedKind === 'following') {
                   if (sliceIndex === 0) {
                     // Show composer prompt for Following feed
-                    if (hasSession) {
+                    if (hasSession && !disableComposerPrompt) {
                       arr.push({
                         type: 'composerPrompt',
                         key: 'composerPrompt-' + sliceIndex,
