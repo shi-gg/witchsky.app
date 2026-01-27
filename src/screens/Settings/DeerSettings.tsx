@@ -108,6 +108,8 @@ import {
   useShowLinkInHandle,
 } from '#/state/preferences/show-link-in-handle.tsx'
 import {
+  useLibreTranslateInstance,
+  useSetLibreTranslateInstance,
   useSetTranslationServicePreference,
   useTranslationServicePreference,
 } from '#/state/preferences/translation-service-preference'
@@ -128,6 +130,7 @@ import {RaisingHand4Finger_Stroke2_Corner0_Rounded as RaisingHandIcon} from '#/c
 import {Star_Stroke2_Corner0_Rounded as StarIcon} from '#/components/icons/Star'
 import {Verified_Stroke2_Corner2_Rounded as VerifiedIcon} from '#/components/icons/Verified'
 import * as Layout from '#/components/Layout'
+import {InlineLinkText} from '#/components/Link'
 import {Text} from '#/components/Typography'
 import {IS_WEB} from '#/env'
 import {SearchProfileCard} from '../Search/components/SearchProfileCard'
@@ -142,7 +145,8 @@ function ConstellationInstanceDialog({
   const pal = usePalette('default')
   const {_} = useLingui()
 
-  const [url, setUrl] = useState('')
+  const constellationInstance = useConstellationInstance()
+  const [url, setUrl] = useState(constellationInstance ?? '')
   const setConstellationInstance = useSetConstellationInstance()
 
   const submit = () => {
@@ -162,7 +166,7 @@ function ConstellationInstanceDialog({
     <Dialog.Outer
       control={control}
       nativeOptions={{preventExpansion: true}}
-      onClose={() => setUrl('')}>
+      onClose={() => setUrl(constellationInstance ?? '')}>
       <Dialog.Handle />
       <Dialog.ScrollableInner label={_(msg`Constellations instance URL`)}>
         <View style={[a.gap_sm, a.pb_lg]}>
@@ -185,6 +189,83 @@ function ConstellationInstanceDialog({
             accessibilityHint={_(
               msg`Input the url of the constellations instance to use`,
             )}
+            defaultValue={constellationInstance}
+          />
+
+          <View style={IS_WEB && [a.flex_row, a.justify_end]}>
+            <Button
+              label={_(msg`Save`)}
+              size="large"
+              onPress={submit}
+              variant="solid"
+              color="primary"
+              disabled={shouldDisable()}>
+              <ButtonText>
+                <Trans>Save</Trans>
+              </ButtonText>
+            </Button>
+          </View>
+        </View>
+
+        <Dialog.Close />
+      </Dialog.ScrollableInner>
+    </Dialog.Outer>
+  )
+}
+
+function LibreTranslateInstanceDialog({
+  control,
+}: {
+  control: Dialog.DialogControlProps
+}) {
+  const pal = usePalette('default')
+  const {_} = useLingui()
+
+  const libreTranslateInstance = useLibreTranslateInstance()
+  const [url, setUrl] = useState(libreTranslateInstance ?? '')
+  const setLibreTranslateInstance = useSetLibreTranslateInstance()
+
+  const submit = () => {
+    setLibreTranslateInstance(url)
+    control.close()
+  }
+
+  const shouldDisable = () => {
+    try {
+      return !new URL(url).hostname.includes('.')
+    } catch (e) {
+      return true
+    }
+  }
+
+  return (
+    <Dialog.Outer
+      control={control}
+      nativeOptions={{preventExpansion: true}}
+      onClose={() => setUrl(libreTranslateInstance ?? '')}>
+      <Dialog.Handle />
+      <Dialog.ScrollableInner label={_(msg`LibreTranslate instance URL`)}>
+        <View style={[a.gap_sm, a.pb_lg]}>
+          <Text style={[a.text_2xl, a.font_bold]}>
+            <Trans>LibreTranslate instance URL</Trans>
+          </Text>
+        </View>
+
+        <View style={a.gap_lg}>
+          <Dialog.Input
+            label="Text input field"
+            autoFocus
+            style={[styles.textInput, pal.border, pal.text]}
+            onChangeText={value => {
+              setUrl(value)
+            }}
+            placeholder={persisted.defaults.libreTranslateInstance}
+            placeholderTextColor={pal.colors.textLight}
+            onSubmitEditing={submit}
+            accessibilityHint={_(
+              msg`Input the url of the LibreTranslate instance to use`,
+            )}
+            defaultValue={libreTranslateInstance}
           />
 
           <View style={IS_WEB && [a.flex_row, a.justify_end]}>
@@ -342,6 +423,8 @@ export function DeerSettingsScreen({}: Props) {
   const translationServicePreference = useTranslationServicePreference()
   const setTranslationServicePreference = useSetTranslationServicePreference()
 
+  const setLibreTranslateInstanceControl = Dialog.useDialogControl()
+
   return (
     <Layout.Screen>
       <Layout.Header.Outer>
@@ -480,10 +563,17 @@ export function DeerSettingsScreen({}: Props) {
               <Trans>
                 Constellation is used to supplement AppView responses for custom
                 verifications and nuclear block bypass, via backlinks. Current
-                instance: {constellationInstance}
+                instance:
+                <InlineLinkText
+                  to={constellationInstance}
+                  label={constellationInstance}>
+                  {constellationInstance}
+                </InlineLinkText>
               </Trans>
             </Admonition>
           </SettingsList.Item>
+
+          <SettingsList.Divider />
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={PaintRollerIcon} />
@@ -643,15 +733,13 @@ export function DeerSettingsScreen({}: Props) {
             </Admonition>
           </SettingsList.Group>
 
+          <SettingsList.Divider />
+
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={EarthIcon} />
             <SettingsList.ItemText>
-              <Trans>Translation Engine</Trans>
+              <Trans>Post Translation Engine</Trans>
             </SettingsList.ItemText>
-
-            <Admonition type="info" style={[a.flex_1]}>
-              <Trans>Choose the engine to use when translating posts.</Trans>
-            </Admonition>
 
             <Toggle.Item
               name="service_google"
@@ -676,7 +764,46 @@ export function DeerSettingsScreen({}: Props) {
               </Toggle.LabelText>
               <Toggle.Radio />
             </Toggle.Item>
+
+            <Toggle.Item
+              name="service_papago"
+              label={_(msg`Use Naver Papago`)}
+              value={translationServicePreference === 'papago'}
+              onChange={() => setTranslationServicePreference('papago')}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Use Naver Papago</Trans>
+              </Toggle.LabelText>
+              <Toggle.Radio />
+            </Toggle.Item>
+
+            <Toggle.Item
+              name="service_libreTranslate"
+              label={_(msg`Use LibreTranslate`)}
+              value={translationServicePreference === 'libreTranslate'}
+              onChange={() => setTranslationServicePreference('libreTranslate')}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Use LibreTranslate</Trans>
+              </Toggle.LabelText>
+              <Toggle.Radio />
+            </Toggle.Item>
           </SettingsList.Group>
+
+          {translationServicePreference === 'libreTranslate' && (
+            <SettingsList.Item>
+              <SettingsList.ItemIcon icon={EarthIcon} />
+              <SettingsList.ItemText>
+                <Trans>{`LibreTranslate Instance`}</Trans>
+              </SettingsList.ItemText>
+              <SettingsList.BadgeButton
+                label={_(msg`Change`)}
+                onPress={() => setLibreTranslateInstanceControl.open()}
+              />
+            </SettingsList.Item>
+          )}
+
+          <SettingsList.Divider />
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={VisibilityIcon} />
@@ -698,12 +825,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_reposts_metrics"
-              label={_(msg`Disable reskeets metrics`)}
+              label={_(msg`Disable reskeet metrics`)}
               value={disableRepostsMetrics}
               onChange={value => setDisableRepostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable reskeets metrics</Trans>
+                <Trans>Disable reskeet metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -793,14 +920,7 @@ export function DeerSettingsScreen({}: Props) {
             </Toggle.Item>
           </SettingsList.Group>
 
-          <SettingsList.Item>
-            <Admonition type="warning" style={[a.flex_1]}>
-              <Trans>
-                These settings might summon nasal demons! Restart the app after
-                changing if anything breaks.
-              </Trans>
-            </Admonition>
-          </SettingsList.Item>
+          <SettingsList.Divider />
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={RaisingHandIcon} />
@@ -847,6 +967,9 @@ export function DeerSettingsScreen({}: Props) {
       </Layout.Content>
       <ConstellationInstanceDialog control={setConstellationInstanceControl} />
       <TrustedVerifiersDialog control={setTrustedVerifiersDialogControl} />
+      <LibreTranslateInstanceDialog
+        control={setLibreTranslateInstanceControl}
+      />
     </Layout.Screen>
   )
 }

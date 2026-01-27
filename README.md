@@ -21,7 +21,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 - Embed player works with [stream.place](https://stream.place/) links!
 - Open skeets in PDSls and original pages of bridged posts
 - You can redraft skeets
-- Better defaults (alt text required 😉)
+- Better defaults (alt text required 😉 autoplay off 🫨)
 - More unique repost icons
 - Can download videos
 - 'Mutuals' in place of 'Following' when relevant
@@ -50,6 +50,8 @@ These are all available as options in a sub-page of the app's settings.
 - Toggle similar account recommendations
 - Toggle to make all user avatars square (like labelers)
 - Toggle for more square-ish UI (still slightly rounded)
+- Toggle to remove the composer prompt at the top of the Following & Discover feeds
+- Change post translation provider (between Google, Kagi, Papago, and LibreTranslate)
 
 #### Metrics
 
@@ -64,15 +66,6 @@ You can completely disable the visiblity of all metrics individually, including 
 - following
 - & who someone's followed by
 
-#### Gates
-
-- Toggle for an alternate share icon
-- Toggle to show feed context for debugging
-- Toggle to hide the 'show latest' button
-- Toggle to make reply button open thread from feeds
-- More may be available in developer mode? Often less 🤷
-  - (Accessible by holding the version in the About settings screen)
-
 ## Upcoming or wishful features
 
 - Better OpenGraph support for sharing profiles & skeets (including videos & fixing quotes)
@@ -83,17 +76,16 @@ You can completely disable the visiblity of all metrics individually, including 
 ### TODO: Xan
 
 - [ ] Setup App Linking for Android (.well-known w/ app package fingerprint)
-- [ ] Automatic PDS detection like other social-app forks (fallback/email addresses to use witchsky.social)
+- [ ] Fallback/email addresses to use witchsky.social in Automatic PDS detection
 - [ ] Change followed accounts [on onboarding](https://github.com/blacksky-algorithms/blacksky.community/commit/e36ee43efb4999f070860d7f70122e45b28c1e2b)
-- [ ] Join date & switch accounts from composer from a fork like [deer.aylac.top](https://github.com/ayla6/deer-social-test)
+- [ ] Join date & switch accounts in composer from a fork like [deer.aylac.top](https://github.com/ayla6/deer-social-test)
 - [ ] Visual replies indicator like the [Firmament userstyle](https://witchsky.app/profile/did:plc:jwhxcrf5uvl3vyw7nurecgt5/post/3m4rr3vzmak2a) (and likes?)
-- [ ] Additional translation service providers + setting (Deepl, Kagi)
 - [ ] Put DeerSettings into separate subpages
 - [ ] After subpages for options, add [Outlinks page](https://witchsky.app/profile/did:plc:q7suwaz53ztc4mbiqyygbn43/post/3m5zjhhshic2g) &
   - [ ] ShareMenuItems.tsx, ShareMenuItems.web.tsx
 - [ ] For profile meatball button, Open profile in PDSls & Open bridged OG fedi account page
   - [ ] ProfileMenu.tsx
-- [ ] Witchsky PDS and .social site (list good songs containing 'bitch' in their titles)
+- [ ] Witchsky PDS and .social site (list good songs containing 'bitch' in their titles for related site)
 
 ### Even more wishful or far off
 
@@ -101,7 +93,7 @@ You can completely disable the visiblity of all metrics individually, including 
 - [ ] Submit releases to the Google Play Store and iOS App Store
 - [ ] Move from [Cloudflare Pages](https://pages.cloudflare.com/) to [wisp.place](https://wisp.place/) (needs serverless for embeds)
 - [ ] Toggle between handle and DID in share links
-- [ ] Move TOS and privacy policy to Jollywhoppers website?
+- [ ] Move TOS and privacy policy to Jollywhoppers website
 - [ ] Ignore `!no-unauthenticated` labels
 - [ ] Material 3 Expressive theming on Android (Liquid **ass on iOS)
 

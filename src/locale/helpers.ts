@@ -3,6 +3,7 @@ import * as bcp47Match from 'bcp-47-match'
 import lande from 'lande'
 
 import {hasProp} from '#/lib/type-guards'
+import * as persisted from '#/state/persisted'
 import {
   AppLanguage,
   type Language,
@@ -138,6 +139,22 @@ export function getTranslatorLinkKagi(text: string, lang: string): string {
   return `https://translate.kagi.com/?from=auto&to=${lang}&text=${encodeURIComponent(
     text,
   )}`
+}
+
+export function getTranslatorLinkPapago(text: string, lang: string): string {
+  return `https://papago.naver.com/?sk=auto&tk=${lang}&st=${encodeURIComponent(
+    text,
+  )}`
+}
+
+export function getTranslatorLinkLibreTranslate(
+  text: string,
+  lang: string,
+): string {
+  const instance =
+    persisted.get('libreTranslateInstance') ??
+    persisted.defaults.libreTranslateInstance!
+  return `${instance}?source=auto&target=${lang}&q=${encodeURIComponent(text)}`
 }
 
 /**

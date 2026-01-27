@@ -172,7 +172,13 @@ const schema = z.object({
 
   showExternalShareButtons: z.boolean().optional(),
 
-  translationServicePreference: z.enum(['google', 'kagi']),
+  translationServicePreference: z.enum([
+    'google',
+    'kagi',
+    'papago',
+    'libreTranslate',
+  ]),
+  libreTranslateInstance: z.string().optional(),
 
   /** @deprecated */
   mutedThreads: z.array(z.string()),
@@ -284,6 +290,7 @@ export const defaults: Schema = {
   hideUnreplyablePosts: false,
   showExternalShareButtons: false,
   translationServicePreference: 'google',
+  libreTranslateInstance: 'https://libretranslate.com/',
 }
 
 export function tryParse(rawData: string): Schema | undefined {

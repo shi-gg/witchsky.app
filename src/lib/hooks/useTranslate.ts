@@ -1,7 +1,12 @@
 import {useCallback} from 'react'
 import * as IntentLauncher from 'expo-intent-launcher'
 
-import {getTranslatorLink, getTranslatorLinkKagi} from '#/locale/helpers'
+import {
+  getTranslatorLink,
+  getTranslatorLinkKagi,
+  getTranslatorLinkLibreTranslate,
+  getTranslatorLinkPapago,
+} from '#/locale/helpers'
 import {useTranslationServicePreference} from '#/state/preferences/translation-service-preference'
 import {IS_ANDROID} from '#/env'
 import {useOpenLink} from './useOpenLink'
@@ -19,6 +24,10 @@ export function useTranslate() {
       // it is a mystery https://www.youtube.com/watch?v=fq3abPnEEGE
       if (translationServicePreference == 'kagi') {
         translateUrl = getTranslatorLinkKagi(text, language)
+      } else if (translationServicePreference == 'papago') {
+        translateUrl = getTranslatorLinkPapago(text, language)
+      } else if (translationServicePreference == 'libreTranslate') {
+        translateUrl = getTranslatorLinkLibreTranslate(text, language)
       } else {
         translateUrl = getTranslatorLink(text, language)
       }
