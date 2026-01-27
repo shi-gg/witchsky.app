@@ -472,7 +472,7 @@ export function DeerSettingsScreen({}: Props) {
               <Toggle.LabelText style={[a.flex_1]}>
                 <Trans>
                   Fetch records directly from PDS to see contents of blocked and
-                  detatched quotes
+                  detached quotes
                 </Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
