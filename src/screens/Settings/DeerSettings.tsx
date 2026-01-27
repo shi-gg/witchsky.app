@@ -100,6 +100,10 @@ import {
   useSetNoDiscoverFallback,
 } from '#/state/preferences/no-discover-fallback'
 import {
+  usePostReplacement,
+  useSetPostReplacement,
+} from '#/state/preferences/post-name-replacement'
+import {
   useRepostCarouselEnabled,
   useSetRepostCarouselEnabled,
 } from '#/state/preferences/repost-carousel-enabled'
@@ -119,6 +123,7 @@ import {atoms as a, useBreakpoints} from '#/alf'
 import {Admonition} from '#/components/Admonition'
 import {Button, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
+import * as TextField from '#/components/forms/TextField'
 import * as Toggle from '#/components/forms/Toggle'
 import {Atom_Stroke2_Corner0_Rounded as DeerIcon} from '#/components/icons/Atom'
 import {ChainLink_Stroke2_Corner0_Rounded as ChainLinkIcon} from '#/components/icons/ChainLink'
@@ -425,6 +430,9 @@ export function DeerSettingsScreen({}: Props) {
 
   const setLibreTranslateInstanceControl = Dialog.useDialogControl()
 
+  const postReplacement = usePostReplacement()
+  const setPostReplacement = useSetPostReplacement()
+
   return (
     <Layout.Screen>
       <Layout.Header.Outer>
@@ -574,6 +582,59 @@ export function DeerSettingsScreen({}: Props) {
           </SettingsList.Item>
 
           <SettingsList.Divider />
+
+          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+            <SettingsList.ItemIcon icon={VerifiedIcon} />
+            <SettingsList.ItemText>
+              <Trans>
+                Call posts{' '}
+                {postReplacement.string.length
+                  ? postReplacement.string.toLowerCase()
+                  : 'skeet'}
+                s
+              </Trans>
+            </SettingsList.ItemText>
+            <Toggle.Item
+              name="call_posts_skeets"
+              label={_(
+                msg`Changes post to another word of your choosing. Requires a refresh to update.`,
+              )}
+              value={postReplacement.enabled}
+              onChange={value =>
+                setPostReplacement({
+                  enabled: value,
+                  string: postReplacement.string,
+                })
+              }
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>
+                  Changes post to another word of your choosing. Requires a
+                  refresh to update.
+                </Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            {postReplacement.enabled && (
+              <SettingsList.Item>
+                <TextField.Root>
+                  <TextField.Input
+                    label={_(msg`Custom post name`)}
+                    value={postReplacement.string}
+                    onChangeText={(value: string) =>
+                      setPostReplacement(
+                        (curr: {enabled: boolean; string: string}) => ({
+                          ...curr,
+                          string: value,
+                        }),
+                      )
+                    }
+                  />
+                </TextField.Root>
+              </SettingsList.Item>
+            )}
+          </SettingsList.Group>
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={PaintRollerIcon} />

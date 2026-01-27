@@ -13,6 +13,7 @@ import {i18n} from '@lingui/core'
 
 import {sanitizeAppLanguageSetting} from '#/locale/helpers'
 import {AppLanguage} from '#/locale/languages'
+import {applySkeetReplacements} from '#/locale/linguiHook'
 import {messages as messagesAn} from '#/locale/locales/an/messages'
 import {messages as messagesAst} from '#/locale/locales/ast/messages'
 import {messages as messagesCa} from '#/locale/locales/ca/messages'
@@ -125,7 +126,8 @@ export async function dynamicActivate(locale: AppLanguage) {
       break
     }
     case AppLanguage.en_GB: {
-      i18n.loadAndActivate({locale, messages: messagesEn_GB})
+      const transformedMsgs = applySkeetReplacements(messagesEn_GB, locale)
+      i18n.loadAndActivate({locale, messages: transformedMsgs})
       await Promise.all([
         import('@formatjs/intl-pluralrules/locale-data/en'),
         import('@formatjs/intl-numberformat/locale-data/en-GB'),
@@ -418,12 +420,12 @@ export async function dynamicActivate(locale: AppLanguage) {
       await Promise.all([
         import('@formatjs/intl-pluralrules/locale-data/zh'),
         import('@formatjs/intl-numberformat/locale-data/zh'),
-        import('@formatjs/intl-displaynames/locale-data/zh'),
       ])
       break
     }
     default: {
-      i18n.loadAndActivate({locale, messages: messagesEn})
+      const transformedMsgs = applySkeetReplacements(messagesEn, locale)
+      i18n.loadAndActivate({locale, messages: transformedMsgs})
       break
     }
   }
