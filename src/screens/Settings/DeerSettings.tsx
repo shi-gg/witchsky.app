@@ -7,6 +7,9 @@ import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
 import {usePalette} from '#/lib/hooks/usePalette'
 import {type CommonNavigatorParams} from '#/lib/routes/types'
+import {dynamicActivate} from '#/locale/i18n'
+import {dynamicActivate as dynamicActivateWeb} from '#/locale/i18n.web'
+import {type AppLanguage} from '#/locale/languages'
 import * as persisted from '#/state/persisted'
 import {useGoLinksEnabled, useSetGoLinksEnabled} from '#/state/preferences'
 import {
@@ -123,7 +126,6 @@ import {atoms as a, useBreakpoints} from '#/alf'
 import {Admonition} from '#/components/Admonition'
 import {Button, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
-import * as TextField from '#/components/forms/TextField'
 import * as Toggle from '#/components/forms/Toggle'
 import {Atom_Stroke2_Corner0_Rounded as DeerIcon} from '#/components/icons/Atom'
 import {ChainLink_Stroke2_Corner0_Rounded as ChainLinkIcon} from '#/components/icons/ChainLink'
@@ -295,6 +297,142 @@ function LibreTranslateInstanceDialog({
   )
 }
 
+function PostReplacementDialog({
+  control,
+}: {
+  control: Dialog.DialogControlProps
+}) {
+  const pal = usePalette('default')
+  const {_, i18n} = useLingui()
+
+  const postReplacement = usePostReplacement()
+  const setPostReplacement = useSetPostReplacement()
+
+  const [singular, setSingular] = useState(postReplacement.postName)
+  const [plural, setPlural] = useState(postReplacement.postsName)
+  const [pluralManuallyEdited, setPluralManuallyEdited] = useState(false)
+
+  const submit = async () => {
+    setPostReplacement({
+      enabled: singular.trim().toLowerCase() !== 'post',
+      postName: singular,
+      postsName: plural,
+    })
+
+    // Force reload the i18n messages to apply the replacement immediately
+    const locale = i18n.locale
+    await (IS_WEB
+      ? dynamicActivateWeb(locale as AppLanguage)
+      : dynamicActivate(locale as AppLanguage))
+
+    control.close()
+  }
+
+  const handleSingularChange = (value: string) => {
+    setSingular(value)
+    if (!pluralManuallyEdited) {
+      setPlural(value + 's')
+    }
+  }
+
+  const handlePluralChange = (value: string) => {
+    setPlural(value)
+    setPluralManuallyEdited(true)
+  }
+
+  const handlePresetSelect = (singularForm: string, pluralForm: string) => {
+    setSingular(singularForm)
+    setPlural(pluralForm)
+    setPluralManuallyEdited(false)
+  }
+
+  const shouldDisable = () => {
+    return !singular.trim() || !plural.trim()
+  }
+
+  return (
+    <Dialog.Outer
+      control={control}
+      nativeOptions={{preventExpansion: true}}
+      onClose={() => {
+        setSingular(postReplacement.postName)
+        setPlural(postReplacement.postsName)
+        setPluralManuallyEdited(false)
+      }}>
+      <Dialog.Handle />
+      <Dialog.ScrollableInner label={_(msg`Custom post phrase`)}>
+        <View style={[a.gap_sm, a.pb_lg]}>
+          <Text style={[a.text_2xl, a.font_bold]}>
+            <Trans>Custom post phrase</Trans>
+          </Text>
+        </View>
+
+        <View style={a.gap_lg}>
+          <Dialog.Input
+            label="Singular form"
+            autoFocus
+            style={[styles.textInput, pal.border, pal.text]}
+            onChangeText={handleSingularChange}
+            placeholder="skeet"
+            placeholderTextColor={pal.colors.textLight}
+            accessibilityHint={_(msg`Input the singular form (e.g., "skeet")`)}
+            value={singular}
+          />
+
+          <View style={[a.flex_row, a.flex_wrap, a.mb_xs]}>
+            {[
+              {singular: 'post', plural: 'posts'},
+              {singular: 'skeet', plural: 'skeets'},
+              {singular: 'note', plural: 'notes'},
+              {singular: 'woot', plural: 'woots'},
+              {singular: 'toot', plural: 'toots'},
+              {singular: 'silly', plural: 'sillies'},
+            ].map(preset => (
+              <Button
+                key={preset.singular}
+                variant="ghost"
+                color="primary"
+                label={preset.singular}
+                style={[a.px_sm, a.py_xs, a.rounded_sm, a.gap_sm]}
+                onPress={() =>
+                  handlePresetSelect(preset.singular, preset.plural)
+                }>
+                <ButtonText>{preset.singular}</ButtonText>
+              </Button>
+            ))}
+          </View>
+
+          <Dialog.Input
+            label="Plural form"
+            style={[styles.textInput, pal.border, pal.text]}
+            onChangeText={handlePluralChange}
+            placeholder="skeets"
+            placeholderTextColor={pal.colors.textLight}
+            accessibilityHint={_(msg`Input the plural form (e.g., "skeets")`)}
+            value={plural}
+          />
+
+          <View style={IS_WEB && [a.flex_row, a.justify_end]}>
+            <Button
+              label={_(msg`Save`)}
+              size="large"
+              onPress={submit}
+              variant="solid"
+              color="primary"
+              disabled={shouldDisable()}>
+              <ButtonText>
+                <Trans>Save</Trans>
+              </ButtonText>
+            </Button>
+          </View>
+        </View>
+
+        <Dialog.Close />
+      </Dialog.ScrollableInner>
+    </Dialog.Outer>
+  )
+}
+
 function TrustedVerifiersDialog({
   control,
 }: {
@@ -431,8 +569,7 @@ export function DeerSettingsScreen({}: Props) {
 
   const setLibreTranslateInstanceControl = Dialog.useDialogControl()
 
-  const postReplacement = usePostReplacement()
-  const setPostReplacement = useSetPostReplacement()
+  const setPostReplacementDialogControl = Dialog.useDialogControl()
 
   return (
     <Layout.Screen>
@@ -584,58 +721,18 @@ export function DeerSettingsScreen({}: Props) {
 
           <SettingsList.Divider />
 
-          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+          <SettingsList.Item>
             <SettingsList.ItemIcon icon={PencilIcon} />
             <SettingsList.ItemText>
-              <Trans>
-                Call posts{' '}
-                {postReplacement.string.length
-                  ? postReplacement.string.toLowerCase()
-                  : 'skeet'}
-                s
-              </Trans>
+              <Trans>{`Custom post phrase`}</Trans>
             </SettingsList.ItemText>
-            <Toggle.Item
-              name="call_posts_skeets"
-              label={_(
-                msg`Changes post to another word of your choosing. Requires a refresh to update.`,
-              )}
-              value={postReplacement.enabled}
-              onChange={value =>
-                setPostReplacement({
-                  enabled: value,
-                  string: postReplacement.string,
-                })
-              }
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>
-                  Changes post to another word of your choosing. Requires a
-                  refresh to update.
-                </Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
+            <SettingsList.BadgeButton
+              label={_(msg`Change`)}
+              onPress={() => setPostReplacementDialogControl.open()}
+            />
+          </SettingsList.Item>
 
-            {postReplacement.enabled && (
-              <SettingsList.Item>
-                <TextField.Root>
-                  <TextField.Input
-                    label={_(msg`Custom post name`)}
-                    value={postReplacement.string}
-                    onChangeText={(value: string) =>
-                      setPostReplacement(
-                        (curr: {enabled: boolean; string: string}) => ({
-                          ...curr,
-                          string: value,
-                        }),
-                      )
-                    }
-                  />
-                </TextField.Root>
-              </SettingsList.Item>
-            )}
-          </SettingsList.Group>
+          <SettingsList.Divider />
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={PaintRollerIcon} />
@@ -653,17 +750,7 @@ export function DeerSettingsScreen({}: Props) {
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
-            <Toggle.Item
-              name="no_discover_fallback"
-              label={_(msg`Do not fall back to discover feed`)}
-              value={noDiscoverFallback}
-              onChange={value => setNoDiscoverFallback(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Do not fall back to discover feed</Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
+
             <Toggle.Item
               name="show_link_in_handle"
               label={_(
@@ -676,18 +763,6 @@ export function DeerSettingsScreen({}: Props) {
                 <Trans>
                   On non-bsky.social handles, show a link to that URL
                 </Trans>
-              </Toggle.LabelText>
-              <Toggle.Platform />
-            </Toggle.Item>
-
-            <Toggle.Item
-              name="repost_carousel"
-              label={_(msg`Combine reposts into a horizontal carousel`)}
-              value={repostCarouselEnabled}
-              onChange={value => setRepostCarouselEnabled(value)}
-              style={[a.w_full]}>
-              <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Combine reposts into a horizontal carousel</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -908,12 +983,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_reposts_metrics"
-              label={_(msg`Disable Reposts Metrics`)}
+              label={_(msg`Disable reposts metrics`)}
               value={disableRepostsMetrics}
               onChange={value => setDisableRepostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable Reposts Metrics</Trans>
+                <Trans>Disable reposts metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -1053,6 +1128,7 @@ export function DeerSettingsScreen({}: Props) {
       <LibreTranslateInstanceDialog
         control={setLibreTranslateInstanceControl}
       />
+      <PostReplacementDialog control={setPostReplacementDialogControl} />
     </Layout.Screen>
   )
 }

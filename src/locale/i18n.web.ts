@@ -3,7 +3,7 @@ import {i18n, type Messages} from '@lingui/core'
 
 import {sanitizeAppLanguageSetting} from '#/locale/helpers'
 import {AppLanguage} from '#/locale/languages'
-import {applySkeetReplacements} from '#/locale/linguiHook'
+import {applyPostReplacements} from '#/locale/linguiHook'
 import {useLanguagePrefs} from '#/state/preferences'
 
 /**
@@ -43,14 +43,14 @@ export async function dynamicActivate(locale: AppLanguage) {
     }
     case AppLanguage.en: {
       mod = await import(`./locales/en/messages`)
-      const transformedEnMessages = applySkeetReplacements(mod.messages, locale)
+      const transformedEnMessages = applyPostReplacements(mod.messages, locale)
       i18n.load(locale, transformedEnMessages)
       i18n.activate(locale)
       break
     }
     case AppLanguage.en_GB: {
       mod = await import(`./locales/en-GB/messages`)
-      const transformedEnGbMessages = applySkeetReplacements(
+      const transformedEnGbMessages = applyPostReplacements(
         mod.messages,
         locale,
       )
@@ -188,7 +188,7 @@ export async function dynamicActivate(locale: AppLanguage) {
     }
     default: {
       mod = await import(`./locales/en/messages`)
-      const transformedDefaultMessages = applySkeetReplacements(
+      const transformedDefaultMessages = applyPostReplacements(
         mod.messages,
         locale,
       )

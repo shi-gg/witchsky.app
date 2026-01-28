@@ -4,7 +4,8 @@ import * as persisted from '#/state/persisted'
 
 interface PostReplacementState {
   enabled: boolean
-  string: string
+  postName: string
+  postsName: string
 }
 
 type StateContext = PostReplacementState
@@ -31,8 +32,12 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
     return {
       enabled:
         persistedState?.enabled ?? persisted.defaults.postReplacement.enabled!,
-      string:
-        persistedState?.string ?? persisted.defaults.postReplacement.string!,
+      postName:
+        persistedState?.postName ??
+        persisted.defaults.postReplacement.postName!,
+      postsName:
+        persistedState?.postsName ??
+        persisted.defaults.postReplacement.postsName!,
     }
   })
 
@@ -53,17 +58,13 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
 
   React.useEffect(() => {
     return persisted.onUpdate('postReplacement', next => {
-      setState({string: next.string ?? 'skeet', enabled: next.enabled ?? true})
-      /*
-      if (nextVal) {
-        _setState({
-          enabled:
-            nextVal.enabled ?? persisted.defaults.postReplacement.enabled!,
-          string: nextVal.string ?? persisted.defaults.postReplacement.string!,
-        })
-      }*/
+      setState({
+        postName: next.postName ?? 'skeet',
+        postsName: next.postsName ?? 'skeets',
+        enabled: next.enabled ?? true,
+      })
     })
-  }, [])
+  }, [setState])
 
   return (
     <stateContext.Provider value={state}>

@@ -172,7 +172,8 @@ const schema = z.object({
 
   postReplacement: z.object({
     enabled: z.boolean().optional(),
-    string: z.string().optional(),
+    postName: z.string().optional(),
+    postsName: z.string().optional(),
   }),
 
   showExternalShareButtons: z.boolean().optional(),
@@ -218,7 +219,7 @@ export const defaults: Schema = {
     ]),
   },
   requireAltTextEnabled: true,
-  largeAltBadgeEnabled: true,
+  largeAltBadgeEnabled: false,
   externalEmbeds: {},
   mutedThreads: [],
   invites: {
@@ -242,7 +243,7 @@ export const defaults: Schema = {
   // deer
   goLinksEnabled: true,
   constellationEnabled: true,
-  directFetchRecords: false,
+  directFetchRecords: true,
   noAppLabelers: false,
   noDiscoverFallback: false,
   repostCarouselEnabled: false,
@@ -299,7 +300,8 @@ export const defaults: Schema = {
 
   postReplacement: {
     enabled: false,
-    string: 'skeet',
+    postName: 'skeet',
+    postsName: 'skeets',
   },
 }
 

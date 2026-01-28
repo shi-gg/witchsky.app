@@ -4,12 +4,21 @@ import * as persisted from '#/state/persisted'
 
 // Helper to apply the replacement to a single string
 function replaceInString(text: string): string {
-  const {string: replacement, enabled} = persisted.get('postReplacement')
+  const {postName, postsName, enabled} = persisted.get('postReplacement')
   if (!enabled) return text
-  let repl = replacement?.length ? replacement.toLowerCase() : 'skeet'
+
+  const singular = postName?.length ? postName : 'skeet'
+  const plural = postsName?.length ? postsName : 'skeets'
+
+  // Capitalize first letter for proper noun replacements
+  const singularCapitalized = singular[0].toUpperCase() + singular.slice(1)
+  const pluralCapitalized = plural[0].toUpperCase() + plural.slice(1)
+
   return text
-    .replaceAll('Post', repl[0].toUpperCase() + repl.slice(1))
-    .replaceAll('post', repl)
+    .replaceAll('Posts', pluralCapitalized)
+    .replaceAll('posts', plural)
+    .replaceAll('Post', singularCapitalized)
+    .replaceAll('post', singular)
 }
 
 // Recursive helper to traverse and replace strings in nested structures
@@ -40,7 +49,7 @@ function traverseAndReplace(value: any): any {
  * @returns The messages object with replacements applied if the locale is English,
  *          otherwise the original messages object.
  */
-export function applySkeetReplacements(
+export function applyPostReplacements(
   messages: Messages,
   locale: string,
 ): Messages {

@@ -16,11 +16,11 @@ alt="Get it on Obtainium" height="54" /></a> -->
 
 - Cooler name (and kawaii logo)
 - Color scheme options and hue slider (defaults to Witchsky orange)
-- Posts are called Skeets (may let you choose in the future)
+- You can change 
 - Choose between sharing witchsky.app or bsky.app links
 - Embed player works with [stream.place](https://stream.place/) links!
-- Open skeets in PDSls and original pages of bridged posts
-- You can redraft skeets
+- Open posts in PDSls and original pages of bridged posts
+- You can redraft posts
 - Better defaults (alt text required 😉 autoplay off 🫨)
 - More unique repost icons
 - Can download videos
@@ -33,7 +33,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 These are all available as options in a sub-page of the app's settings.
 
 - Toggle go.bsky.app link proxying for analytics
-- Toggle to see skeets in quotes through blocks and detachments
+- Toggle to see posts in quotes through blocks and detachments
 - Toggle for buttons to show original fedi posts and in PDSls
 - Toggle to trust your own preferred verifiers (and to operate as one yourself)
 - Toggle to change Constellation instance for custom features
@@ -42,11 +42,11 @@ These are all available as options in a sub-page of the app's settings.
 #### Tweaks
 
 - Toggle to turn non-bsky.social handles into clickable links
-- Toggle to combine reskeets in horizontal carousels
+- Toggle to combine reposts in horizontal carousels
 - Toggle the following feed fallback to the discover feed
 - Toggle displaying images in higher quality
 - Toggle to only show a single tab if only one feed is pinned
-- Toggle to prevent others from getting notified when you interact with their reskeets
+- Toggle to prevent others from getting notified when you interact with their reposts
 - Toggle similar account recommendations
 - Toggle to make all user avatars square (like labelers)
 - Toggle for more square-ish UI (still slightly rounded)
@@ -58,7 +58,7 @@ These are all available as options in a sub-page of the app's settings.
 You can completely disable the visiblity of all metrics individually, including the number of:
 
 - likes
-- reskeets
+- reposts
 - quotes
 - saves
 - replies
@@ -68,7 +68,7 @@ You can completely disable the visiblity of all metrics individually, including 
 
 ## Upcoming or wishful features
 
-- Better OpenGraph support for sharing profiles & skeets (including videos & fixing quotes)
+- Better OpenGraph support for sharing profiles & posts (including videos & fixing quotes)
 - Selecting a custom AppView
 - Seeing past blocks in threads (the nuclear block in reply chains)
 - Configure the location used to determine regional labelers
@@ -115,7 +115,7 @@ Witchsky is a fork of the official Bluesky client, social-app. It encompasses a 
 
 > Witchsky is a community fork, and we'd love to merge your PR!
 
-As a rule of thumb, the best features for Witchsky are those that have a disproportionately positive impact on the user experience compared to the maintenance overhead. Unlike some open source projects, since Witchsky is a soft fork, any features (patches) we add on top of upstream social-app need to be maintained. For example, a change to the way skeets are composed may be very invasive, touching lots of code across the codebase. If upstream refactors this component, we will need to rewrite this feature to be compatible or drop it from the client.
+As a rule of thumb, the best features for Witchsky are those that have a disproportionately positive impact on the user experience compared to the maintenance overhead. Unlike some open source projects, since Witchsky is a soft fork, any features (patches) we add on top of upstream social-app need to be maintained. For example, a change to the way posts are composed may be very invasive, touching lots of code across the codebase. If upstream refactors this component, we will need to rewrite this feature to be compatible or drop it from the client.
 
 For this reason, only features that require changing only a small amount of code from upstream should be considered.
 
