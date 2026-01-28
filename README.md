@@ -6,7 +6,7 @@ Get the app itself:
 
 - **Web: [witchsky.app](https://witchsky.app)**
 - **iOS: App Store [Soon™](https://cat-bounce.com/)?**
-- **Android: Play Store Soon! ([F-Droid repo](https://app.jolly.you/fdroid/repo)?)**
+- **Android: Play Store Soon! ([F-Droid repo](https://app.jolly.you/fdroid/repo) in the future?)**
 
 <!-- <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://tangled.org/jollywhoppers.com/witchsky.app/">
 <img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true"
@@ -16,7 +16,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 
 - Cooler name (and kawaii logo)
 - Color scheme options and hue slider (defaults to Witchsky orange)
-- You can change 
+- You can change "post" to any phrase you want in the UI
 - Choose between sharing witchsky.app or bsky.app links
 - Embed player works with [stream.place](https://stream.place/) links!
 - Open posts in PDSls and original pages of bridged posts
@@ -24,6 +24,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 - Better defaults (alt text required 😉 autoplay off 🫨)
 - More unique repost icons
 - Can download videos
+- Stay on a page when switching accounts
 - 'Mutuals' in place of 'Following' when relevant
 - No push notifications (hopefully will be added later)
 - Kept as up-to-date as possible (sporadically unstable as a result)

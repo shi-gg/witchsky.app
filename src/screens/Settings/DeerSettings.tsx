@@ -709,7 +709,7 @@ export function DeerSettingsScreen({}: Props) {
               <Trans>
                 Constellation is used to supplement AppView responses for custom
                 verifications and nuclear block bypass, via backlinks. Current
-                instance:
+                instance:\u00A0
                 <InlineLinkText
                   to={constellationInstance}
                   label={constellationInstance}>
@@ -896,7 +896,7 @@ export function DeerSettingsScreen({}: Props) {
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={EarthIcon} />
             <SettingsList.ItemText>
-              <Trans>Post Translation Engine</Trans>
+              <Trans>Post Translation Provider</Trans>
             </SettingsList.ItemText>
 
             <Toggle.Item

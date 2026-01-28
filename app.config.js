@@ -62,13 +62,13 @@ module.exports = function (_config) {
         infoPlist: {
           UIBackgroundModes: ['remote-notification'],
           NSCameraUsageDescription:
-            'Used for profile pictures, skeets, and other kinds of content.',
+            'Used for profile pictures, posts, and other kinds of content.',
           NSMicrophoneUsageDescription:
-            'Used for skeets and other kinds of content.',
+            'Used for posts and other kinds of content.',
           NSPhotoLibraryAddUsageDescription:
             'Used to save images to your library.',
           NSPhotoLibraryUsageDescription:
-            'Used for profile pictures, skeets, and other kinds of content',
+            'Used for profile pictures, posts, and other kinds of content',
           CFBundleSpokenName: 'witchsky.app',
           CFBundleLocalizations: [
             'en',
