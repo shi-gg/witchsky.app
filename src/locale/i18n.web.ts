@@ -1,15 +1,16 @@
 import {useEffect} from 'react'
-import {i18n} from '@lingui/core'
+import {i18n, type Messages} from '@lingui/core'
 
 import {sanitizeAppLanguageSetting} from '#/locale/helpers'
 import {AppLanguage} from '#/locale/languages'
+import {applySkeetReplacements} from '#/locale/linguiHook'
 import {useLanguagePrefs} from '#/state/preferences'
 
 /**
  * We do a dynamic import of just the catalog that we need
  */
 export async function dynamicActivate(locale: AppLanguage) {
-  let mod: any
+  let mod: {messages: Messages}
 
   switch (locale) {
     case AppLanguage.an: {
@@ -40,8 +41,21 @@ export async function dynamicActivate(locale: AppLanguage) {
       mod = await import(`./locales/el/messages`)
       break
     }
+    case AppLanguage.en: {
+      mod = await import(`./locales/en/messages`)
+      const transformedEnMessages = applySkeetReplacements(mod.messages, locale)
+      i18n.load(locale, transformedEnMessages)
+      i18n.activate(locale)
+      break
+    }
     case AppLanguage.en_GB: {
       mod = await import(`./locales/en-GB/messages`)
+      const transformedEnGbMessages = applySkeetReplacements(
+        mod.messages,
+        locale,
+      )
+      i18n.load(locale, transformedEnGbMessages)
+      i18n.activate(locale)
       break
     }
     case AppLanguage.eo: {
@@ -174,12 +188,15 @@ export async function dynamicActivate(locale: AppLanguage) {
     }
     default: {
       mod = await import(`./locales/en/messages`)
+      const transformedDefaultMessages = applySkeetReplacements(
+        mod.messages,
+        locale,
+      )
+      i18n.load(locale, transformedDefaultMessages)
+      i18n.activate(locale)
       break
     }
   }
-
-  i18n.load(locale, mod.messages)
-  i18n.activate(locale)
 }
 
 export function useLocaleLanguage() {

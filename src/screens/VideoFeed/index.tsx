@@ -549,7 +549,7 @@ let VideoItem = ({
               a.leading_tight,
               a.mx_xl,
             ]}>
-            <Trans>Skeet has been deleted</Trans>
+            <Trans>Post has been deleted</Trans>
           </Text>
         </View>
       ) : (

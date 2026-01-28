@@ -161,7 +161,7 @@ let ShareMenuItems = ({
                 label={_(msg`Open original post`)}
                 onPress={onOpenOriginalPost}>
                 <Menu.ItemText>
-                  <Trans>Open original skeet</Trans>
+                  <Trans>Open original post</Trans>
                 </Menu.ItemText>
                 <Menu.ItemIcon icon={ExternalIcon} position="right" />
               </Menu.Item>
@@ -172,7 +172,7 @@ let ShareMenuItems = ({
               label={_(msg`Open post in PDSls`)}
               onPress={onOpenPostInPdsls}>
               <Menu.ItemText>
-                <Trans>Open skeet in PDSls</Trans>
+                <Trans>Open post in PDSls</Trans>
               </Menu.ItemText>
               <Menu.ItemIcon icon={ExternalIcon} position="right" />
             </Menu.Item>
@@ -205,7 +205,7 @@ let ShareMenuItems = ({
             label={_(msg`Copy link to post`)}
             onPress={onCopyLink}>
             <Menu.ItemText>
-              <Trans>Copy link to skeet</Trans>
+              <Trans>Copy link to post</Trans>
             </Menu.ItemText>
             <Menu.ItemIcon icon={ChainLinkIcon} position="right" />
           </Menu.Item>
@@ -227,7 +227,7 @@ let ShareMenuItems = ({
               <Admonition
                 type="warning"
                 style={[a.flex_1, a.border_0, a.p_0, a.bg_transparent]}>
-                <Trans>This skeet is only visible to logged-in users.</Trans>
+                <Trans>This post is only visible to logged-in users.</Trans>
               </Admonition>
             </Menu.ContainerItem>
           </Menu.Group>
@@ -240,7 +240,7 @@ let ShareMenuItems = ({
               label={_(msg`Share post at:// URI`)}
               onPress={onShareATURI}>
               <Menu.ItemText>
-                <Trans>Share skeet at:// URI</Trans>
+                <Trans>Share post at:// URI</Trans>
               </Menu.ItemText>
               <Menu.ItemIcon icon={ClipboardIcon} position="right" />
             </Menu.Item>

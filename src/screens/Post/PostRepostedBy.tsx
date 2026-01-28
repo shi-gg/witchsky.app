@@ -27,7 +27,7 @@ export const PostRepostedByScreen = ({route}: Props) => {
   const {data: resolvedDid} = useResolveDidQuery(name)
   const {data: profile} = useProfileQuery({did: resolvedDid})
 
-  useSetTitle(profile ? _(msg`Skeet by @${profile.handle}`) : undefined)
+  useSetTitle(profile ? _(msg`Post by @${profile.handle}`) : undefined)
 
   let quoteCount
   if (post) {
@@ -48,13 +48,13 @@ export const PostRepostedByScreen = ({route}: Props) => {
           {post && (
             <>
               <Layout.Header.TitleText>
-                <Trans>Reskeeted By</Trans>
+                <Trans>Reposted By</Trans>
               </Layout.Header.TitleText>
               <Layout.Header.SubtitleText>
                 <Plural
                   value={quoteCount ?? 0}
-                  one="# reskeet"
-                  other="# reskeets"
+                  one="# repost"
+                  other="# reposts"
                 />
               </Layout.Header.SubtitleText>
             </>

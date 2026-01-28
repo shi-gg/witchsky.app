@@ -38,7 +38,9 @@ export function ProfileHeaderMetrics({
 
   return (
     <>
-      {disableFollowersMetrics && disableFollowingMetrics && disablePostsMetrics ? ( null ) :
+      {disableFollowersMetrics &&
+      disableFollowingMetrics &&
+      disablePostsMetrics ? null : (
         <View
           style={[a.flex_row, a.gap_sm, a.align_center]}
           pointerEvents="box-none">
@@ -69,13 +71,18 @@ export function ProfileHeaderMetrics({
           {!disablePostsMetrics ? (
             <Text style={[a.font_semi_bold, t.atoms.text, a.text_md]}>
               {formatCount(i18n, profile.postsCount || 0)}{' '}
-              <Text style={[t.atoms.text_contrast_medium, a.font_normal, a.text_md]}>
-                {plural(profile.postsCount || 0, {one: 'skeet', other: 'skeets'})}
+              <Text
+                style={[
+                  t.atoms.text_contrast_medium,
+                  a.font_normal,
+                  a.text_md,
+                ]}>
+                {plural(profile.postsCount || 0, {one: 'post', other: 'posts'})}
               </Text>
             </Text>
           ) : null}
         </View>
-      }
+      )}
     </>
   )
 }

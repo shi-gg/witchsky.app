@@ -588,7 +588,7 @@ function ComposeBtn() {
         style={enableSquareButtons ? [a.rounded_sm] : [a.rounded_full]}>
         <ButtonIcon icon={EditBig} position="left" />
         <ButtonText>
-          <Trans context="action">New Skeet</Trans>
+          <Trans context="action">New Post</Trans>
         </ButtonText>
       </Button>
     </View>

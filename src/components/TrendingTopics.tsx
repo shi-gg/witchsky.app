@@ -180,7 +180,7 @@ export function useTopic(raw: TrendingTopic): ParsedTrendingTopic {
     if (link.startsWith('/search')) {
       return {
         type: 'topic',
-        label: _(msg`Browse skeets about ${displayName}`),
+        label: _(msg`Browse posts about ${displayName}`),
         displayName,
         uri: undefined,
         url: link,
@@ -188,7 +188,7 @@ export function useTopic(raw: TrendingTopic): ParsedTrendingTopic {
     } else if (link.startsWith('/hashtag')) {
       return {
         type: 'tag',
-        label: _(msg`Browse skeets tagged with ${displayName}`),
+        label: _(msg`Browse posts tagged with ${displayName}`),
         displayName,
         // displayName: displayName.replace(/^#/, ''),
         uri: undefined,

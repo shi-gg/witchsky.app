@@ -86,7 +86,7 @@ export function FollowingFeedPreferencesScreen({}: Props) {
           <Toggle.Item
             type="checkbox"
             name="show-reposts"
-            label={_(msg`Show reskeets`)}
+            label={_(msg`Show reposts`)}
             value={showReposts}
             onChange={value =>
               setFeedViewPref({
@@ -96,7 +96,7 @@ export function FollowingFeedPreferencesScreen({}: Props) {
             <SettingsList.Item>
               <SettingsList.ItemIcon icon={RepostIcon} />
               <SettingsList.ItemText>
-                <Trans>Show reskeets</Trans>
+                <Trans>Show reposts</Trans>
               </SettingsList.ItemText>
               <Toggle.Platform />
             </SettingsList.Item>
@@ -104,7 +104,7 @@ export function FollowingFeedPreferencesScreen({}: Props) {
           <Toggle.Item
             type="checkbox"
             name="show-quotes"
-            label={_(msg`Show quote skeets`)}
+            label={_(msg`Show quote posts`)}
             value={showQuotePosts}
             onChange={value =>
               setFeedViewPref({
@@ -114,7 +114,7 @@ export function FollowingFeedPreferencesScreen({}: Props) {
             <SettingsList.Item>
               <SettingsList.ItemIcon icon={QuoteIcon} />
               <SettingsList.ItemText>
-                <Trans>Show quote skeets</Trans>
+                <Trans>Show quote posts</Trans>
               </SettingsList.ItemText>
               <Toggle.Platform />
             </SettingsList.Item>

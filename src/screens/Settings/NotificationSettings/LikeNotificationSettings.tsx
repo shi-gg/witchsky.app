@@ -40,7 +40,7 @@ export function LikeNotificationSettingsScreen({}: Props) {
               bold
               titleText={<Trans>Likes</Trans>}
               subtitleText={
-                <Trans>Get notifications when people like your skeets.</Trans>
+                <Trans>Get notifications when people like your posts.</Trans>
               }
             />
           </SettingsList.Item>

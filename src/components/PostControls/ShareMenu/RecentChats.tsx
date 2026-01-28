@@ -120,7 +120,7 @@ function RecentChatItem({
   return (
     <Button
       onPress={onPress}
-      label={_(msg`Send skeet to ${name}`)}
+      label={_(msg`Send post to ${name}`)}
       style={[
         a.flex_col,
         {width: WIDTH},

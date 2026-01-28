@@ -188,7 +188,7 @@ export function ComposerPrompt() {
             a.text_md,
             {includeFontPadding: false},
           ]}>
-          <Trans>What's up?</Trans>
+          <Trans>Anything but skeet</Trans>
         </Text>
         <View style={[a.flex_row, a.gap_md]}>
           {IS_NATIVE && (

@@ -216,7 +216,7 @@ function DialogInner({
   return (
     <Dialog.ScrollableInner
       style={web({maxWidth: 400})}
-      label={_(msg`Get notified of new skeets from ${name}`)}>
+      label={_(msg`Get notified of new posts from ${name}`)}>
       <View style={[a.gap_lg]}>
         <View style={[a.gap_xs]}>
           <Text style={[a.font_bold, a.text_2xl]}>
@@ -247,7 +247,7 @@ function DialogInner({
           onChange={onChange}>
           <View style={[a.gap_sm]}>
             <Toggle.Item
-              label={_(msg`Skeets`)}
+              label={_(msg`Posts`)}
               name="post"
               style={[
                 a.flex_1,
@@ -259,7 +259,7 @@ function DialogInner({
               ]}>
               <Toggle.LabelText
                 style={[t.atoms.text, a.font_normal, a.text_md, a.flex_1]}>
-                <Trans>Skeets</Trans>
+                <Trans>Posts</Trans>
               </Toggle.LabelText>
               <Toggle.Switch />
             </Toggle.Item>

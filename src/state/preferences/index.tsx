@@ -35,6 +35,7 @@ import {Provider as LanguagesProvider} from './languages'
 import {Provider as LargeAltBadgeProvider} from './large-alt-badge'
 import {Provider as NoAppLabelersProvider} from './no-app-labelers'
 import {Provider as NoDiscoverProvider} from './no-discover-fallback'
+import {Provider as PostNameReplacementProvider} from './post-name-replacement.tsx'
 import {Provider as RepostCarouselProvider} from './repost-carousel-enabled'
 import {Provider as ShowLinkInHandleProvider} from './show-link-in-handle'
 import {Provider as SubtitlesProvider} from './subtitles'
@@ -110,15 +111,17 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                                           <HideUnreplyablePostsProvider>
                                                                             <EnableSquareAvatarsProvider>
                                                                               <EnableSquareButtonsProvider>
-                                                                                <DisableVerifyEmailReminderProvider>
-                                                                                  <TranslationServicePreferenceProvider>
-                                                                                    <DisableComposerPromptProvider>
-                                                                                      {
-                                                                                        children
-                                                                                      }
-                                                                                    </DisableComposerPromptProvider>
-                                                                                  </TranslationServicePreferenceProvider>
-                                                                                </DisableVerifyEmailReminderProvider>
+                                                                                <PostNameReplacementProvider>
+                                                                                  <DisableVerifyEmailReminderProvider>
+                                                                                    <TranslationServicePreferenceProvider>
+                                                                                      <DisableComposerPromptProvider>
+                                                                                        {
+                                                                                          children
+                                                                                        }
+                                                                                      </DisableComposerPromptProvider>
+                                                                                    </TranslationServicePreferenceProvider>
+                                                                                  </DisableVerifyEmailReminderProvider>
+                                                                                </PostNameReplacementProvider>
                                                                               </EnableSquareButtonsProvider>
                                                                             </EnableSquareAvatarsProvider>
                                                                           </HideUnreplyablePostsProvider>

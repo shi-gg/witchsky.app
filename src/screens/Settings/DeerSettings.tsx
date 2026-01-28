@@ -100,6 +100,10 @@ import {
   useSetNoDiscoverFallback,
 } from '#/state/preferences/no-discover-fallback'
 import {
+  usePostReplacement,
+  useSetPostReplacement,
+} from '#/state/preferences/post-name-replacement'
+import {
   useRepostCarouselEnabled,
   useSetRepostCarouselEnabled,
 } from '#/state/preferences/repost-carousel-enabled'
@@ -119,6 +123,7 @@ import {atoms as a, useBreakpoints} from '#/alf'
 import {Admonition} from '#/components/Admonition'
 import {Button, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
+import * as TextField from '#/components/forms/TextField'
 import * as Toggle from '#/components/forms/Toggle'
 import {Atom_Stroke2_Corner0_Rounded as DeerIcon} from '#/components/icons/Atom'
 import {ChainLink_Stroke2_Corner0_Rounded as ChainLinkIcon} from '#/components/icons/ChainLink'
@@ -126,6 +131,7 @@ import {Eye_Stroke2_Corner0_Rounded as VisibilityIcon} from '#/components/icons/
 import {Earth_Stroke2_Corner2_Rounded as EarthIcon} from '#/components/icons/Globe'
 import {Lab_Stroke2_Corner0_Rounded as _BeakerIcon} from '#/components/icons/Lab'
 import {PaintRoller_Stroke2_Corner2_Rounded as PaintRollerIcon} from '#/components/icons/PaintRoller'
+import {Pencil_Stroke2_Corner0_Rounded as PencilIcon} from '#/components/icons/Pencil'
 import {RaisingHand4Finger_Stroke2_Corner0_Rounded as RaisingHandIcon} from '#/components/icons/RaisingHand'
 import {Star_Stroke2_Corner0_Rounded as StarIcon} from '#/components/icons/Star'
 import {Verified_Stroke2_Corner2_Rounded as VerifiedIcon} from '#/components/icons/Verified'
@@ -425,6 +431,9 @@ export function DeerSettingsScreen({}: Props) {
 
   const setLibreTranslateInstanceControl = Dialog.useDialogControl()
 
+  const postReplacement = usePostReplacement()
+  const setPostReplacement = useSetPostReplacement()
+
   return (
     <Layout.Screen>
       <Layout.Header.Outer>
@@ -487,14 +496,14 @@ export function DeerSettingsScreen({}: Props) {
             <Toggle.Item
               name="external_share_buttons"
               label={_(
-                msg`Show "Open original skeet" and "Open skeet in PDSls" buttons`,
+                msg`Show "Open original post" and "Open post in PDSls" buttons`,
               )}
               value={showExternalShareButtons}
               onChange={value => setShowExternalShareButtons(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
                 <Trans>
-                  Show "Open original skeet" and "Open skeet in PDSls" buttons
+                  Show "Open original post" and "Open post in PDSls" buttons
                 </Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
@@ -576,11 +585,85 @@ export function DeerSettingsScreen({}: Props) {
           <SettingsList.Divider />
 
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
+            <SettingsList.ItemIcon icon={PencilIcon} />
+            <SettingsList.ItemText>
+              <Trans>
+                Call posts{' '}
+                {postReplacement.string.length
+                  ? postReplacement.string.toLowerCase()
+                  : 'skeet'}
+                s
+              </Trans>
+            </SettingsList.ItemText>
+            <Toggle.Item
+              name="call_posts_skeets"
+              label={_(
+                msg`Changes post to another word of your choosing. Requires a refresh to update.`,
+              )}
+              value={postReplacement.enabled}
+              onChange={value =>
+                setPostReplacement({
+                  enabled: value,
+                  string: postReplacement.string,
+                })
+              }
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>
+                  Changes post to another word of your choosing. Requires a
+                  refresh to update.
+                </Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+
+            {postReplacement.enabled && (
+              <SettingsList.Item>
+                <TextField.Root>
+                  <TextField.Input
+                    label={_(msg`Custom post name`)}
+                    value={postReplacement.string}
+                    onChangeText={(value: string) =>
+                      setPostReplacement(
+                        (curr: {enabled: boolean; string: string}) => ({
+                          ...curr,
+                          string: value,
+                        }),
+                      )
+                    }
+                  />
+                </TextField.Root>
+              </SettingsList.Item>
+            )}
+          </SettingsList.Group>
+
+          <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={PaintRollerIcon} />
             <SettingsList.ItemText>
               <Trans>Tweaks</Trans>
             </SettingsList.ItemText>
-
+            <Toggle.Item
+              name="repost_carousel"
+              label={_(msg`Combine reposts into a horizontal carousel`)}
+              value={repostCarouselEnabled}
+              onChange={value => setRepostCarouselEnabled(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Combine reposts into a horizontal carousel</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+            <Toggle.Item
+              name="no_discover_fallback"
+              label={_(msg`Do not fall back to discover feed`)}
+              value={noDiscoverFallback}
+              onChange={value => setNoDiscoverFallback(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Do not fall back to discover feed</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
             <Toggle.Item
               name="show_link_in_handle"
               label={_(
@@ -599,12 +682,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="repost_carousel"
-              label={_(msg`Combine reskeets into a horizontal carousel`)}
+              label={_(msg`Combine reposts into a horizontal carousel`)}
               value={repostCarouselEnabled}
               onChange={value => setRepostCarouselEnabled(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Combine reskeets into a horizontal carousel</Trans>
+                <Trans>Combine reposts into a horizontal carousel</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -655,19 +738,19 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_via_repost_notification"
-              label={_(msg`Disable "via reskeet" notifications`)}
+              label={_(msg`Disable via repost notifications`)}
               value={disableViaRepostNotification}
               onChange={value => setDisableViaRepostNotification(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable "via reskeet" notifications</Trans>
+                <Trans>Disable via repost notifications</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
             <Admonition type="info" style={[a.flex_1]}>
               <Trans>
                 Forcefully disables the notifications other people receive when
-                you like/reskeet a skeet someone else has reskeeted for privacy.
+                you like/repost a post someone else has reposted for privacy.
               </Trans>
             </Admonition>
 
@@ -825,12 +908,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_reposts_metrics"
-              label={_(msg`Disable reskeet metrics`)}
+              label={_(msg`Disable Reposts Metrics`)}
               value={disableRepostsMetrics}
               onChange={value => setDisableRepostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable reskeet metrics</Trans>
+                <Trans>Disable Reposts Metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
@@ -909,12 +992,12 @@ export function DeerSettingsScreen({}: Props) {
 
             <Toggle.Item
               name="disable_posts_metrics"
-              label={_(msg`Disable skeets metrics`)}
+              label={_(msg`Disable posts metrics`)}
               value={disablePostsMetrics}
               onChange={value => setDisablePostsMetrics(value)}
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
-                <Trans>Disable skeets metrics</Trans>
+                <Trans>Disable posts metrics</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>

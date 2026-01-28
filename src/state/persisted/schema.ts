@@ -170,6 +170,11 @@ const schema = z.object({
   highQualityImages: z.boolean().optional(),
   hideUnreplyablePosts: z.boolean().optional(),
 
+  postReplacement: z.object({
+    enabled: z.boolean().optional(),
+    string: z.string().optional(),
+  }),
+
   showExternalShareButtons: z.boolean().optional(),
 
   translationServicePreference: z.enum([
@@ -291,6 +296,11 @@ export const defaults: Schema = {
   showExternalShareButtons: false,
   translationServicePreference: 'google',
   libreTranslateInstance: 'https://libretranslate.com/',
+
+  postReplacement: {
+    enabled: false,
+    string: 'skeet',
+  },
 }
 
 export function tryParse(rawData: string): Schema | undefined {

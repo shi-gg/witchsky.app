@@ -56,9 +56,9 @@ export function usePinnedPostMutation() {
         })
 
         if (pinCurrentPost) {
-          Toast.show(_(msg({message: 'Skeet pinned', context: 'toast'})))
+          Toast.show(_(msg({message: 'Post pinned', context: 'toast'})))
         } else {
-          Toast.show(_(msg({message: 'Skeet unpinned', context: 'toast'})))
+          Toast.show(_(msg({message: 'Post unpinned', context: 'toast'})))
         }
 
         queryClient.invalidateQueries({
@@ -72,7 +72,7 @@ export function usePinnedPostMutation() {
           ),
         })
       } catch (e: any) {
-        Toast.show(_(msg`Failed to pin skeet`))
+        Toast.show(_(msg`Failed to pin post`))
         logger.error('Failed to pin post', {message: String(e)})
         // revert optimistic update
         updatePostShadow(queryClient, postUri, {

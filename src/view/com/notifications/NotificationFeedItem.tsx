@@ -306,10 +306,10 @@ let NotificationFeedItem = ({
             other={`${formattedAuthorsCount} others`}
           />
         </Text>{' '}
-        liked your skeet
+        liked your post
       </Trans>
     ) : (
-      <Trans>{firstAuthorLink} liked your skeet</Trans>
+      <Trans>{firstAuthorLink} liked your post</Trans>
     )
   } else if (item.type === 'repost') {
     a11yLabel = hasMultipleAuthors
@@ -330,10 +330,10 @@ let NotificationFeedItem = ({
             other={`${formattedAuthorsCount} others`}
           />
         </Text>{' '}
-        reskeeted your skeet
+        reposted your post
       </Trans>
     ) : (
-      <Trans>{firstAuthorLink} reskeeted your skeet</Trans>
+      <Trans>{firstAuthorLink} reposted your post</Trans>
     )
     icon = <RepostIcon size="xl" style={{color: t.palette.positive_500}} />
   } else if (item.type === 'follow') {
@@ -502,10 +502,10 @@ let NotificationFeedItem = ({
             other={`${formattedAuthorsCount} others`}
           />
         </Text>{' '}
-        liked your reskeet
+        liked your repost
       </Trans>
     ) : (
-      <Trans>{firstAuthorLink} liked your reskeet</Trans>
+      <Trans>{firstAuthorLink} liked your repost</Trans>
     )
     icon = <RepostHeartIcon size="xl" style={[s.likeColor]} />
   } else if (item.type === 'repost-via-repost') {
@@ -527,10 +527,10 @@ let NotificationFeedItem = ({
             other={`${formattedAuthorsCount} others`}
           />
         </Text>{' '}
-        reskeeted your reskeet
+        reposted your repost
       </Trans>
     ) : (
-      <Trans>{firstAuthorLink} reskeeted your reskeet</Trans>
+      <Trans>{firstAuthorLink} reposted your repost</Trans>
     )
     icon = (
       <RepostRepostIcon size="xl" style={{color: t.palette.positive_500}} />
@@ -549,13 +549,13 @@ let NotificationFeedItem = ({
         )
       : _(
           msg`New ${plural(postsCount, {
-            one: 'skeet',
-            other: 'skeets',
+            one: 'post',
+            other: 'posts',
           })} from ${firstAuthorName}`,
         )
     notificationContent = hasMultipleAuthors ? (
       <Trans>
-        New skeets from {firstAuthorLink} and{' '}
+        New posts from {firstAuthorLink} and{' '}
         <Text style={[a.text_md, a.font_semi_bold, a.leading_snug]}>
           <Plural
             value={additionalAuthorsCount}
@@ -566,7 +566,7 @@ let NotificationFeedItem = ({
       </Trans>
     ) : (
       <Trans>
-        New <Plural value={postsCount} one="skeet" other="skeets" /> from{' '}
+        New <Plural value={postsCount} one="post" other="posts" /> from{' '}
         {firstAuthorLink}
       </Trans>
     )

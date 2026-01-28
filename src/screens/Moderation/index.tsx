@@ -243,7 +243,7 @@ export function ModerationScreenInner({
           t.atoms.bg_contrast_25,
         ]}>
         <Link
-          label={_(msg`View your default skeet interaction settings`)}
+          label={_(msg`View your default post interaction settings`)}
           testID="interactionSettingsBtn"
           to="/moderation/interaction-settings">
           {state => (

@@ -337,10 +337,10 @@ let ProfileMenu = ({
             </Menu.Item>
             <Menu.Item
               testID="profileHeaderDropdownSearchBtn"
-              label={_(msg`Search skeets`)}
+              label={_(msg`Search posts`)}
               onPress={onPressSearch}>
               <Menu.ItemText>
-                <Trans>Search skeets</Trans>
+                <Trans>Search posts</Trans>
               </Menu.ItemText>
               <Menu.ItemIcon icon={SearchIcon} />
             </Menu.Item>

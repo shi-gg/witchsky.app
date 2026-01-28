@@ -22,8 +22,8 @@ export function useCopyForSubject(subject: ParsedReportSubject) {
       }
       case 'post': {
         return {
-          title: _(msg`Report this skeet`),
-          subtitle: _(msg`Why should this skeet be reviewed?`),
+          title: _(msg`Report this post`),
+          subtitle: _(msg`Why should this post be reviewed?`),
         }
       }
       case 'list': {
