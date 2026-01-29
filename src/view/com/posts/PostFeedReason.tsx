@@ -64,7 +64,7 @@ export function PostFeedReason({
 
   if (AppBskyFeedDefs.isReasonRepost(reason)) {
     const isOwner = reason.by.did === currentAccount?.did
-    const reposter = createSanitizedDisplayName(
+    const reskeeter = createSanitizedDisplayName(
       reason.by,
       false,
       moderation?.ui('displayName'),
@@ -74,7 +74,7 @@ export function PostFeedReason({
         style={styles.includeReason}
         to={makeProfileLink(reason.by)}
         label={
-          isOwner ? _(msg`Reposted by you`) : _(msg`Reposted by ${reposter}`)
+          isOwner ? _(msg`Reposted by you`) : _(msg`Reposted by ${reskeeter}`)
         }
         onPress={onOpenReposter}>
         <RepostIcon
@@ -93,7 +93,7 @@ export function PostFeedReason({
             {isOwner ? (
               <Trans>Reposted by you</Trans>
             ) : (
-              <Trans>Reposted by {reposter}</Trans>
+              <Trans>Reposted by {reskeeter}</Trans>
             )}
           </Text>
         </ProfileHoverCard>

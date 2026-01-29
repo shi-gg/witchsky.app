@@ -26,6 +26,7 @@ alt="Get it on Obtainium" height="54" /></a> -->
 - Can download videos
 - Stay on a page when switching accounts
 - 'Mutuals' in place of 'Following' when relevant
+- No age assurance or blocks based on location
 - No push notifications (hopefully will be added later)
 - Kept as up-to-date as possible (sporadically unstable as a result)
 
