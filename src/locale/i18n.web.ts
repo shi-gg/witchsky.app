@@ -43,19 +43,14 @@ export async function dynamicActivate(locale: AppLanguage) {
     }
     case AppLanguage.en: {
       mod = await import(`./locales/en/messages`)
-      const transformedEnMessages = applyPostReplacements(mod.messages, locale)
-      i18n.load(locale, transformedEnMessages)
-      i18n.activate(locale)
+      const messages = applyPostReplacements(mod.messages, locale)
+      mod = {messages}
       break
     }
     case AppLanguage.en_GB: {
       mod = await import(`./locales/en-GB/messages`)
-      const transformedEnGbMessages = applyPostReplacements(
-        mod.messages,
-        locale,
-      )
-      i18n.load(locale, transformedEnGbMessages)
-      i18n.activate(locale)
+      const messages = applyPostReplacements(mod.messages, locale)
+      mod = {messages}
       break
     }
     case AppLanguage.eo: {
@@ -188,15 +183,14 @@ export async function dynamicActivate(locale: AppLanguage) {
     }
     default: {
       mod = await import(`./locales/en/messages`)
-      const transformedDefaultMessages = applyPostReplacements(
-        mod.messages,
-        locale,
-      )
-      i18n.load(locale, transformedDefaultMessages)
-      i18n.activate(locale)
+      const messages = applyPostReplacements(mod.messages, locale)
+      mod = {messages}
       break
     }
   }
+
+  i18n.load(locale, mod.messages)
+  i18n.activate(locale)
 }
 
 export function useLocaleLanguage() {
