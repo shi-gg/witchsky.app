@@ -123,16 +123,11 @@ export const GCP_PROJECT_ID: number =
     : Number(process.env.EXPO_PUBLIC_GCP_PROJECT_ID)
 
 /**
- * URLs for the app config web worker. Can be a
- * locally running server, see `env.example` for more.
- */
-export const GEOLOCATION_DEV_URL = process.env.GEOLOCATION_DEV_URL
-export const GEOLOCATION_PROD_URL = `https://ip.bsky.app`
-export const GEOLOCATION_URL = IS_DEV
-  ? (GEOLOCATION_DEV_URL ?? GEOLOCATION_PROD_URL)
-  : GEOLOCATION_PROD_URL
-
-/**
  * URLs for the live-event config web worker. Can be a
  * locally running server, see `env.example` for more.
  */
+export const LIVE_EVENTS_DEV_URL = process.env.LIVE_EVENTS_DEV_URL
+export const LIVE_EVENTS_PROD_URL = `https://live-events.workers.bsky.app`
+export const LIVE_EVENTS_URL = IS_DEV
+  ? (LIVE_EVENTS_DEV_URL ?? LIVE_EVENTS_PROD_URL)
+  : LIVE_EVENTS_PROD_URL

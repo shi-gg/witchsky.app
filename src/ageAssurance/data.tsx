@@ -3,7 +3,7 @@ import {
   type AppBskyAgeassuranceDefs,
   type AppBskyAgeassuranceGetConfig,
   type AppBskyAgeassuranceGetState,
-  AtpAgent,
+  type AtpAgent,
   getAgeAssuranceRegionConfig,
 } from '@atproto/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -13,7 +13,6 @@ import {persistQueryClient} from '@tanstack/react-query-persist-client'
 import debounce from 'lodash.debounce'
 
 import {networkRetry} from '#/lib/async/retry'
-import {PUBLIC_BSKY_SERVICE} from '#/lib/constants'
 import {getAge} from '#/lib/strings/time'
 import {
   hasSnoozedBirthdateUpdateForDid,
@@ -91,11 +90,9 @@ export function setBirthdateForDid({
 export const configQueryKey = ['config']
 export async function getConfig() {
   if (debug.enabled) return debug.resolve(debug.config)
-  const agent = new AtpAgent({
-    service: PUBLIC_BSKY_SERVICE,
-  })
-  const res = await agent.app.bsky.ageassurance.getConfig()
-  return res.data
+  return {
+    regions: [],
+  }
 }
 export function getConfigFromCache():
   | AppBskyAgeassuranceGetConfig.OutputSchema
@@ -179,27 +176,19 @@ export function useConfigQuery() {
 export function createServerStateQueryKey({did}: {did: string}) {
   return ['serverState', did]
 }
-export async function getServerState({agent}: {agent: AtpAgent}) {
+export async function getServerState() {
   if (debug.enabled && debug.serverState)
     return debug.resolve(debug.serverState)
-  const geolocation = device.get(['mergedGeolocation'])
-  if (!geolocation || !geolocation.countryCode) {
-    logger.error(`getServerState: missing geolocation countryCode`)
-    return
+  return {
+    state: {
+      lastInitiatedAt: '2025-07-14T14:22:43.912Z',
+      status: 'assured' as const,
+      access: 'full' as const,
+    },
+    metadata: {
+      accountCreatedAt: '2022-11-17T00:35:16.391Z',
+    },
   }
-  const {data} = await agent.app.bsky.ageassurance.getState({
-    countryCode: geolocation.countryCode,
-    regionCode: geolocation.regionCode,
-  })
-  const did = getDidFromAgentSession(agent)
-  if (data && did && createdAtCache.has(did)) {
-    /*
-     * If account was just created, just use the local cache if available. On
-     * subsequent reloads, the server should have the correct value.
-     */
-    data.metadata.accountCreatedAt = createdAtCache.get(did)
-  }
-  return data ?? null
 }
 export function getServerStateFromCache({
   did,
@@ -226,7 +215,7 @@ export async function prefetchServerState({agent}: {agent: AtpAgent}) {
 
   try {
     logger.debug(`prefetchServerState: resolving...`)
-    const res = await networkRetry(3, () => getServerState({agent}))
+    const res = await networkRetry(3, () => getServerState())
     qc.setQueryData<AppBskyAgeassuranceGetState.OutputSchema>(qk, res)
   } catch (e: any) {
     logger.warn(`prefetchServerState: failed`, {
@@ -238,7 +227,7 @@ export async function refetchServerState({agent}: {agent: AtpAgent}) {
   const did = getDidFromAgentSession(agent)
   if (!did) return
   logger.debug(`refetchServerState: fetching...`)
-  const res = await networkRetry(3, () => getServerState({agent}))
+  const res = await networkRetry(3, () => getServerState())
   qc.setQueryData<AppBskyAgeassuranceGetState.OutputSchema>(
     createServerStateQueryKey({did}),
     res,
@@ -277,7 +266,7 @@ export function useServerStateQuery() {
       },
       queryKey: createServerStateQueryKey({did: did!}),
       async queryFn() {
-        return getServerState({agent})
+        return getServerState()
       },
     },
     qc,

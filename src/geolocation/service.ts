@@ -1,16 +1,13 @@
 import {useEffect, useState} from 'react'
 import EventEmitter from 'eventemitter3'
 
-import {networkRetry} from '#/lib/async/retry'
-import {
-  FALLBACK_GEOLOCATION_SERVICE_RESPONSE,
-  GEOLOCATION_SERVICE_URL,
-} from '#/geolocation/const'
+import {FALLBACK_GEOLOCATION_SERVICE_RESPONSE} from '#/geolocation/const'
 import * as debug from '#/geolocation/debug'
 import {logger} from '#/geolocation/logger'
 import {type Geolocation} from '#/geolocation/types'
 import {device} from '#/storage'
 
+const geolocationData = FALLBACK_GEOLOCATION_SERVICE_RESPONSE
 const events = new EventEmitter()
 const EVENT = 'geolocation-service-response-updated'
 const emitGeolocationServiceResponseUpdate = (data: Geolocation) => {
@@ -25,15 +22,10 @@ const onGeolocationServiceResponseUpdate = (
   }
 }
 
-async function fetchGeolocationServiceData(
-  url: string,
-): Promise<Geolocation | undefined> {
+async function fetchGeolocationServiceData(): Promise<Geolocation | undefined> {
   if (debug.enabled) return debug.resolve(debug.geolocation)
-  const res = await fetch(url)
-  if (!res.ok) {
-    throw new Error(`fetchGeolocationServiceData failed ${res.status}`)
-  }
-  return res.json() as Promise<Geolocation>
+  // Return local geolocation data instead of making HTTP request
+  return geolocationData as Geolocation
 }
 
 /**
@@ -63,10 +55,6 @@ export async function resolve() {
   } else {
     logger.debug(`resolve(): initiating`)
 
-    /**
-     * THIS PROMISE SHOULD NEVER `reject()`! We want the app to proceed with
-     * startup, even if geolocation resolution fails.
-     */
     geolocationServicePromise = new Promise(async resolvePromise => {
       let success = false
 
@@ -75,42 +63,19 @@ export async function resolve() {
           device.set(['geolocationServiceResponse'], response)
           emitGeolocationServiceResponseUpdate(response)
         } else {
-          // endpoint should throw on all failures, this is insurance
           throw new Error(`fetchGeolocationServiceData returned no data`)
         }
       }
 
       try {
-        // Try once, fail fast
-        const config = await fetchGeolocationServiceData(
-          GEOLOCATION_SERVICE_URL,
-        )
+        // Use local data - no need to retry or handle network errors
+        const config = await fetchGeolocationServiceData()
         cacheResponseOrThrow(config)
         success = true
       } catch (e: any) {
-        logger.debug(
-          `resolve(): fetchGeolocationServiceData failed initial request`,
-          {
-            safeMessage: e.message,
-          },
-        )
-
-        // retry 3 times, but don't await, proceed with default
-        networkRetry(3, () =>
-          fetchGeolocationServiceData(GEOLOCATION_SERVICE_URL),
-        )
-          .then(config => {
-            cacheResponseOrThrow(config)
-          })
-          .catch((err: any) => {
-            // complete fail closed
-            logger.debug(
-              `resolve(): fetchGeolocationServiceData failed retries`,
-              {
-                safeMessage: err.message,
-              },
-            )
-          })
+        logger.debug(`resolve(): fetchGeolocationServiceData failed`, {
+          safeMessage: e.message,
+        })
       } finally {
         resolvePromise({success})
       }
