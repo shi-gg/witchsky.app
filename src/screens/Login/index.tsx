@@ -147,7 +147,7 @@ export const Login = ({onPressBack}: {onPressBack: () => void}) => {
   )
 
   const debouncedResolveService = useMemo(
-    () => debounce(resolveIdentity, 800),
+    () => debounce(resolveIdentity, 400),
     [resolveIdentity],
   )
 
