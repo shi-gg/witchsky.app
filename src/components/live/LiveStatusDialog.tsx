@@ -220,9 +220,14 @@ export function LiveStatus({
               color="secondary"
               variant="solid"
               onPress={() => {
-                ax.metric('live:card:openProfile', {subject: profile.did})
-                unstableCacheProfileView(queryClient, profile)
-                onPressOpenProfile()
+                if (onPressViewAvatar) {
+                  ax.metric('live:card:viewAvatar', {subject: profile.did})
+                  onPressViewAvatar()
+                } else {
+                  ax.metric('live:card:openProfile', {subject: profile.did})
+                  unstableCacheProfileView(queryClient, profile)
+                  onPressOpenProfile()
+                }
               }}>
               <ButtonText>
                 {onPressViewAvatar ? (
