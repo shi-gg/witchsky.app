@@ -145,7 +145,9 @@ function DialogInner({
     displayName !== initialDisplayName ||
     description !== initialDescription ||
     userAvatar !== profile.avatar ||
-    userBanner !== profile.banner
+    userBanner !== profile.banner ||
+    pronouns !== initialPronouns ||
+    website !== initialWebsite
 
   const enableSquareAvatars = useEnableSquareAvatars()
 

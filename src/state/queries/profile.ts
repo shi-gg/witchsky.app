@@ -185,7 +185,11 @@ export function useProfileUpdateMutation() {
             next.pronouns = updates.pronouns
           }
           if ('website' in updates) {
-            next.website = updates.website
+            if (updates['website'] && updates['website'].length !== 0) {
+              next.website = updates.website
+            } else {
+              next.website = undefined
+            }
           }
         }
         if (newUserAvatarPromise) {
