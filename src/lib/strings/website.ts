@@ -4,7 +4,7 @@ export function sanitizeWebsiteForDisplay(website: string): string {
 
 export function sanitizeWebsiteForLink(website: string): string {
   const normalized = website.toLowerCase()
-  return normalized.startsWith('https')
+  return normalized.startsWith('https') || normalized.startsWith('steam')
     ? normalized
     : `https://${website.toLowerCase()}`
 }
