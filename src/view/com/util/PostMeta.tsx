@@ -151,8 +151,9 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
                 onPress={onBeforePressAuthor}
                 style={[
                   t.atoms.text_contrast_low,
+                  a.pl_2xs,
                   a.text_md,
-                  a.leading_tight,
+                  {lineHeight: 1.17},
                   {flexShrink: 5},
                 ]}>
                 {NON_BREAKING_SPACE + sanitizePronouns(pronouns)}

@@ -51,7 +51,7 @@ export function ProfileHeaderHandle({
                   a.rounded_xs,
                   {borderColor: t.palette.contrast_200},
                 ]
-              : [a.text_md, a.leading_snug, t.atoms.text_contrast_medium],
+              : [a.text_md, a.leading_tight, t.atoms.text_contrast_medium],
             web({
               wordBreak: 'break-all',
               direction: 'ltr',
@@ -73,13 +73,7 @@ export function ProfileHeaderHandle({
           )}
         </Text>
         {pronouns && (
-          <Text
-            style={[
-              t.atoms.text_contrast_low,
-              a.text_md,
-              a.leading_snug,
-              a.pb_sm,
-            ]}>
+          <Text style={[t.atoms.text_contrast_low, a.text_md, a.leading_tight]}>
             {sanitizePronouns(pronouns, IS_NATIVE)}
           </Text>
         )}

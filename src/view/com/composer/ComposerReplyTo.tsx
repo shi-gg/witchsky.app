@@ -131,7 +131,7 @@ export function ComposerReplyTo({replyTo}: {replyTo: ComposerOptsPostRef}) {
                 t.atoms.text_contrast_low,
                 a.text_md,
                 a.leading_snug,
-                a.pl_xs,
+                a.pl_sm,
               ]}
               numberOfLines={1}
               emoji>

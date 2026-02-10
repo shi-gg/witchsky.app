@@ -144,7 +144,7 @@ let ProfileHeaderStandard = ({
             />
           </View>
           <View
-            style={[a.flex_col, a.gap_xs, a.pb_sm, live ? a.pt_sm : a.pt_2xs]}>
+            style={[a.flex_col, a.gap_xs, a.pb_md, live ? a.pt_sm : a.pt_2xs]}>
             <View style={[a.flex_row, a.align_center, a.gap_xs, a.flex_1]}>
               <Text
                 emoji

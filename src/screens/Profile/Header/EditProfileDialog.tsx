@@ -434,7 +434,7 @@ function DialogInner({
               defaultValue={pronouns}
               onChangeText={setPronouns}
               label={_(msg`Pronouns`)}
-              placeholder={_(msg`Pronouns`)}
+              placeholder={_(msg`e.g. she/her`)}
               testID="editProfilePronounsInput"
             />
           </TextField.Root>
