@@ -570,7 +570,7 @@ function ComposeBtn() {
   }
 
   const onPressCompose = async () =>
-    openComposer({mention: await getProfileHandle()})
+    openComposer({mention: await getProfileHandle(), logContext: 'Fab'})
 
   if (leftNavMinimal) {
     return null
@@ -638,6 +638,7 @@ export function DesktopLeftNav() {
       style={[
         a.px_xl,
         styles.leftNav,
+        !hasSession && !leftNavMinimal && styles.leftNavWide,
         leftNavMinimal && styles.leftNavMinimal,
         {
           transform: [
@@ -830,6 +831,9 @@ const styles = StyleSheet.create({
     // @ts-expect-error web only
     maxHeight: '100vh',
     overflowY: 'auto',
+  },
+  leftNavWide: {
+    width: 245,
   },
   leftNavMinimal: {
     paddingTop: 0,

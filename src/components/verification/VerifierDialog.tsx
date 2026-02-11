@@ -29,7 +29,7 @@ export function VerifierDialog({
   verificationState: FullVerificationState
 }) {
   return (
-    <Dialog.Outer control={control}>
+    <Dialog.Outer control={control} nativeOptions={{preventExpansion: true}}>
       <Dialog.Handle />
       <Inner
         control={control}
@@ -128,7 +128,6 @@ function Inner({
               }),
             )}
             size="small"
-            variant="solid"
             color="primary"
             style={[a.justify_center]}
             onPress={() => {
@@ -143,7 +142,6 @@ function Inner({
           <Button
             label={_(msg`Close dialog`)}
             size="small"
-            variant="solid"
             color="secondary"
             onPress={() => {
               control.close()

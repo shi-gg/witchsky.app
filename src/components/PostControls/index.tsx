@@ -193,6 +193,7 @@ let PostControls = ({
     openComposer({
       quote: post,
       onPost: onPostReply,
+      logContext: 'QuotePost',
     })
   }
 

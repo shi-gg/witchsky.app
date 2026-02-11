@@ -77,6 +77,7 @@ export default defineConfig(
       parserOptions: {
         parser: tsParser,
         projectService: true,
+        tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: {
           jsx: true,
         },
@@ -120,6 +121,7 @@ export default defineConfig(
       ],
       'bsky-internal/use-exact-imports': 'error',
       'bsky-internal/use-prefixed-imports': 'error',
+      'bsky-internal/lingui-msg-rule': 'error',
 
       /**
        * React & React Native

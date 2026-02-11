@@ -223,7 +223,7 @@ function RecordEmbed({
             {...rest}
             embed={record}
             visibilityLabel={_(msg`Removed by author`)}
-            visibilityLabelOwner={_(`Removed by you`)}
+            visibilityLabelOwner={_(msg`Removed by you`)}
           />
         )
       }

@@ -9,6 +9,7 @@ import {type ModerationOpts} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
+import {useNonReactiveCallback} from '#/lib/hooks/useNonReactiveCallback'
 import {popularInterests, useInterestsDisplayNames} from '#/lib/interests'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {useActorSearch} from '#/state/queries/actor-search'
@@ -208,6 +209,15 @@ function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
       }
     }
 
+    if (
+      hasSearchText &&
+      !isFetchingSearchResults &&
+      !_items.length &&
+      !isSearchResultsError
+    ) {
+      _items.push({type: 'empty', key: 'empty', message: _(msg`No results`)})
+    }
+
     return _items
   }, [
     _,
@@ -220,16 +230,8 @@ function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
     currentAccount?.did,
     hasSearchText,
     resultsKey,
+    isSearchResultsError,
   ])
-
-  if (
-    searchText &&
-    !isFetchingSearchResults &&
-    !items.length &&
-    !isSearchResultsError
-  ) {
-    items.push({type: 'empty', key: 'empty', message: _(msg`No results`)})
-  }
 
   const renderItems = useCallback(
     ({item, index}: {item: Item; index: number}) => {
@@ -263,7 +265,7 @@ function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
   const selectedInterestRef = useRef(selectedInterest)
   selectedInterestRef.current = selectedInterest
 
-  const onViewableItemsChanged = useRef(
+  const onViewableItemsChanged = useNonReactiveCallback(
     ({viewableItems}: {viewableItems: ViewToken[]}) => {
       for (const viewableItem of viewableItems) {
         const item = viewableItem.item as Item
@@ -275,7 +277,7 @@ function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
             )
             ax.metric('suggestedUser:seen', {
               logContext: 'ProgressGuide',
-              recId: undefined,
+              recId: hasSearchText ? undefined : suggestions?.recId,
               position: position !== -1 ? position : 0,
               suggestedDid: item.profile.did,
               category: selectedInterestRef.current,
@@ -284,10 +286,13 @@ function DialogInner({guide}: {guide?: Follow10ProgressGuide}) {
         }
       }
     },
-  ).current
-  const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 50,
-  }).current
+  )
+  const viewabilityConfig = useMemo(
+    () => ({
+      itemVisiblePercentThreshold: 50,
+    }),
+    [],
+  )
 
   const onSelectTab = useCallback(
     (interest: string) => {

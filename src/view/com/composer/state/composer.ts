@@ -1,27 +1,22 @@
 import {type ImagePickerAsset} from 'expo-image-picker'
 import {
+  type AppBskyActorDefs,
+  type AppBskyDraftDefs,
   type AppBskyFeedPostgate,
   AppBskyRichtextFacet,
-  type BskyPreferences,
   RichText,
 } from '@atproto/api'
 import {nanoid} from 'nanoid/non-secure'
 
 import {type SelfLabel} from '#/lib/moderation'
 import {insertMentionAt} from '#/lib/strings/mention-manip'
-import {
-  parseMarkdownLinks,
-  shortenLinks,
-} from '#/lib/strings/rich-text-manip'
+import {parseMarkdownLinks, shortenLinks} from '#/lib/strings/rich-text-manip'
 import {
   isBskyPostUrl,
   postUriToRelativePath,
   toBskyAppUrl,
 } from '#/lib/strings/url-helpers'
-import {
-  type ComposerImage,
-  createInitialImages,
-} from '#/state/gallery'
+import {type ComposerImage, createInitialImages} from '#/state/gallery'
 import {createPostgateRecord} from '#/state/queries/postgate/util'
 import {type Gif} from '#/state/queries/tenor'
 import {threadgateRecordToAllowUISetting} from '#/state/queries/threadgate'
@@ -85,10 +80,10 @@ export type PostAction =
   | {type: 'embed_update_image'; image: ComposerImage}
   | {type: 'embed_remove_image'; image: ComposerImage}
   | {
-    type: 'embed_add_video'
-    asset: ImagePickerAsset
-    abortController: AbortController
-  }
+      type: 'embed_add_video'
+      asset: ImagePickerAsset
+      abortController: AbortController
+    }
   | {type: 'embed_remove_video'}
   | {type: 'embed_update_video'; videoAction: VideoAction}
   | {type: 'embed_add_uri'; uri: string}
@@ -108,27 +103,57 @@ export type ComposerState = {
   thread: ThreadDraft
   activePostIndex: number
   mutableNeedsFocusActive: boolean
+  /** ID of the draft being edited, if any. Used to update existing draft on save. */
+  draftId?: string
+  /** Whether the composer has been modified since loading a draft. */
+  isDirty: boolean
+  /** Map of localId -> loaded media path/URL for the current draft. Used for re-saving without re-copying media. */
+  loadedMediaMap?: Map<string, string>
+  /** Set of original localRef paths from the draft being edited. Used to identify orphaned media on save. */
+  originalLocalRefs?: Set<string>
 }
 
 export type ComposerAction =
   | {type: 'update_postgate'; postgate: AppBskyFeedPostgate.Record}
   | {type: 'update_threadgate'; threadgate: ThreadgateAllowUISetting[]}
   | {
-    type: 'update_post'
-    postId: string
-    postAction: PostAction
-  }
+      type: 'update_post'
+      postId: string
+      postAction: PostAction
+    }
   | {
-    type: 'add_post'
-  }
+      type: 'add_post'
+    }
   | {
-    type: 'remove_post'
-    postId: string
-  }
+      type: 'remove_post'
+      postId: string
+    }
   | {
-    type: 'focus_post'
-    postId: string
-  }
+      type: 'focus_post'
+      postId: string
+    }
+  | {
+      type: 'restore_from_draft'
+      draftId: string
+      posts: PostDraft[]
+      threadgateAllow: AppBskyDraftDefs.Draft['threadgateAllow']
+      postgateEmbeddingRules: AppBskyDraftDefs.Draft['postgateEmbeddingRules']
+
+      /** Map of localRefPath -> loaded media path/URL */
+      loadedMedia: Map<string, string>
+      /** Set of original localRef paths from the draft. Used to identify orphaned media on save. */
+      originalLocalRefs: Set<string>
+    }
+  | {
+      type: 'clear'
+      initInteractionSettings:
+        | AppBskyActorDefs.PostInteractionSettingsPref
+        | undefined
+    }
+  | {
+      type: 'mark_saved'
+      draftId: string
+    }
 
 export const MAX_IMAGES = 4
 
@@ -140,6 +165,7 @@ export function composerReducer(
     case 'update_postgate': {
       return {
         ...state,
+        isDirty: true,
         thread: {
           ...state.thread,
           postgate: action.postgate,
@@ -149,6 +175,7 @@ export function composerReducer(
     case 'update_threadgate': {
       return {
         ...state,
+        isDirty: true,
         thread: {
           ...state.thread,
           threadgate: action.threadgate,
@@ -169,6 +196,7 @@ export function composerReducer(
       }
       return {
         ...state,
+        isDirty: true,
         thread: {
           ...state.thread,
           posts: nextPosts,
@@ -191,6 +219,7 @@ export function composerReducer(
       })
       return {
         ...state,
+        isDirty: true,
         thread: {
           ...state.thread,
           posts: nextPosts,
@@ -216,6 +245,7 @@ export function composerReducer(
       }
       return {
         ...state,
+        isDirty: true,
         activePostIndex: nextActivePostIndex,
         mutableNeedsFocusActive: true,
         thread: {
@@ -234,6 +264,54 @@ export function composerReducer(
       return {
         ...state,
         activePostIndex: nextActivePostIndex,
+      }
+    }
+    case 'restore_from_draft': {
+      const {
+        draftId,
+        posts,
+        threadgateAllow,
+        postgateEmbeddingRules,
+        loadedMedia,
+        originalLocalRefs,
+      } = action
+
+      return {
+        activePostIndex: 0,
+        mutableNeedsFocusActive: true,
+        draftId,
+        isDirty: false,
+        loadedMediaMap: loadedMedia,
+        originalLocalRefs,
+        thread: {
+          posts,
+          postgate: createPostgateRecord({
+            post: '',
+            embeddingRules: postgateEmbeddingRules,
+          }),
+          threadgate: threadgateRecordToAllowUISetting({
+            $type: 'app.bsky.feed.threadgate',
+            post: '',
+            createdAt: new Date().toString(),
+            allow: threadgateAllow,
+          }),
+        },
+      }
+    }
+    case 'clear': {
+      return createComposerState({
+        initText: undefined,
+        initMention: undefined,
+        initImageUris: [],
+        initQuoteUri: undefined,
+        initInteractionSettings: action.initInteractionSettings,
+      })
+    }
+    case 'mark_saved': {
+      return {
+        ...state,
+        isDirty: false,
+        draftId: action.draftId,
       }
     }
   }
@@ -502,8 +580,8 @@ export function createComposerState({
   initImageUris: ComposerOpts['imageUris']
   initQuoteUri: string | undefined
   initInteractionSettings:
-  | BskyPreferences['postInteractionSettings']
-  | undefined
+    | AppBskyActorDefs.PostInteractionSettingsPref
+    | undefined
   initVideoUri?: ComposerOpts['videoUri']
 }): ComposerState {
   let media: ImagesMedia | VideoMedia | undefined
@@ -540,10 +618,10 @@ export function createComposerState({
       ? initText
       : initMention
         ? insertMentionAt(
-          `@${initMention}`,
-          initMention.length + 1,
-          `${initMention}`,
-        )
+            `@${initMention}`,
+            initMention.length + 1,
+            `${initMention}`,
+          )
         : '',
   })
 
@@ -606,11 +684,15 @@ export function createComposerState({
         }
       }
     }
+  } else if (initMention) {
+    // highlight the mention
+    initRichText.detectFacetsWithoutResolution()
   }
 
   return {
     activePostIndex: 0,
     mutableNeedsFocusActive: false,
+    isDirty: false,
     thread: {
       posts: [
         {

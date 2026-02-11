@@ -5,13 +5,13 @@ import {type AppBskyEmbedVideo} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
-import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {ErrorBoundary} from '#/view/com/util/ErrorBoundary'
-import {atoms as a} from '#/alf'
+import {atoms as a, platform} from '#/alf'
 import {Button} from '#/components/Button'
 import {useThrottledValue} from '#/components/hooks/useThrottledValue'
 import {ConstrainedImage} from '#/components/images/AutoSizedImage'
 import {PlayButtonIcon} from '#/components/video/PlayButtonIcon'
+import {GifPresentationControls} from './GifPresentationControls'
 import {VideoEmbedInnerNative} from './VideoEmbedInner/VideoEmbedInnerNative'
 import * as VideoFallback from './VideoEmbedInner/VideoFallback'
 
@@ -67,8 +67,6 @@ function InnerWrapper({embed}: Props) {
   const {_} = useLingui()
   const ref = useRef<{togglePlayback: () => void}>(null)
 
-  const enableSquareButtons = useEnableSquareButtons()
-
   const [status, setStatus] = useState<'playing' | 'paused' | 'pending'>(
     'pending',
   )
@@ -104,33 +102,40 @@ function InnerWrapper({embed}: Props) {
           {
             backgroundColor: 'transparent', // If you don't add `backgroundColor` to the styles here,
             // the play button won't show up on the first render on android 🥴😮‍💨
-            display: showOverlay ? 'flex' : 'none',
           },
+          platform({
+            android: {display: showOverlay ? 'flex' : 'none'},
+            ios: {zIndex: showOverlay ? 1 : -1},
+          }),
         ]}
         cachePolicy="memory-disk" // Preferring memory cache helps to avoid flicker when re-displaying on android
       >
-        {showOverlay && (
-          <Button
-            style={[a.flex_1, a.align_center, a.justify_center]}
-            onPress={() => {
-              ref.current?.togglePlayback()
-            }}
-            label={_(msg`Play video`)}>
-            {showSpinner ? (
-              <View
-                style={[
-                  enableSquareButtons ? a.rounded_sm : a.rounded_full,
-                  a.p_xs,
-                  a.align_center,
-                  a.justify_center,
-                ]}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            ) : (
-              <PlayButtonIcon />
-            )}
-          </Button>
-        )}
+        {showOverlay &&
+          (embed.presentation === 'gif' ? (
+            <GifPresentationControls
+              isPlaying={false}
+              isLoading={showSpinner}
+              onPress={() => {
+                ref.current?.togglePlayback()
+              }}
+              altText={embed.alt}
+            />
+          ) : (
+            <Button
+              style={[a.flex_1, a.align_center, a.justify_center]}
+              onPress={() => {
+                ref.current?.togglePlayback()
+              }}
+              label={_(msg`Play video`)}>
+              {showSpinner ? (
+                <View style={[a.align_center, a.justify_center]}>
+                  <ActivityIndicator size="large" color="white" />
+                </View>
+              ) : (
+                <PlayButtonIcon />
+              )}
+            </Button>
+          ))}
       </ImageBackground>
     </>
   )

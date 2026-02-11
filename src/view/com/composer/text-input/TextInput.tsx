@@ -99,14 +99,11 @@ export function TextInput({
 
         markdownFacets.push({
           index: {byteStart, byteEnd},
-          features: [
-            {$type: 'app.bsky.richtext.facet#link', uri: validUrl},
-          ],
+          features: [{$type: 'app.bsky.richtext.facet#link', uri: validUrl}],
         })
       }
 
       if (markdownFacets.length > 0) {
-
         const nonOverlapping = (newRt.facets || []).filter(f => {
           return !markdownFacets.some(mf => {
             return (
@@ -273,9 +270,9 @@ export function TextInput({
         onPaste={onPaste}
         onSelectionChange={onSelectionChange}
         placeholder={placeholder}
-        placeholderTextColor={t.atoms.text_contrast_medium.color}
+        placeholderTextColor={t.atoms.text_contrast_low.color}
         keyboardAppearance={theme.colorScheme}
-        autoFocus={true}
+        autoFocus={props.autoFocus !== undefined ? props.autoFocus : true}
         allowFontScaling
         multiline
         scrollEnabled={false}

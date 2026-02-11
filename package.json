@@ -1,6 +1,6 @@
 {
   "name": "witchsky-app",
-  "version": "1.116.0",
+  "version": "1.117.0",
   "private": true,
   "engines": {
     "node": ">=18"
@@ -73,7 +73,7 @@
     "icons:optimize": "svgo -f ./assets/icons"
   },
   "dependencies": {
-    "@atproto/api": "^0.18.15",
+    "@atproto/api": "^0.18.20",
     "@bitdrift/react-native": "^0.6.8",
     "@braintree/sanitize-url": "^6.0.2",
     "@bsky.app/alf": "^0.1.6",
@@ -167,11 +167,13 @@
     "expo-task-manager": "~14.0.9",
     "expo-updates": "~29.0.14",
     "expo-video": "~3.0.15",
+    "expo-video-thumbnails": "^10.0.8",
     "expo-web-browser": "~15.0.10",
     "fast-deep-equal": "^3.1.3",
     "fast-text-encoding": "^1.0.6",
     "history": "^5.3.0",
     "hls.js": "^1.6.2",
+    "idb-keyval": "^6.2.2",
     "js-sha256": "^0.9.0",
     "jwt-decode": "^4.0.0",
     "lande": "^1.0.10",
@@ -201,7 +203,7 @@
     "react-native-edge-to-edge": "^1.6.0",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-get-random-values": "~1.11.0",
-    "react-native-keyboard-controller": "1.18.5",
+    "react-native-keyboard-controller": "^1.20.7",
     "react-native-pager-view": "6.8.0",
     "react-native-progress": "bluesky-social/react-native-progress",
     "react-native-qrcode-styled": "^0.3.3",
@@ -228,7 +230,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@atproto/dev-env": "^0.3.204",
+    "@atproto/dev-env": "^0.3.208",
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/runtime": "^7.26.0",
@@ -241,7 +243,6 @@
     "@react-native/eslint-config": "^0.81.5",
     "@react-native/typescript-config": "^0.81.5",
     "@sentry/webpack-plugin": "^3.2.2",
-    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.2.0",
     "@types/chroma-js": "^3.1.2",
     "@types/culori": "^4.0.1",
