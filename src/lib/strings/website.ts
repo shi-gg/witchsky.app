@@ -4,9 +4,9 @@ export function sanitizeWebsiteForDisplay(website: string): string {
 
 export function sanitizeWebsiteForLink(website: string): string {
   const normalized = website.toLowerCase()
-  return normalized.startsWith('https') || normalized.startsWith('steam')
+  return !normalized.startsWith('javascript')
     ? normalized
-    : `https://${website.toLowerCase()}`
+    : `unsafe-${website}`
 }
 
 export function isValidWebsiteFormat(website: string): boolean {
