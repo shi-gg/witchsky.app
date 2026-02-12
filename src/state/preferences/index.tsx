@@ -19,6 +19,7 @@ import {Provider as DisableRepostsMetricsProvider} from './disable-reposts-metri
 import {Provider as DisableSavesMetricsProvider} from './disable-saves-metrics'
 import {Provider as DisableVerifyEmailReminderProvider} from './disable-verify-email-reminder'
 import {Provider as DisableViaRepostNotificationProvider} from './disable-via-repost-notification'
+import {Provider as DiscoverContextEnabledProvider} from './discover-context-enabled'
 import {Provider as EnableSquareAvatarsProvider} from './enable-square-avatars'
 import {Provider as EnableSquareButtonsProvider} from './enable-square-buttons'
 import {Provider as ExternalEmbedsProvider} from './external-embeds-prefs'
@@ -53,6 +54,10 @@ export {
   useSetDisableComposerPrompt,
 } from './disable-composer-prompt'
 export {useHapticsDisabled, useSetHapticsDisabled} from './disable-haptics'
+export {
+  useDiscoverContextEnabled,
+  useSetDiscoverContextEnabled,
+} from './discover-context-enabled'
 export {
   useExternalEmbedsPrefs,
   useSetExternalEmbedPref,
@@ -115,9 +120,11 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                                                   <DisableVerifyEmailReminderProvider>
                                                                                     <TranslationServicePreferenceProvider>
                                                                                       <DisableComposerPromptProvider>
-                                                                                        {
-                                                                                          children
-                                                                                        }
+                                                                                        <DiscoverContextEnabledProvider>
+                                                                                          {
+                                                                                            children
+                                                                                          }
+                                                                                        </DiscoverContextEnabledProvider>
                                                                                       </DisableComposerPromptProvider>
                                                                                     </TranslationServicePreferenceProvider>
                                                                                   </DisableVerifyEmailReminderProvider>

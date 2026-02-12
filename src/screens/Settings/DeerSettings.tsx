@@ -74,6 +74,10 @@ import {
   useSetDisableViaRepostNotification,
 } from '#/state/preferences/disable-via-repost-notification'
 import {
+  useDiscoverContextEnabled,
+  useSetDiscoverContextEnabled,
+} from '#/state/preferences/discover-context-enabled'
+import {
   useSetShowExternalShareButtons,
   useShowExternalShareButtons,
 } from '#/state/preferences/external-share-buttons'
@@ -514,6 +518,9 @@ export function DeerSettingsScreen({}: Props) {
   const disableComposerPrompt = useDisableComposerPrompt()
   const setDisableComposerPrompt = useSetDisableComposerPrompt()
 
+  const discoverContextEnabled = useDiscoverContextEnabled()
+  const setDiscoverContextEnabled = useSetDiscoverContextEnabled()
+
   const disableLikesMetrics = useDisableLikesMetrics()
   const setDisableLikesMetrics = useSetDisableLikesMetrics()
 
@@ -889,6 +896,18 @@ export function DeerSettingsScreen({}: Props) {
                 access to features locked behind email verification.
               </Trans>
             </Admonition>
+
+            <Toggle.Item
+              name="discover_context"
+              label={_(msg`Show debug context for posts in Discover feed`)}
+              value={discoverContextEnabled}
+              onChange={value => setDiscoverContextEnabled(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Show debug context for posts in Discover feed</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
           </SettingsList.Group>
 
           <SettingsList.Divider />

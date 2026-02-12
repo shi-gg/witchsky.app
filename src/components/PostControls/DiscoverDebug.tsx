@@ -3,6 +3,7 @@ import * as Clipboard from 'expo-clipboard'
 import {t} from '@lingui/macro'
 
 import {DISCOVER_DEBUG_DIDS} from '#/lib/constants'
+import {useDiscoverContextEnabled} from '#/state/preferences/discover-context-enabled'
 import {useSession} from '#/state/session'
 import {atoms as a, useTheme} from '#/alf'
 import * as Toast from '#/components/Toast'
@@ -17,10 +18,12 @@ export function DiscoverDebug({
 }) {
   const ax = useAnalytics()
   const {currentAccount} = useSession()
+  const discoverContextEnabled = useDiscoverContextEnabled()
   const isDiscoverDebugUser =
     IS_INTERNAL ||
     DISCOVER_DEBUG_DIDS[currentAccount?.did || ''] ||
-    ax.features.enabled(ax.features.DebugFeedContext)
+    ax.features.enabled(ax.features.DebugFeedContext) ||
+    discoverContextEnabled
   const theme = useTheme()
 
   return (
