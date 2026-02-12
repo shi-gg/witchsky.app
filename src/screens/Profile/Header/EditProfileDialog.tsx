@@ -33,7 +33,7 @@ import {useSimpleVerificationState} from '#/components/verification'
 
 const DISPLAY_NAME_MAX_GRAPHEMES = 64
 const PRONOUNS_MAX_GRAPHEMES = 20
-const WEBSITE_MAX_GRAPHEMES = 28
+const WEBSITE_MAX_GRAPHEMES = 2048
 const DESCRIPTION_MAX_GRAPHEMES = 256
 
 export function EditProfileDialog({

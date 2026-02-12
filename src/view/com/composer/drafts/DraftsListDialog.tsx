@@ -176,13 +176,6 @@ export function DraftsListDialog({
         style={[
           a.px_0,
           web({minHeight: 500}),
-          {
-            backgroundColor: select(t.name, {
-              light: t.palette.contrast_50,
-              dark: t.palette.contrast_0,
-              dim: '#000000',
-            }),
-          },
         ]}
         webInnerContentContainerStyle={[a.py_0]}
         contentContainerStyle={[a.pb_xl]}

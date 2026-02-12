@@ -215,7 +215,10 @@ export const LoginForm = ({
             <TextField.Input
               testID="loginUsernameInput"
               inputRef={identifierRef}
-              label={_(msg`Username or email address`)}
+              label={
+                serviceUrl === undefined ? _(msg`Username (full handle)`) :
+                _(msg`Username or email address`)
+              }
               autoCapitalize="none"
               autoFocus={!IS_IOS}
               autoCorrect={false}

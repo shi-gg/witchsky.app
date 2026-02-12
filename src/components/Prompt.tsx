@@ -3,6 +3,7 @@ import {type GestureResponderEvent, View} from 'react-native'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
+import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
 import {atoms as a, useTheme, type ViewStyleProp, web} from '#/alf'
 import {Button, type ButtonColor, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
@@ -44,6 +45,8 @@ export function Outer({
     [titleId, descriptionId],
   )
 
+  const enableSquareButtons = useEnableSquareButtons()
+
   return (
     <Dialog.Outer
       control={control}
@@ -55,7 +58,7 @@ export function Outer({
         <Dialog.ScrollableInner
           accessibilityLabelledBy={titleId}
           accessibilityDescribedBy={descriptionId}
-          style={web([{maxWidth: 320, borderRadius: 36}])}>
+          style={web([{maxWidth: 320, borderRadius: enableSquareButtons ? 18 : 36}])}>
           {children}
         </Dialog.ScrollableInner>
       </Context.Provider>
