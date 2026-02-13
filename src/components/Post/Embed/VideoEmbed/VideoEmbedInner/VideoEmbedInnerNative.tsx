@@ -59,7 +59,7 @@ export function VideoEmbedInnerNative({
       <BlueskyVideoView
         url={embed.playlist}
         autoplay={!autoplayDisabled && !isWithinMessage}
-        beginMuted={isGif || autoplayDisabled ? false : muted}
+        beginMuted={isGif || (autoplayDisabled ? false : muted)}
         style={[a.rounded_sm]}
         onActiveChange={e => {
           setIsActive(e.nativeEvent.isActive)
@@ -68,7 +68,9 @@ export function VideoEmbedInnerNative({
           setIsLoading(e.nativeEvent.isLoading)
         }}
         onMutedChange={e => {
-          setMuted(e.nativeEvent.isMuted)
+          if (!isGif) {
+            setMuted(e.nativeEvent.isMuted)
+          }
         }}
         onStatusChange={e => {
           setStatus(e.nativeEvent.status)

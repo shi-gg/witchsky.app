@@ -4,26 +4,94 @@
  * the app is ready to go.
  */
 
-import {View} from 'react-native'
+import {useEffect, useRef, useState} from 'react'
 import Svg, {Path} from 'react-native-svg'
 
-import {atoms as a} from '#/alf'
+import {atoms as a, flatten} from '#/alf'
 
 const size = 125
 const ratio = 512 / 512
 
-export function Splash() {
+export function Splash({
+  isReady,
+  children,
+}: React.PropsWithChildren<{
+  isReady: boolean
+}>) {
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false)
+  const splashRef = useRef<HTMLDivElement>(null)
+
+  // hide the static one that's baked into the HTML - gets replaced by our React version below
+  useEffect(() => {
+    // double rAF ensures that the React version gets painted first
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const splash = document.getElementById('splash')
+        if (splash) {
+          splash.remove()
+        }
+      })
+    })
+  }, [])
+
+  // when ready, we fade/scale out
+  useEffect(() => {
+    if (!isReady) return
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const node = splashRef.current
+    if (!node || reduceMotion) {
+      setIsAnimationComplete(true)
+      return
+    }
+
+    const animation = node.animate(
+      [
+        {opacity: 1, transform: 'scale(1)'},
+        {opacity: 0, transform: 'scale(1.5)'},
+      ],
+      {
+        duration: 300,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        fill: 'forwards',
+      },
+    )
+    animation.onfinish = () => setIsAnimationComplete(true)
+
+    return () => {
+      animation.cancel()
+    }
+  }, [isReady])
+
   return (
-    <View style={[a.fixed, a.inset_0, a.align_center, a.justify_center]}>
-      <Svg
-        fill="none"
-        viewBox="0 0 512 512"
-        style={[a.relative, {width: size, height: size * ratio, top: -50}]}>
-        <Path
-          fill="#ED5345"
-          d="M374.473 57.7173C367.666 50.7995 357.119 49.1209 348.441 53.1659C347.173 53.7567 342.223 56.0864 334.796 59.8613C326.32 64.1696 314.568 70.3869 301.394 78.0596C275.444 93.1728 242.399 114.83 218.408 139.477C185.983 172.786 158.719 225.503 140.029 267.661C130.506 289.144 122.878 308.661 117.629 322.81C116.301 326.389 115.124 329.63 114.104 332.478C87.1783 336.42 64.534 341.641 47.5078 348.101C37.6493 351.84 28.3222 356.491 21.0573 362.538C13.8818 368.511 6.00003 378.262 6.00003 391.822C6.00014 403.222 11.8738 411.777 17.4566 417.235C23.0009 422.655 29.9593 426.793 36.871 430.062C50.8097 436.653 69.5275 441.988 90.8362 446.249C133.828 454.846 192.21 460 256.001 460C319.79 460 378.172 454.846 421.164 446.249C442.472 441.988 461.19 436.653 475.129 430.062C482.041 426.793 488.999 422.655 494.543 417.235C500.039 411.862 505.817 403.489 505.996 392.353L506 391.822L505.995 391.188C505.754 377.959 498.012 368.417 490.945 362.534C483.679 356.485 474.35 351.835 464.491 348.095C446.749 341.366 422.906 335.982 394.476 331.987C393.6 330.57 392.633 328.995 391.595 327.273C386.477 318.777 379.633 306.842 372.737 293.115C358.503 264.781 345.757 232.098 344.756 206.636C343.87 184.121 351.638 154.087 360.819 127.789C365.27 115.041 369.795 103.877 373.207 95.9072C374.909 91.9309 376.325 88.7712 377.302 86.6328C377.79 85.5645 378.167 84.7524 378.416 84.2224C378.54 83.9579 378.632 83.7635 378.69 83.643C378.718 83.5829 378.739 83.5411 378.75 83.5181C378.753 83.5108 378.756 83.5049 378.757 83.5015C382.909 74.8634 381.196 64.5488 374.473 57.7173Z"
-        />
-      </Svg>
-    </View>
+    <>
+      {isReady && children}
+
+      {!isAnimationComplete && (
+        <div
+          ref={splashRef}
+          style={flatten([
+            a.fixed,
+            a.inset_0,
+            a.flex,
+            a.align_center,
+            a.justify_center,
+            // to compensate for the `top: -50px` below
+            {transformOrigin: 'center calc(50% - 50px)'},
+          ])}>
+          <Svg
+            fill="none"
+            viewBox="0 0 512 512"
+            style={[a.relative, {width: size, height: size * ratio, top: -50}]}>
+            <Path
+              fill="#ED5345"
+              d="M374.473 57.7173C367.666 50.7995 357.119 49.1209 348.441 53.1659C347.173 53.7567 342.223 56.0864 334.796 59.8613C326.32 64.1696 314.568 70.3869 301.394 78.0596C275.444 93.1728 242.399 114.83 218.408 139.477C185.983 172.786 158.719 225.503 140.029 267.661C130.506 289.144 122.878 308.661 117.629 322.81C116.301 326.389 115.124 329.63 114.104 332.478C87.1783 336.42 64.534 341.641 47.5078 348.101C37.6493 351.84 28.3222 356.491 21.0573 362.538C13.8818 368.511 6.00003 378.262 6.00003 391.822C6.00014 403.222 11.8738 411.777 17.4566 417.235C23.0009 422.655 29.9593 426.793 36.871 430.062C50.8097 436.653 69.5275 441.988 90.8362 446.249C133.828 454.846 192.21 460 256.001 460C319.79 460 378.172 454.846 421.164 446.249C442.472 441.988 461.19 436.653 475.129 430.062C482.041 426.793 488.999 422.655 494.543 417.235C500.039 411.862 505.817 403.489 505.996 392.353L506 391.822L505.995 391.188C505.754 377.959 498.012 368.417 490.945 362.534C483.679 356.485 474.35 351.835 464.491 348.095C446.749 341.366 422.906 335.982 394.476 331.987C393.6 330.57 392.633 328.995 391.595 327.273C386.477 318.777 379.633 306.842 372.737 293.115C358.503 264.781 345.757 232.098 344.756 206.636C343.87 184.121 351.638 154.087 360.819 127.789C365.27 115.041 369.795 103.877 373.207 95.9072C374.909 91.9309 376.325 88.7712 377.302 86.6328C377.79 85.5645 378.167 84.7524 378.416 84.2224C378.54 83.9579 378.632 83.7635 378.69 83.643C378.718 83.5829 378.739 83.5411 378.75 83.5181C378.753 83.5108 378.756 83.5049 378.757 83.5015C382.909 74.8634 381.196 64.5488 374.473 57.7173Z"
+            />
+          </Svg>
+        </div>
+      )}
+    </>
   )
 }

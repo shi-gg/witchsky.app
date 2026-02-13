@@ -48,6 +48,7 @@ import * as Toast from '#/components/Toast'
 import {Text} from '#/components/Typography'
 import {VerificationCheckButton} from '#/components/verification/VerificationCheckButton'
 import {IS_IOS} from '#/env'
+import {GermButton} from '../components/GermButton'
 import {EditProfileDialog} from './EditProfileDialog'
 import {ProfileHeaderHandle} from './Handle'
 import {ProfileHeaderMetrics} from './Metrics'
@@ -182,6 +183,10 @@ let ProfileHeaderStandard = ({
                   />
                 </View>
               ) : undefined}
+
+              {profile.associated?.germ && (
+                <GermButton germ={profile.associated.germ} profile={profile} />
+              )}
 
               {!isMe &&
                 !disableFollowedByMetrics &&

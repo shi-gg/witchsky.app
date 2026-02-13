@@ -1,7 +1,7 @@
 import {useMemo} from 'react'
 import {Pressable, View} from 'react-native'
 import {type AppBskyUnspeccedDefs, moderateProfile} from '@atproto/api'
-import {msg, plural, Trans} from '@lingui/macro'
+import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {useEnableSquareButtons} from '#/state/preferences/enable-square-buttons'
@@ -10,7 +10,6 @@ import {useTrendingSettings} from '#/state/preferences/trending'
 import {useGetTrendsQuery} from '#/state/queries/trending/useGetTrendsQuery'
 import {useTrendingConfig} from '#/state/service-config'
 import {LoadingPlaceholder} from '#/view/com/util/LoadingPlaceholder'
-import {formatCount} from '#/view/com/util/numeric/format'
 import {atoms as a, useGutters, useTheme, type ViewStyleProp, web} from '#/alf'
 import {AvatarStack} from '#/components/AvatarStack'
 import {type Props as SVGIconProps} from '#/components/icons/common'
@@ -66,7 +65,7 @@ export function TrendRow({
   onPress?: () => void
 }) {
   const t = useTheme()
-  const {_, i18n} = useLingui()
+  const {_} = useLingui()
   const gutters = useGutters([0, 'base'])
 
   const category = useCategoryDisplayName(trend?.category || 'other')
@@ -75,13 +74,6 @@ export function TrendRow({
       (1000 * 60 * 60),
   )
   const badgeType = trend.status === 'hot' ? 'hot' : age < 2 ? 'new' : age
-  const postCount = trend.postCount
-    ? _(
-        plural(trend.postCount, {
-          other: `${formatCount(i18n, trend.postCount)} posts`,
-        }),
-      )
-    : null
 
   const actors = useModerateTrendingActors(trend.actors)
 
@@ -133,8 +125,6 @@ export function TrendRow({
                     web(a.leading_snug),
                   ]}
                   numberOfLines={1}>
-                  {postCount}
-                  {postCount && category && <> &middot; </>}
                   {category}
                 </Text>
               </View>

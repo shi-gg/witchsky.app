@@ -1,11 +1,11 @@
 import {useCallback, useEffect, useMemo} from 'react'
-import {View} from 'react-native'
+import {Keyboard, View} from 'react-native'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {useCallOnce} from '#/lib/once'
 import {EmptyState} from '#/view/com/util/EmptyState'
-import {atoms as a, select, useBreakpoints, useTheme, web} from '#/alf'
+import {atoms as a, useBreakpoints, useTheme, web} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
 import {PageX_Stroke2_Corner0_Rounded_Large as PageXIcon} from '#/components/icons/PageX'
@@ -54,6 +54,12 @@ export function DraftsListDialog({
 
   const handleSelectDraft = useCallback(
     (summary: DraftSummary) => {
+      // Dismiss keyboard immediately to prevent flicker. Without this,
+      // the text input regains focus (showing the keyboard) after the
+      // drafts sheet closes, then loses it again when the post component
+      // remounts with the draft content, causing a show-hide-show cycle -sfn
+      Keyboard.dismiss()
+
       control.close(() => {
         onSelectDraft(summary)
       })
@@ -173,10 +179,7 @@ export function DraftsListDialog({
         ListFooterComponent={footerComponent}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.5}
-        style={[
-          a.px_0,
-          web({minHeight: 500}),
-        ]}
+        style={[a.px_0, web({minHeight: 500})]}
         webInnerContentContainerStyle={[a.py_0]}
         contentContainerStyle={[a.pb_xl]}
       />
