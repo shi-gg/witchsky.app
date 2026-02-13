@@ -49,7 +49,7 @@ export type CommonNavigatorParams = {
   PreferencesExternalEmbeds: undefined
   AccessibilitySettings: undefined
   AppearanceSettings: undefined
-  DeerSettings: undefined
+  RunesSettings: undefined
   AccountSettings: undefined
   PrivacyAndSecuritySettings: undefined
   ActivityPrivacySettings: undefined

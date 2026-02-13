@@ -105,7 +105,6 @@ import {AppearanceSettingsScreen} from '#/screens/Settings/AppearanceSettings'
 import {AppIconSettingsScreen} from '#/screens/Settings/AppIconSettings'
 import {AppPasswordsScreen} from '#/screens/Settings/AppPasswords'
 import {ContentAndMediaSettingsScreen} from '#/screens/Settings/ContentAndMediaSettings'
-import {DeerSettingsScreen} from '#/screens/Settings/DeerSettings'
 import {ExternalMediaPreferencesScreen} from '#/screens/Settings/ExternalMediaPreferences'
 import {FindContactsSettingsScreen} from '#/screens/Settings/FindContactsSettings'
 import {FollowingFeedPreferencesScreen} from '#/screens/Settings/FollowingFeedPreferences'
@@ -124,6 +123,7 @@ import {ReplyNotificationSettingsScreen} from '#/screens/Settings/NotificationSe
 import {RepostNotificationSettingsScreen} from '#/screens/Settings/NotificationSettings/RepostNotificationSettings'
 import {RepostsOnRepostsNotificationSettingsScreen} from '#/screens/Settings/NotificationSettings/RepostsOnRepostsNotificationSettings'
 import {PrivacyAndSecuritySettingsScreen} from '#/screens/Settings/PrivacyAndSecuritySettings'
+import {RunesSettingsScreen} from '#/screens/Settings/RunesSettings'
 import {SettingsScreen} from '#/screens/Settings/Settings'
 import {ThreadPreferencesScreen} from '#/screens/Settings/ThreadPreferences'
 import {
@@ -408,10 +408,10 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         }}
       />
       <Stack.Screen
-        name="DeerSettings"
-        getComponent={() => DeerSettingsScreen}
+        name="RunesSettings"
+        getComponent={() => RunesSettingsScreen}
         options={{
-          title: title(msg`Experiments`),
+          title: title(msg`Runes`),
           requireAuth: true,
         }}
       />

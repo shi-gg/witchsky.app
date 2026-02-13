@@ -131,7 +131,7 @@ import {Admonition} from '#/components/Admonition'
 import {Button, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
 import * as Toggle from '#/components/forms/Toggle'
-import {Atom_Stroke2_Corner0_Rounded as DeerIcon} from '#/components/icons/Atom'
+import {Atom_Stroke2_Corner0_Rounded as AtomIcon} from '#/components/icons/Atom'
 import {ChainLink_Stroke2_Corner0_Rounded as ChainLinkIcon} from '#/components/icons/ChainLink'
 import {Eye_Stroke2_Corner0_Rounded as VisibilityIcon} from '#/components/icons/Eye'
 import {Earth_Stroke2_Corner2_Rounded as EarthIcon} from '#/components/icons/Globe'
@@ -488,7 +488,7 @@ const TrustedVerifiers = (): React.ReactNode => {
   )
 }
 
-export function DeerSettingsScreen({}: Props) {
+export function RunesSettingsScreen({}: Props) {
   const {_} = useLingui()
 
   const goLinksEnabled = useGoLinksEnabled()
@@ -584,7 +584,7 @@ export function DeerSettingsScreen({}: Props) {
         <Layout.Header.BackButton />
         <Layout.Header.Content>
           <Layout.Header.TitleText>
-            <Trans>Experiments</Trans>
+            <Trans>Runes</Trans>
           </Layout.Header.TitleText>
         </Layout.Header.Content>
         <Layout.Header.Slot />
@@ -592,7 +592,7 @@ export function DeerSettingsScreen({}: Props) {
       <Layout.Content>
         <SettingsList.Container>
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
-            <SettingsList.ItemIcon icon={DeerIcon} />
+            <SettingsList.ItemIcon icon={AtomIcon} />
             <SettingsList.ItemText>
               <Trans>Redirects</Trans>
             </SettingsList.ItemText>
