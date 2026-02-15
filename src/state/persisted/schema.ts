@@ -191,6 +191,8 @@ const schema = z.object({
   openRouterApiKey: z.string().optional(),
   openRouterModel: z.string().optional(),
 
+  useHandleInLinks: z.boolean().optional(),
+
   /** @deprecated */
   mutedThreads: z.array(z.string()),
   trendingDisabled: z.boolean().optional(),
@@ -306,6 +308,8 @@ export const defaults: Schema = {
 
   openRouterApiKey: undefined,
   openRouterModel: DEFAULT_ALT_TEXT_AI_MODEL,
+
+  useHandleInLinks: false,
 
   postReplacement: {
     enabled: false,

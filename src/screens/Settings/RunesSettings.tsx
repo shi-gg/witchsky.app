@@ -132,6 +132,10 @@ import {
   useSetTranslationServicePreference,
   useTranslationServicePreference,
 } from '#/state/preferences/translation-service-preference'
+import {
+  useHandleInLinks,
+  useSetHandleInLinks,
+} from '#/state/preferences/use-handle-in-links'
 import {useProfilesQuery} from '#/state/queries/profile'
 import * as SettingsList from '#/screens/Settings/components/SettingsList'
 import {atoms as a, useBreakpoints} from '#/alf'
@@ -710,6 +714,9 @@ export function RunesSettingsScreen({}: Props) {
   const showLinkInHandle = useShowLinkInHandle()
   const setShowLinkInHandle = useSetShowLinkInHandle()
 
+  const handleInLinks = useHandleInLinks()
+  const setHandleInLinks = useSetHandleInLinks()
+
   const translationServicePreference = useTranslationServicePreference()
   const setTranslationServicePreference = useSetTranslationServicePreference()
 
@@ -748,6 +755,17 @@ export function RunesSettingsScreen({}: Props) {
               style={[a.w_full]}>
               <Toggle.LabelText style={[a.flex_1]}>
                 <Trans>Redirect through go.bsky.app</Trans>
+              </Toggle.LabelText>
+              <Toggle.Platform />
+            </Toggle.Item>
+            <Toggle.Item
+              name="use_handle_in_links"
+              label={_(msg`Use handles in profile links instead of DIDs (requires restart)`)}
+              value={handleInLinks ?? false}
+              onChange={value => setHandleInLinks(value)}
+              style={[a.w_full]}>
+              <Toggle.LabelText style={[a.flex_1]}>
+                <Trans>Use handles in profile links instead of DIDs</Trans>
               </Toggle.LabelText>
               <Toggle.Platform />
             </Toggle.Item>
