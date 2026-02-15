@@ -1,13 +1,25 @@
 import React from 'react'
-import {type ImageStyle, useWindowDimensions, View} from 'react-native'
+import {
+  ActivityIndicator,
+  type ImageStyle,
+  useWindowDimensions,
+  View,
+} from 'react-native'
+import {EncodingType, readAsStringAsync} from 'expo-file-system/legacy'
 import {Image} from 'expo-image'
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
-import {MAX_ALT_TEXT} from '#/lib/constants'
+import {generateAltText} from '#/lib/ai/generateAltText'
+import {DEFAULT_ALT_TEXT_AI_MODEL, MAX_ALT_TEXT} from '#/lib/constants'
 import {useIsKeyboardVisible} from '#/lib/hooks/useIsKeyboardVisible'
 import {enforceLen} from '#/lib/strings/helpers'
 import {type ComposerImage} from '#/state/gallery'
+import {
+  useOpenRouterApiKey,
+  useOpenRouterConfigured,
+  useOpenRouterModel,
+} from '#/state/preferences/openrouter'
 import {AltTextCounterWrapper} from '#/view/com/composer/AltTextCounterWrapper'
 import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
@@ -15,6 +27,7 @@ import * as Dialog from '#/components/Dialog'
 import {type DialogControlProps} from '#/components/Dialog'
 import * as TextField from '#/components/forms/TextField'
 import {CircleInfo_Stroke2_Corner0_Rounded as CircleInfo} from '#/components/icons/CircleInfo'
+import {Sparkle_Stroke2_Corner0_Rounded as SparkleIcon} from '#/components/icons/Sparkle'
 import {Text} from '#/components/Typography'
 import {IS_ANDROID, IS_WEB} from '#/env'
 
@@ -31,6 +44,10 @@ export const ImageAltTextDialog = ({
 }: Props): React.ReactNode => {
   const {height: minHeight} = useWindowDimensions()
   const [altText, setAltText] = React.useState(image.alt)
+
+  React.useEffect(() => {
+    setAltText(image.alt)
+  }, [image.alt])
 
   return (
     <Dialog.Outer
@@ -69,6 +86,12 @@ const ImageAltTextInner = ({
   const windim = useWindowDimensions()
 
   const [isKeyboardVisible] = useIsKeyboardVisible()
+  const [isGenerating, setIsGenerating] = React.useState(false)
+  const [generateError, setGenerateError] = React.useState<string | null>(null)
+
+  const openRouterConfigured = useOpenRouterConfigured()
+  const openRouterApiKey = useOpenRouterApiKey()
+  const openRouterModel = useOpenRouterModel()
 
   const imageStyle = React.useMemo<ImageStyle>(() => {
     const maxWidth = IS_WEB ? 450 : windim.width
@@ -88,6 +111,56 @@ const ImageAltTextInner = ({
       borderRadius: 8,
     }
   }, [image, windim])
+
+  const handleGenerateAltText = React.useCallback(async () => {
+    if (!openRouterApiKey) return
+
+    setIsGenerating(true)
+    setGenerateError(null)
+
+    try {
+      const imagePath = (image.transformed ?? image.source).path
+
+      let base64: string
+      let mimeType: string
+
+      if (IS_WEB) {
+        const response = await fetch(imagePath)
+        const blob = await response.blob()
+        mimeType = blob.type || 'image/jpeg'
+        const arrayBuffer = await blob.arrayBuffer()
+        const uint8Array = new Uint8Array(arrayBuffer)
+        let binary = ''
+        for (let i = 0; i < uint8Array.length; i++) {
+          binary += String.fromCharCode(uint8Array[i])
+        }
+        base64 = btoa(binary)
+      } else {
+        const base64Result = await readAsStringAsync(imagePath, {
+          encoding: EncodingType.Base64,
+        })
+        base64 = base64Result
+        const pathParts = imagePath.split('.')
+        const ext = pathParts[pathParts.length - 1]?.toLowerCase()
+        mimeType = ext === 'png' ? 'image/png' : 'image/jpeg'
+      }
+
+      const generated = await generateAltText(
+        openRouterApiKey,
+        openRouterModel ?? DEFAULT_ALT_TEXT_AI_MODEL,
+        base64,
+        mimeType,
+      )
+
+      setAltText(enforceLen(generated, MAX_ALT_TEXT, true))
+    } catch (err) {
+      setGenerateError(
+        err instanceof Error ? err.message : 'Failed to generate alt text',
+      )
+    } finally {
+      setIsGenerating(false)
+    }
+  }, [openRouterApiKey, openRouterModel, image, setAltText])
 
   return (
     <Dialog.ScrollableInner label={_(msg`Add alt text`)}>
@@ -123,7 +196,7 @@ const ImageAltTextInner = ({
                 onChangeText={text => {
                   setAltText(text)
                 }}
-                defaultValue={altText}
+                value={altText}
                 multiline
                 numberOfLines={3}
                 autoFocus
@@ -150,7 +223,36 @@ const ImageAltTextInner = ({
               </Text>
             </View>
           )}
+
+          {generateError && (
+            <View style={[a.pb_sm, a.flex_row, a.gap_xs]}>
+              <CircleInfo fill={t.palette.negative_500} />
+              <Text style={[t.atoms.text_contrast_medium]}>
+                {generateError}
+              </Text>
+            </View>
+          )}
         </View>
+
+        {openRouterConfigured && (
+          <Button
+            label={_(msg`Generate alt text with AI`)}
+            size="large"
+            color="secondary"
+            variant="solid"
+            onPress={handleGenerateAltText}
+            disabled={isGenerating}
+            style={[a.flex_grow]}>
+            {isGenerating ? (
+              <ActivityIndicator color={t.palette.primary_500} />
+            ) : (
+              <SparkleIcon size="sm" />
+            )}
+            <ButtonText>
+              <Trans>Generate Alt Text with AI</Trans>
+            </ButtonText>
+          </Button>
+        )}
 
         <AltTextCounterWrapper altText={altText}>
           <Button

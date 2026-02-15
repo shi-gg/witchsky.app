@@ -36,6 +36,7 @@ import {Provider as LanguagesProvider} from './languages'
 import {Provider as LargeAltBadgeProvider} from './large-alt-badge'
 import {Provider as NoAppLabelersProvider} from './no-app-labelers'
 import {Provider as NoDiscoverProvider} from './no-discover-fallback'
+import {Provider as OpenRouterProvider} from './openrouter'
 import {Provider as PostNameReplacementProvider} from './post-name-replacement.tsx'
 import {Provider as RepostCarouselProvider} from './repost-carousel-enabled'
 import {Provider as ShowLinkInHandleProvider} from './show-link-in-handle'
@@ -70,6 +71,13 @@ export {
 } from './hide-feeds-promo-tab'
 export {useLabelDefinitions} from './label-defs'
 export {useLanguagePrefs, useLanguagePrefsApi} from './languages'
+export {
+  useOpenRouterApiKey,
+  useOpenRouterConfigured,
+  useOpenRouterModel,
+  useSetOpenRouterApiKey,
+  useSetOpenRouterModel,
+} from './openrouter'
 export {useSetSubtitlesEnabled, useSubtitlesEnabled} from './subtitles'
 export {
   useSetTranslationServicePreference,
@@ -119,13 +127,15 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
                                                                                 <PostNameReplacementProvider>
                                                                                   <DisableVerifyEmailReminderProvider>
                                                                                     <TranslationServicePreferenceProvider>
-                                                                                      <DisableComposerPromptProvider>
-                                                                                        <DiscoverContextEnabledProvider>
-                                                                                          {
-                                                                                            children
-                                                                                          }
-                                                                                        </DiscoverContextEnabledProvider>
-                                                                                      </DisableComposerPromptProvider>
+                                                                                      <OpenRouterProvider>
+                                                                                        <DisableComposerPromptProvider>
+                                                                                          <DiscoverContextEnabledProvider>
+                                                                                            {
+                                                                                              children
+                                                                                            }
+                                                                                          </DiscoverContextEnabledProvider>
+                                                                                        </DisableComposerPromptProvider>
+                                                                                      </OpenRouterProvider>
                                                                                     </TranslationServicePreferenceProvider>
                                                                                   </DisableVerifyEmailReminderProvider>
                                                                                 </PostNameReplacementProvider>

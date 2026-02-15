@@ -13,6 +13,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   type LayoutChangeEvent,
+  Pressable,
   ScrollView,
   type StyleProp,
   StyleSheet,
@@ -43,6 +44,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import * as FileSystem from 'expo-file-system'
+import {EncodingType, readAsStringAsync} from 'expo-file-system/legacy'
 import {type ImagePickerAsset} from 'expo-image-picker'
 import {
   AppBskyDraftCreateDraft,
@@ -57,12 +59,15 @@ import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
 import {useQueryClient} from '@tanstack/react-query'
 
+import {generateAltText} from '#/lib/ai/generateAltText'
 import * as apilib from '#/lib/api/index'
 import {EmbeddingDisabledError} from '#/lib/api/resolve'
 import {useAppState} from '#/lib/appState'
 import {retry} from '#/lib/async/retry'
 import {until} from '#/lib/async/until'
 import {
+  DEFAULT_ALT_TEXT_AI_MODEL,
+  MAX_ALT_TEXT,
   MAX_DRAFT_GRAPHEME_LENGTH,
   MAX_GRAPHEME_LENGTH,
   SUPPORTED_MIME_TYPES,
@@ -93,6 +98,11 @@ import {
   useLanguagePrefs,
   useLanguagePrefsApi,
 } from '#/state/preferences/languages'
+import {
+  useOpenRouterApiKey,
+  useOpenRouterConfigured,
+  useOpenRouterModel,
+} from '#/state/preferences/openrouter'
 import {usePreferencesQuery} from '#/state/queries/preferences'
 import {useProfileQuery} from '#/state/queries/profile'
 import {type Gif} from '#/state/queries/tenor'
@@ -1158,7 +1168,13 @@ export const ComposePost = ({
             isEditingDraft={!!composerState.draftId}
             canSaveDraft={allPostsWithinLimit}
             textLength={thread.posts[0].richtext.text.length}>
-            {missingAltError && <AltTextReminder error={missingAltError} />}
+            {missingAltError && (
+              <AltTextReminder
+                error={missingAltError}
+                thread={thread}
+                dispatch={composerDispatch}
+              />
+            )}
             <ErrorBanner
               error={error}
               videoState={erroredVideo}
@@ -1626,10 +1642,123 @@ function ComposerTopBar({
   )
 }
 
-function AltTextReminder({error}: {error: string}) {
+function AltTextReminder({
+  error,
+  thread,
+  dispatch,
+}: {
+  error: string
+  thread: ThreadDraft
+  dispatch: (action: ComposerAction) => void
+}) {
+  const {_} = useLingui()
+  const t = useTheme();
+  const openRouterConfigured = useOpenRouterConfigured()
+  const openRouterApiKey = useOpenRouterApiKey()
+  const openRouterModel = useOpenRouterModel()
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const hasImagesWithoutAlt = useMemo(() => {
+    for (const post of thread.posts) {
+      const media = post.embed.media
+      if (media?.type === 'images' && media.images.some(img => !img.alt)) {
+        return true
+      }
+    }
+    return false
+ }, [thread])
+
+  const handleGenerateAltText = useCallback(async () => {
+    if (!openRouterApiKey) return
+
+    setIsGenerating(true)
+
+    try {
+      for (const post of thread.posts) {
+        const media = post.embed.media
+        if (media?.type === 'images') {
+          for (const image of media.images) {
+            if (!image.alt) {
+              try {
+                const imagePath = (image.transformed ?? image.source).path
+
+                let base64: string
+                let mimeType: string
+
+                if (IS_WEB) {
+                  const response = await fetch(imagePath)
+                  const blob = await response.blob()
+                  mimeType = blob.type || 'image/jpeg'
+                  const arrayBuffer = await blob.arrayBuffer()
+                  const uint8Array = new Uint8Array(arrayBuffer)
+                  let binary = ''
+                  for (let i = 0; i < uint8Array.length; i++) {
+                    binary += String.fromCharCode(uint8Array[i])
+                   }
+                  base64 = btoa(binary)
+                 } else {
+                  const base64Result = await readAsStringAsync(imagePath, {
+                    encoding: EncodingType.Base64,
+                  })
+                  base64 = base64Result
+                  const pathParts = imagePath.split('.')
+                  const ext = pathParts[pathParts.length - 1]?.toLowerCase()
+                  mimeType = ext === 'png' ? 'image/png' : 'image/jpeg'
+                 }
+
+                const generated = await generateAltText(
+                  openRouterApiKey,
+                  openRouterModel ?? DEFAULT_ALT_TEXT_AI_MODEL,
+                  base64,
+                  mimeType,
+                )
+
+                dispatch({
+                  type: 'update_post',
+                  postId: post.id,
+                  postAction: {
+                    type: 'embed_update_image',
+                    image: {
+                      ...image,
+                      alt: generated.slice(0, MAX_ALT_TEXT),
+                    },
+                  },
+                })
+               } catch (err) {
+                logger.error('Failed to generate alt text for image', {
+                  error: err,
+                })
+               }
+            }
+          }
+        }
+      }
+    } finally {
+      setIsGenerating(false)
+    }
+ }, [openRouterApiKey, openRouterModel, thread, dispatch])
+
   return (
     <Admonition type="error" style={[a.mt_2xs, a.mb_sm, a.mx_lg]}>
-      {error}
+      <View style={[a.flex_row, a.align_center, a.justify_between, a.gap_sm]}>
+        <Text style={[a.flex_1]}>{error}</Text>
+        {openRouterConfigured && hasImagesWithoutAlt && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={_(msg`Generate Alt Text with AI`)}
+            accessibilityHint=''
+            onPress={handleGenerateAltText}
+            disabled={isGenerating}>
+            {isGenerating ? (
+              <ActivityIndicator size="small" color={t.palette.primary_500} />
+            ) : (
+              <Text style={[a.text_sm, t.atoms.text_contrast_medium]}>
+                <Trans>Generate with Ai</Trans>
+              </Text>
+            )}
+          </Pressable>
+        )}
+      </View>
     </Admonition>
   )
 }

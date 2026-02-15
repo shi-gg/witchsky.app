@@ -1,5 +1,6 @@
 import {z} from 'zod'
 
+import { DEFAULT_ALT_TEXT_AI_MODEL } from '#/lib/constants'
 import {deviceLanguageCodes, deviceLocales} from '#/locale/deviceLocales'
 import {findSupportedAppLanguage} from '#/locale/helpers'
 import {logger} from '#/logger'
@@ -187,6 +188,9 @@ const schema = z.object({
   ]),
   libreTranslateInstance: z.string().optional(),
 
+  openRouterApiKey: z.string().optional(),
+  openRouterModel: z.string().optional(),
+
   /** @deprecated */
   mutedThreads: z.array(z.string()),
   trendingDisabled: z.boolean().optional(),
@@ -299,6 +303,9 @@ export const defaults: Schema = {
   showExternalShareButtons: false,
   translationServicePreference: 'google',
   libreTranslateInstance: 'https://libretranslate.com/',
+
+  openRouterApiKey: undefined,
+  openRouterModel: DEFAULT_ALT_TEXT_AI_MODEL,
 
   postReplacement: {
     enabled: false,

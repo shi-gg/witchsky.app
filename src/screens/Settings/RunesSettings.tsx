@@ -5,6 +5,7 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
+import { DEFAULT_ALT_TEXT_AI_MODEL } from '#/lib/constants'
 import {usePalette} from '#/lib/hooks/usePalette'
 import {type CommonNavigatorParams} from '#/lib/routes/types'
 import {dynamicActivate} from '#/locale/i18n'
@@ -106,6 +107,13 @@ import {
   useNoDiscoverFallback,
   useSetNoDiscoverFallback,
 } from '#/state/preferences/no-discover-fallback'
+import {
+  useOpenRouterApiKey,
+  useOpenRouterConfigured,
+  useOpenRouterModel,
+  useSetOpenRouterApiKey,
+  useSetOpenRouterModel,
+} from '#/state/preferences/openrouter'
 import {
   usePostReplacement,
   useSetPostReplacement,
@@ -488,6 +496,137 @@ const TrustedVerifiers = (): React.ReactNode => {
   )
 }
 
+function OpenRouterApiKeyDialog({
+  control,
+}: {
+  control: Dialog.DialogControlProps
+}) {
+  const pal = usePalette('default')
+  const {_} = useLingui()
+
+  const apiKey = useOpenRouterApiKey()
+  const [value, setValue] = useState(apiKey ?? '')
+  const setApiKey = useSetOpenRouterApiKey()
+
+  const submit = () => {
+    setApiKey(value.trim() || undefined)
+    control.close()
+  }
+
+  return (
+    <Dialog.Outer
+      control={control}
+      nativeOptions={{preventExpansion: true}}
+      onClose={() => setValue(apiKey ?? '')}>
+      <Dialog.Handle />
+      <Dialog.ScrollableInner label={_(msg`OpenRouter API Key`)}>
+        <View style={[a.gap_sm, a.pb_lg]}>
+          <Text style={[a.text_2xl, a.font_bold]}>
+            <Trans>OpenRouter API Key</Trans>
+          </Text>
+        </View>
+
+        <View style={a.gap_lg}>
+          <Dialog.Input
+            label="API Key"
+            autoFocus
+            style={[styles.textInput, pal.border, pal.text]}
+            onChangeText={setValue}
+            placeholder="sk-or-..."
+            placeholderTextColor={pal.colors.textLight}
+            onSubmitEditing={submit}
+            accessibilityHint={_(
+              msg`Enter your OpenRouter API key for AI alt text generation`,
+            )}
+            defaultValue={apiKey ?? ''}
+            secureTextEntry
+          />
+
+          <View style={IS_WEB && [a.flex_row, a.justify_end]}>
+            <Button
+              label={_(msg`Save`)}
+              size="large"
+              onPress={submit}
+              variant="solid"
+              color="primary">
+              <ButtonText>
+                <Trans>Save</Trans>
+              </ButtonText>
+            </Button>
+          </View>
+        </View>
+
+        <Dialog.Close />
+      </Dialog.ScrollableInner>
+    </Dialog.Outer>
+  )
+}
+
+function OpenRouterModelDialog({
+  control,
+}: {
+  control: Dialog.DialogControlProps
+}) {
+  const pal = usePalette('default')
+  const {_} = useLingui()
+
+  const model = useOpenRouterModel()
+  const [value, setValue] = useState(model ?? '')
+  const setModel = useSetOpenRouterModel()
+
+  const submit = () => {
+    setModel(value.trim() || undefined)
+    control.close()
+  }
+
+  return (
+    <Dialog.Outer
+      control={control}
+      nativeOptions={{preventExpansion: true}}
+      onClose={() => setValue(model ?? '')}>
+      <Dialog.Handle />
+      <Dialog.ScrollableInner label={_(msg`OpenRouter Model`)}>
+        <View style={[a.gap_sm, a.pb_lg]}>
+          <Text style={[a.text_2xl, a.font_bold]}>
+            <Trans>OpenRouter Model</Trans>
+          </Text>
+        </View>
+
+        <View style={a.gap_lg}>
+          <Dialog.Input
+            label="Model"
+            autoFocus
+            style={[styles.textInput, pal.border, pal.text]}
+            onChangeText={setValue}
+            placeholder={DEFAULT_ALT_TEXT_AI_MODEL}
+            placeholderTextColor={pal.colors.textLight}
+            onSubmitEditing={submit}
+            accessibilityHint={_(
+              msg`Enter the model ID to use for alt text generation`,
+            )}
+            defaultValue={model ?? ''}
+          />
+
+          <View style={IS_WEB && [a.flex_row, a.justify_end]}>
+            <Button
+              label={_(msg`Save`)}
+              size="large"
+              onPress={submit}
+              variant="solid"
+              color="primary">
+              <ButtonText>
+                <Trans>Save</Trans>
+              </ButtonText>
+            </Button>
+          </View>
+        </View>
+
+        <Dialog.Close />
+      </Dialog.ScrollableInner>
+    </Dialog.Outer>
+  )
+}
+
 export function RunesSettingsScreen({}: Props) {
   const {_} = useLingui()
 
@@ -577,6 +716,11 @@ export function RunesSettingsScreen({}: Props) {
   const setLibreTranslateInstanceControl = Dialog.useDialogControl()
 
   const setPostReplacementDialogControl = Dialog.useDialogControl()
+
+  const setOpenRouterApiKeyControl = Dialog.useDialogControl()
+  const openRouterModel = useOpenRouterModel()
+  const setOpenRouterModelControl = Dialog.useDialogControl()
+  const openRouterConfigured = useOpenRouterConfigured()
 
   return (
     <Layout.Screen>
@@ -982,6 +1126,62 @@ export function RunesSettingsScreen({}: Props) {
 
           <SettingsList.Divider />
 
+          <SettingsList.Item>
+            <SettingsList.ItemIcon icon={_BeakerIcon} />
+            <SettingsList.ItemText>
+              <Trans>OpenRouter API Key</Trans>
+            </SettingsList.ItemText>
+            <SettingsList.BadgeButton
+              label={openRouterConfigured ? _(msg`Change`) : _(msg`Set`)}
+              onPress={() => setOpenRouterApiKeyControl.open()}
+            />
+          </SettingsList.Item>
+
+          <SettingsList.Item>
+            <Admonition type="info" style={[a.flex_1]}>
+              <Trans>
+                Set your OpenRouter API key to enable AI-powered alt text
+                generation for images in the composer. Get an API key at{' '}
+                <InlineLinkText
+                  to="https://openrouter.ai"
+                  label="openrouter.ai">
+                  openrouter.ai
+                </InlineLinkText>
+              </Trans>
+            </Admonition>
+          </SettingsList.Item>
+
+          {openRouterConfigured && (
+            <SettingsList.Item>
+              <SettingsList.ItemIcon icon={_BeakerIcon} />
+              <SettingsList.ItemText>
+                <Trans>{`OpenRouter Model`}</Trans>
+              </SettingsList.ItemText>
+              <SettingsList.BadgeButton
+                label={_(msg`Change`)}
+                onPress={() => setOpenRouterModelControl.open()}
+              />
+            </SettingsList.Item>
+          )}
+
+          {openRouterConfigured && (
+            <SettingsList.Item>
+              <Admonition type="info" style={[a.flex_1]}>
+                <Trans>
+                  Current model:{' '}
+                  {openRouterModel ?? DEFAULT_ALT_TEXT_AI_MODEL}.{' '}
+                  <InlineLinkText
+                    to="https://openrouter.ai/models?fmt=cards&input_modalities=image&order=most-popular"
+                    label="openrouter.ai">
+                    Search models
+                  </InlineLinkText>
+                </Trans>
+              </Admonition>
+            </SettingsList.Item>
+          )}
+
+          <SettingsList.Divider />
+
           <SettingsList.Group contentContainerStyle={[a.gap_sm]}>
             <SettingsList.ItemIcon icon={VisibilityIcon} />
             <SettingsList.ItemText>
@@ -1148,6 +1348,8 @@ export function RunesSettingsScreen({}: Props) {
         control={setLibreTranslateInstanceControl}
       />
       <PostReplacementDialog control={setPostReplacementDialogControl} />
+      <OpenRouterApiKeyDialog control={setOpenRouterApiKeyControl} />
+      <OpenRouterModelDialog control={setOpenRouterModelControl} />
     </Layout.Screen>
   )
 }
